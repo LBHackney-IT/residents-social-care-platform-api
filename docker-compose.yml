@@ -1,10 +1,10 @@
 version: "3.2"
 
 services:
-  base-api:
-    image: base-api
+  mosaic-resident-information-api:
+    image: mosaic-resident-information-api
     build:
-      context: base-api/
+      context: MosaicResidentInformationApi/
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
@@ -19,11 +19,11 @@ services:
     volumes:
       - ./database:/docker-entrypoint-initdb.d
 
-  base-api-test:
-    image: base-api-test
+  mosaic-resident-information-api-test:
+    image: mosaic-resident-information-api-test
     build:
       context: .
-      dockerfile: base-api.Tests/Dockerfile
+      dockerfile: MosaicResidentInformationApi.Tests/Dockerfile
     environment:
       - CONNECTION_STRING=Host=test-database;Port=5432;Database=entitycorex;Username=postgres;Password=mypassword
     links:

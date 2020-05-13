@@ -181,10 +181,10 @@ jobs:
       - setup_remote_docker
       - run:
           name: build
-          command: docker-compose build base-api-test
+          command: docker-compose build mosaic-resident-information-api-test
       - run:
          name: Run tests
-         command: docker-compose run base-api-test
+         command: docker-compose run mosaic-resident-information-api-test
   deploy-to-development:
     executor: docker-python
     steps:
@@ -217,8 +217,8 @@ jobs:
     executor: aws-ecr/default
     steps:
       - build_and_push_image:
-          dockerfile: ./base-api/Dockerfile
-          path: ./base-api
+          dockerfile: ./MosaicResidentInformationApi/Dockerfile
+          path: ./MosaicResidentInformationApi
           account-url: AWS_ECR_HOST_DEVELOPMENT
           repo: $AWS_ECR_PATH_DEV
           region: AWS_REGION
@@ -229,7 +229,7 @@ jobs:
     executor: aws-ecr/default
     steps:
       - build_and_push_image:
-          dockerfile: ./base-api/Dockerfile
+          dockerfile: ./MosaicResidentInformationApi/Dockerfile
           path: $PROJECT_PATH
           account-url: AWS_ECR_HOST_STAGING
           repo: $AWS_ECR_PATH_STAGING
@@ -241,7 +241,7 @@ jobs:
     executor: aws-ecr/default
     steps:
       - build_and_push_image:
-          dockerfile: ./base-api/Dockerfile
+          dockerfile: ./MosaicResidentInformationApi/Dockerfile
           path: $PROJECT_PATH
           account-url: AWS_ECR_HOST_PRODUCTION
           repo: $AWS_ECR_PATH_PRODUCTION
