@@ -89,7 +89,7 @@ module "postgres_db_development" {
   maintenance_window ="sun:10:00-sun:10:30"
   db_username = "${local.parameter_store}/mosaic-postgres-username-development" 
   db_password = "${local.parameter_store}/mosaic-postgres-password-development" 
-  storage_encrypted = true
+  storage_encrypted = false
   multi_az = false //only true if production deployment
   publicly_accessible = false
   project_name = "platform apis"
