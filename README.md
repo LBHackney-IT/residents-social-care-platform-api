@@ -9,8 +9,6 @@ Mosaic resident information API allows services to retrieve information from Mos
 
 ## Dependencies
 
-- 
-
 ## Contributing
 
 ### Setup
@@ -97,10 +95,11 @@ Note: The Host name needs to be the name of the stub database docker-compose ser
 
 - **Selwyn Preston**, Lead Developer at London Borough of Hackney (selwyn.preston@hackney.gov.uk)
 - **Mirela Georgieva**, Developer at London Borough of Hackney (mirela.georgieva@hackney.gov.uk)
+- **Matt Keyworth**, Developer at London Borough of Hackney (matthew.keyworth@hackney.gov.uk)
 
 ### Other Contacts
 
-- **Rashmi Shetty**, Development Manager at London Borough of Hackney (rashmi.shetty@hackney.gov.uk)
+- **Rashmi Shetty**, Product Owner at London Borough of Hackney (rashmi.shetty@hackney.gov.uk)
 
 
 [docker-download]: https://www.docker.com/products/docker-desktop
