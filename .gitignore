@@ -59,4 +59,4 @@ bin/
 .idea/
 tmp/
 .vs/
-/base-api.Tests/Properties/launchSettings.json
+/MosaicResidentInformationApi.Tests/Properties/launchSettings.json
