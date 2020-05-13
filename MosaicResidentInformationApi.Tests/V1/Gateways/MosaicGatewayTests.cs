@@ -19,12 +19,6 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
         }
 
         [Test]
-        public void GatewayImplementsBoundaryInterface()
-        {
-            _classUnderTest.Should().BeNull();
-        }
-
-        [Test]
         public void GetEntityById_ReturnsEmptyArray()
         {
             var response = _classUnderTest.GetEntityById(123);
