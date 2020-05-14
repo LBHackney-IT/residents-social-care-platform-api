@@ -340,7 +340,7 @@ workflows:
        - deploy-to-staging:
            context: api-assume-role-staging-context
            requires:
-             - build_and_test
+             - build-and-test
            filters:
              branches:
                only: master
