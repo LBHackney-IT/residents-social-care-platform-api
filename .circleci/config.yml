@@ -62,7 +62,7 @@ commands:
       - run:
           name: Deploy lamdba
           command: |
-            sls deploy --stage <<parameters.stage>>
+            sls deploy --stage <<parameters.stage>> --aws-profile default
 
 
 
@@ -218,31 +218,28 @@ jobs:
   deploy-to-development:
     executor: docker-python
     steps:
-      - deploy-env:
-          cluster-name: $AWS_CLUSTER_DEV
-          service-name: $AWS_SERVICE_DEV
-          image-tag: "$CIRCLE_SHA1"
+      - deploy-lambda:
+#         cluster-name: $AWS_CLUSTER_DEV
+#         service-name: $AWS_SERVICE_DEV
+#         image-tag: "$CIRCLE_SHA1"
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
           aws-account: $AWS_ACCOUNT_DEVELOPMENT
+          stage: 'development'
   deploy-to-staging:
     docker:
       - image: circleci/python:3.7
     steps:
-      - deploy-env:
-          cluster-name: $AWS_CLUSTER_STAGING
-          service-name: $AWS_SERVICE_STAGING
-          image-tag: "$CIRCLE_SHA1"
+      - deploy-lambda:
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
           aws-account: $AWS_ACCOUNT_STAGING
+          stage: 'staging'
   deploy-to-production:
     executor: docker-python
     steps:
-      - deploy-env:
-          cluster-name: $AWS_CLUSTER_PROD
-          service-name: $AWS_SERVICE_PROD
-          image-tag: "$CIRCLE_SHA1"
+      - deploy-lambda:
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
           aws-account: $AWS_ACCOUNT_PRODUCTION
+          stage: 'production'
   build_and_push_image_development:
     executor: aws-ecr/default
     steps:
@@ -299,54 +296,54 @@ workflows:
           filters:
              branches:
                only: development
-      - build_and_push_image_development:
-          context: api-assume-role-development-context
-          requires:
-            - build-and-test
-            - terraform-init-and-apply-to-development
-          filters:
-            branches:
-              only: development
+#      - build_and_push_image_development:
+#          context: api-assume-role-development-context
+#          requires:
+#            - build-and-test
+#            - terraform-init-and-apply-to-development
+#          filters:
+#            branches:
+#              only: development
       - deploy-to-development:
           context: api-assume-role-development-context
           requires:
-            - build_and_push_image_development
+            - build_and_test
           filters:
             branches:
               only: development
-  # check-and-deploy-staging-and-production:
-  #     jobs:
-  #     - build-and-test:
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - assume-role-staging:
-  #         context: api-assume-role-staging-context
-  #         requires:
-  #             - build-and-test
-  #         filters:
-  #            branches:
-  #              only: master
-  #     - terraform-init-and-apply-to-staging:
-  #         requires:
-  #           - assume-role-staging
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - build_and_push_image_staging:
-  #         context: api-assume-role-staging-context
-  #         requires:
-  #           - build-and-test
-  #         filters:
-  #           branches:
-  #             only: master
-  #     - deploy-to-staging:
-  #         context: api-assume-role-staging-context
-  #         requires:
-  #           - build_and_push_image_staging
-  #         filters:
-  #           branches:
-  #             only: master
+   check-and-deploy-staging-and-production:
+       jobs:
+       - build-and-test:
+           filters:
+             branches:
+               only: master
+       - assume-role-staging:
+           context: api-assume-role-staging-context
+           requires:
+               - build-and-test
+           filters:
+              branches:
+                only: master
+       - terraform-init-and-apply-to-staging:
+           requires:
+             - assume-role-staging
+           filters:
+             branches:
+               only: master
+    #   - build_and_push_image_staging:
+    #       context: api-assume-role-staging-context
+    #       requires:
+    #         - build-and-test
+    #       filters:
+    #         branches:
+    #           only: master
+       - deploy-to-staging:
+           context: api-assume-role-staging-context
+           requires:
+             - build_and_test
+           filters:
+             branches:
+               only: master
   #     - permit-production-terraform-release:
   #         type: approval
   #         requires:
