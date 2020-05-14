@@ -307,7 +307,7 @@ workflows:
       - deploy-to-development:
           context: api-assume-role-development-context
           requires:
-            - build_and_test
+            - build-and-test
           filters:
             branches:
               only: development
