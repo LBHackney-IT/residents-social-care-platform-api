@@ -32,7 +32,7 @@ terraform {
     bucket  = "terraform-state-development-apis" #"terraform-state-development-apis" for development, "terraform-state-staging-apis" or "terraform-state-production-apis"
     encrypt = true
     region  = "eu-west-2"
-    key     = "services/mosaic-resident-information-api/state" #e.g. "services/transactions-api/state"
+    key     = "services/mosaic-resident-information-api/state" 
   }
 }
 
@@ -72,7 +72,7 @@ data "aws_subnet_ids" "development_private_subnets" {
   vpc_id = data.aws_vpc.development_vpc.id
   filter {
     name   = "tag:Type"
-    values = ["private"] # insert values here
+    values = ["private"]
   }
 }
 module "postgres_db_development" {
