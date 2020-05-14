@@ -1,0 +1,23 @@
+service: mosaic-resident-information-api 
+provider:
+  name: aws
+  runtime: dotnetcore3.1
+  vpc:
+    subnetIds:
+    - subnet-00356e0650138f74f
+    - subnet-0a7f442c22a6feedc
+  stage: ${opt:stage}
+  region: eu-west-2
+
+package:
+  artifact: ./bin/release/netcoreapp3.1/mosaic-resident-information-api.zip
+
+functions:
+  mosaic-api:
+    name: ${self:service}-${self:provider.stage}
+    handler: MosaicResidentInformationApi::MosaicResidentInformationApi.LambdaEntryPoint::FunctionHandlerAsync
+    role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
