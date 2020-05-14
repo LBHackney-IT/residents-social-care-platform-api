@@ -36,6 +36,36 @@ commands:
             cd ./terraform/
             terraform apply -auto-approve
 
+  deploy-lambda:
+    description: "Deploys API via Serverless"
+    parameters:
+      stage:
+        type: string
+      aws-account:
+        type: string
+      aws-role-name:
+        type: string
+    steps:
+      - checkout
+      - aws_assume_role/assume_role:
+          account: <<parameters.aws-account>>
+          profile_name: default
+          role: <<parameters.aws-role-name>>
+      - run:
+          name: Install serverless CLI
+          command: sudo npm i -g serverless
+      - run:
+          name: Build lamdba
+          command: |
+            cd ./MosaicResidentInformationApi/
+            ./build.sh
+      - run:
+          name: Deploy lamdba
+          command: |
+            sls deploy --stage <<parameters.stage>>
+
+
+
   deploy-env:
     description: "Sets ecs-deploy to update a service with a target docker image"
     parameters:

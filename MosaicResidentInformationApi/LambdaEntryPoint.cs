@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace MosaicResidentInformationApi
 {
-    public class LambdaEntryPoint: APIGatewayProxyFunction
+    public class LambdaEntryPoint : APIGatewayProxyFunction
     {
         protected override void Init(IWebHostBuilder builder)
         {

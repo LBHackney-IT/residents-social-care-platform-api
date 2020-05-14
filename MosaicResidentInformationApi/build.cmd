@@ -1,2 +1,2 @@
 dotnet restore
-dotnet lambda package --configuration release --framework netcoreapp3.1 --output-package bin/release/netcoreapp3.1/redis-caching.zip
+dotnet lambda package --configuration release --framework netcoreapp3.1 --output-package bin/release/netcoreapp3.1/mosaic-resident-information-api.zip
