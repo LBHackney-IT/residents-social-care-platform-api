@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MosaicResidentInformationApi.V1.Controllers
 {
     [ApiController]
-    [Route("api/v1/contact")]
+    [Route("api/v1/residents")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
     public class MosaicController : BaseController
