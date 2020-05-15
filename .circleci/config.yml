@@ -52,6 +52,14 @@ commands:
           profile_name: default
           role: <<parameters.aws-role-name>>
       - run:
+          name: Install Node.js
+          command: |
+            curl -sL https://deb.nodesource.com/setup_13.x | bash -
+            sudo apt install -y nodejs
+      - run:
+          name: NPM Install
+          command: npm install
+      - run:
           name: Install serverless CLI
           command: sudo npm i -g serverless
       - run:
@@ -63,90 +71,6 @@ commands:
           name: Deploy lamdba
           command: |
             sls deploy --stage <<parameters.stage>> --aws-profile default
-
-
-
-  deploy-env:
-    description: "Sets ecs-deploy to update a service with a target docker image"
-    parameters:
-      cluster-name:
-        type: string
-      service-name:
-        type: string
-      image-tag:
-        type: string
-      aws-account:
-        type: string
-      aws-role-name:
-        type: string
-    steps:
-      - checkout
-      - aws_assume_role/assume_role:
-          account: <<parameters.aws-account>>
-          profile_name: default
-          role: <<parameters.aws-role-name>>
-      - run:
-          name: Install ecs deploy
-          command: |
-            sudo pip install ecs-deploy
-      - run:
-          name: Premote target image
-          command: |
-            ecs deploy \
-            --no-deregister \
-            --profile default \
-            --timeout 1800 \
-            << parameters.cluster-name >> \
-            << parameters.service-name >> \
-            -t << parameters.image-tag >>
-          no_output_timeout: 30m
-  build_and_push_image:
-    parameters:
-      account-url:
-        default: AWS_ECR_ACCOUNT_URL
-        type: env_var_name
-      region:
-        default: AWS_REGION
-        type: env_var_name
-      dockerfile:
-        default: Dockerfile
-        type: string
-      path:
-        default: .
-        type: string
-      repo:
-        type: string
-      tag:
-        default: latest
-        type: string
-      aws-account:
-        type: string
-      aws-role-name:
-        type: string
-    steps:
-      - checkout
-      - aws_assume_role/assume_role:
-          account: <<parameters.aws-account>>
-          profile_name: default
-          role: <<parameters.aws-role-name>>
-      - run:
-          name: authorize docker to access aws ecr
-          command: |
-            # aws ecr get-login returns a login command w/ a temp token
-            LOGIN_COMMAND=$(aws ecr get-login --no-include-email --region \
-            $<<parameters.region>> --profile default) # default default default default default default default
-            # save it to an env var & use that env var to login
-            $LOGIN_COMMAND
-      - aws-ecr/build-image:
-          account-url: <<parameters.account-url>>
-          dockerfile: <<parameters.dockerfile>>
-          path: <<parameters.path>>
-          repo: <<parameters.repo>>
-          tag: <<parameters.tag>>
-      - aws-ecr/push-image:
-          account-url: <<parameters.account-url>>
-          repo: <<parameters.repo>>
-          tag: <<parameters.tag>>
 
 jobs:
   terraform-init-and-apply-to-development:
@@ -219,9 +143,6 @@ jobs:
     executor: docker-python
     steps:
       - deploy-lambda:
-#         cluster-name: $AWS_CLUSTER_DEV
-#         service-name: $AWS_SERVICE_DEV
-#         image-tag: "$CIRCLE_SHA1"
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
           aws-account: $AWS_ACCOUNT_DEVELOPMENT
           stage: 'development'
@@ -296,14 +217,6 @@ workflows:
           filters:
              branches:
                only: development
-#      - build_and_push_image_development:
-#          context: api-assume-role-development-context
-#          requires:
-#            - build-and-test
-#            - terraform-init-and-apply-to-development
-#          filters:
-#            branches:
-#              only: development
       - deploy-to-development:
           context: api-assume-role-development-context
           requires:
@@ -330,13 +243,6 @@ workflows:
            filters:
              branches:
                only: master
-    #   - build_and_push_image_staging:
-    #       context: api-assume-role-staging-context
-    #       requires:
-    #         - build-and-test
-    #       filters:
-    #         branches:
-    #           only: master
        - deploy-to-staging:
            context: api-assume-role-staging-context
            requires:
@@ -368,17 +274,10 @@ workflows:
   #         filters:
   #           branches:
   #             only: master
-  #     - build_and_push_image_production:
-  #         context: api-assume-role-production-context
-  #         requires:
-  #           - permit-production-release
-  #         filters:
-  #           branches:
-  #             only: master
   #     - deploy-to-production:
   #         context: api-assume-role-production-context
   #         requires:
-  #           - build_and_push_image_production
+  #           - permit-production-release
   #         filters:
   #           branches:
   #             only: master
