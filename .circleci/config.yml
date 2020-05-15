@@ -26,14 +26,14 @@ commands:
     steps:
        - run:
           command: |
-              cd ./terraform/
+              cd ./MosaicResidentInformationApi/terraform/
               terraform get -update=true
               terraform init
           name: get and init
        - run:
           name: apply
           command: |
-            cd ./terraform/
+            cd ./MosaicResidentInformationApi/terraform/
             terraform apply -auto-approve
 
   deploy-lambda:
@@ -47,6 +47,7 @@ commands:
         type: string
     steps:
       - checkout
+      - setup_remote_docker
       - aws_assume_role/assume_role:
           account: <<parameters.aws-account>>
           profile_name: default
@@ -55,17 +56,18 @@ commands:
           name: Install Node.js
           command: |
             curl -sL https://deb.nodesource.com/setup_13.x | bash -
-            sudo apt install -y nodejs
+            apt-get update && apt-get install -y nodejs
       - run:
           name: NPM Install
           command: npm install
       - run:
           name: Install serverless CLI
-          command: sudo npm i -g serverless
+          command: npm i -g serverless
       - run:
           name: Build lamdba
           command: |
             cd ./MosaicResidentInformationApi/
+            chmod +x ./build.sh
             ./build.sh
       - run:
           name: Deploy lamdba
@@ -147,15 +149,14 @@ jobs:
           aws-account: $AWS_ACCOUNT_DEVELOPMENT
           stage: 'development'
   deploy-to-staging:
-    docker:
-      - image: circleci/python:3.7
+    executor: docker-dotnet
     steps:
       - deploy-lambda:
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
           aws-account: $AWS_ACCOUNT_STAGING
           stage: 'staging'
   deploy-to-production:
-    executor: docker-python
+    executor: docker-dotnet
     steps:
       - deploy-lambda:
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
