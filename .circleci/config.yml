@@ -26,15 +26,15 @@ commands:
     steps:
        - run:
           command: |
+            cd ./MosaicResidentInformationApi/
             terraform get -update=true
             terraform init
-         #     cd ~/MosaicResidentInformationApi/terraform
           name: get and init
        - run:
           name: apply
           command: |
+            cd ../MosaicResidentInformationApi/terraform
             terraform apply -auto-approve
-         #   cd ../MosaicResidentInformationApi/terraform
             
 
   deploy-lambda:
