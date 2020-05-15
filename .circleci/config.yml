@@ -33,8 +33,9 @@ commands:
        - run:
           name: apply
           command: |
-            cd ../MosaicResidentInformationApi/terraform
             terraform apply -auto-approve
+         #   cd ../MosaicResidentInformationApi/terraform
+            
 
   deploy-lambda:
     description: "Deploys API via Serverless"
