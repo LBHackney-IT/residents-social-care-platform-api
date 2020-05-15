@@ -26,6 +26,7 @@ commands:
     steps:
        - run:
           command: |
+              dir
               cd ./MosaicResidentInformationApi/terraform/
               terraform get -update=true
               terraform init
