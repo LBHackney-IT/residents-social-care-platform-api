@@ -48,10 +48,10 @@ commands:
     steps:
       - checkout
       - setup_remote_docker
-      - aws_assume_role/assume_role:
-          account: <<parameters.aws-account>>
-          profile_name: default
-          role: <<parameters.aws-role-name>>
+     # - aws_assume_role/assume_role:
+     #     account: <<parameters.aws-account>>
+     #     profile_name: default
+     #     role: <<parameters.aws-role-name>>
       - run:
           name: Install Node.js
           command: |
@@ -149,7 +149,7 @@ jobs:
           aws-account: $AWS_ACCOUNT_DEVELOPMENT
           stage: 'development'
   deploy-to-staging:
-    executor: docker-python
+    executor: docker-dotnet
     steps:
       - deploy-lambda:
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
@@ -244,8 +244,12 @@ workflows:
            filters:
              branches:
                only: master
-       - deploy-to-staging:
+       - assume-role-staging:
            context: api-assume-role-staging-context
+           requires:
+               - build-and-test      
+       - deploy-to-staging:
+       #    context: api-assume-role-staging-context
            requires:
              - build-and-test
            filters:
