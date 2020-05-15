@@ -1,5 +1,6 @@
 using Microsoft.Extensions.HealthChecks;
 using MosaicResidentInformationApi.V1.Boundary;
+using MosaicResidentInformationApi.V1.Boundary.Responses;
 
 namespace MosaicResidentInformationApi.V1.UseCase
 {

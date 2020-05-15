@@ -1,4 +1,4 @@
-namespace MosaicResidentInformationApi.V1.Boundary
+namespace MosaicResidentInformationApi.V1.Boundary.Responses
 {
     public class HealthCheckResponse
     {
