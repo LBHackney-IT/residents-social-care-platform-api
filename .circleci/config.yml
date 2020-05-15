@@ -26,10 +26,9 @@ commands:
     steps:
        - run:
           command: |
-               ls
+            terraform get -update=true
+            terraform init
          #     cd ~/MosaicResidentInformationApi/terraform
-         #     terraform get -update=true
-         #     terraform init
           name: get and init
        - run:
           name: apply
