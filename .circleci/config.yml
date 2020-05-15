@@ -149,7 +149,7 @@ jobs:
           aws-account: $AWS_ACCOUNT_DEVELOPMENT
           stage: 'development'
   deploy-to-staging:
-    executor: docker-dotnet
+    executor: docker-python
     steps:
       - deploy-lambda:
           aws-role-name: 'LBH_Circle_CI_Deployment_Role'
