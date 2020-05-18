@@ -95,7 +95,7 @@ namespace MosaicResidentInformationApi
                         Description = $"{ApiName} version {version}. Please check older versions for depreciated endpoints."
                     });
                 }
-
+                c.DescribeAllEnumsAsStrings();
                 c.CustomSchemaIds(x => x.FullName);
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
