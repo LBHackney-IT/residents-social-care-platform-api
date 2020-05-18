@@ -19,7 +19,7 @@ namespace MosaicResidentInformationApi.V1.Controllers
         [HttpGet]
         public IActionResult ListContacts()
         {
-            return Ok(new ResidentInformationList{Residents = new List<ResidentInformation>()});
+            return Ok(new ResidentInformationList { Residents = new List<ResidentInformation>() });
         }
 
         [HttpGet]
