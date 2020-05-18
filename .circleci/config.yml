@@ -35,7 +35,7 @@ commands:
           command: |
             cd ../MosaicResidentInformationApi/terraform
             terraform apply -auto-approve
-            
+
 
   deploy-lambda:
     description: "Deploys API via Serverless"
@@ -73,6 +73,7 @@ commands:
       - run:
           name: Deploy lamdba
           command: |
+            cd ./MosaicResidentInformationApi/
             sls deploy --stage <<parameters.stage>> --aws-profile default
 
 jobs:
@@ -244,7 +245,7 @@ workflows:
              - assume-role-staging
            filters:
              branches:
-               only: master    
+               only: master
        - deploy-to-staging:
            context: api-assume-role-staging-context
            requires:
