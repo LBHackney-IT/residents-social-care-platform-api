@@ -70,7 +70,7 @@ commands:
           name: Deploy lamdba
           command: |
             cd ./MosaicResidentInformationApi/
-            sls deploy --stage <<parameters.stage>> --aws-profile default
+            sls deploy --stage <<parameters.stage>> 
 
 jobs:
   terraform-init-and-apply-to-development:
@@ -231,24 +231,17 @@ workflows:
            filters:
              branches:
                only: master
-       - assume-role-staging:
-           context: api-assume-role-staging-context
-           requires:
-               - build-and-test
-           filters:
-              branches:
-                only: master
        - terraform-init-and-apply-to-staging:
            context: api-assume-role-staging-context
            requires:
-             - assume-role-staging
+             - build-and-test
            filters:
              branches:
                only: master
        - deploy-to-staging:
            context: api-assume-role-staging-context
            requires:
-             - assume-role-staging
+             - build-and-test
            filters:
              branches:
                only: master
