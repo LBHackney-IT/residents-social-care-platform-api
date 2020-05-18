@@ -249,7 +249,7 @@ workflows:
        - deploy-to-staging:
            context: api-assume-role-staging-context
            requires:
-             - build-and-test
+             - assume-role-staging
            filters:
              branches:
                only: master
