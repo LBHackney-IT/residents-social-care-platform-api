@@ -1,4 +1,4 @@
-service: mosaic-resident-information-api 
+service: mosaic-resident-information-api
 provider:
   name: aws
   runtime: dotnetcore3.1
@@ -13,10 +13,10 @@ package:
   artifact: ./bin/release/netcoreapp3.1/mosaic-resident-information-api.zip
 
 functions:
-  mosaic-api:
+  mosaicApi:
     name: ${self:service}-${self:provider.stage}
     handler: MosaicResidentInformationApi::MosaicResidentInformationApi.LambdaEntryPoint::FunctionHandlerAsync
-    role: arn:aws:iam::775052747630:role/LBH_Lambda_Execution
+    role: arn:aws:iam::715003523189:role/LBH_Lambda_Execution
     events:
       - http:
           path: /{proxy+}
