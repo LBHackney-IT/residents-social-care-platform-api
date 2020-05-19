@@ -6,10 +6,10 @@ namespace MosaicResidentInformationApi.V1.Gateways
 {
     public class MosaicGateway : IMosaicGateway
     {
-        private readonly IMosaicContext _mosaicContext;
+        private readonly MosaicContext _mosaicContext;
         private readonly EntityFactory _entityFactory;
 
-        public MosaicGateway(IMosaicContext mosaicContext)
+        public MosaicGateway(MosaicContext mosaicContext)
         {
             _mosaicContext = mosaicContext;
             _entityFactory = new EntityFactory();

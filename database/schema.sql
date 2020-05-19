@@ -12,8 +12,8 @@ create table DM_PERSONS
     TITLE                 varchar(8),
     FIRST_NAME            varchar(30),
     LAST_NAME             varchar(30),
-    DATE_OF_BIRTH         datetime,
-    DATE_OF_DEATH         datetime,
+    DATE_OF_BIRTH         timestamp,
+    DATE_OF_DEATH         timestamp,
     GENDER                varchar(1)  not null,
     RESTRICTED            varchar(1),
     PERSON_ID_LEGACY      varchar(16) not null,
@@ -30,16 +30,13 @@ create table DM_PERSONS
     CONTEXT_FLAG          varchar(1),
     SCRA_ID               varchar(13),
     INTERPRETER_REQUIRED  varchar(1)
-)
-go
+);
 
 create index xif1dm_persons
-    on DM_PERSONS (FULL_ETHNICITY_CODE)
-go
+    on DM_PERSONS (FULL_ETHNICITY_CODE);
 
 create unique index xif2dm_persons
-    on DM_PERSONS (PERSON_ID_LEGACY)
-go
+    on DM_PERSONS (PERSON_ID_LEGACY);
 
 
 create table DM_ADDRESSES
@@ -49,8 +46,8 @@ create table DM_ADDRESSES
             primary key,
     REF_ADDRESS_ID          numeric(9) not null,
     PERSON_ID               numeric(16),
-    START_DATE              datetime,
-    END_DATE                datetime,
+    START_DATE              timestamp,
+    END_DATE                timestamp,
     ADDRESS                 varchar(464),
     POST_CODE               varchar(16),
     DISTRICT                varchar(80),
@@ -72,8 +69,7 @@ create table DM_ADDRESSES
     EASTING                 numeric(10, 2),
     NORTHING                numeric(10, 2),
     UNIQUE_ID               numeric(15)
-)
-go
+);
 
 create table DM_TELEPHONE_NUMBERS
 (
@@ -83,5 +79,4 @@ create table DM_TELEPHONE_NUMBERS
     TELEPHONE_NUMBER_TYPE varchar(80) not null,
     constraint XPKDM_TELEPHONE_NUMBERS
         primary key (TELEPHONE_NUMBER_ID, PERSON_ID)
-)
-go
+);
