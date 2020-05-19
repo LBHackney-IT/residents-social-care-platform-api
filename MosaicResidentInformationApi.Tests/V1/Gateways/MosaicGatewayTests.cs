@@ -61,7 +61,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
                 AddressLine1 = address.AddressLines,
                 PostCode = address.PostCode,
             };
-            response.AddressList.Should().BeEquivalentTo(new List<DomainAddress>{expectedDomainAddress});
+            response.AddressList.Should().BeEquivalentTo(new List<DomainAddress> { expectedDomainAddress });
             response.Uprn.Should().Be(address.Uprn.ToString());
         }
 

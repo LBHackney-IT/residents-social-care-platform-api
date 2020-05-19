@@ -24,7 +24,7 @@ namespace MosaicResidentInformationApi.V1.Factories
         public override PhoneNumber ToDomain(TelephoneNumber number)
         {
             var canParseType = Enum.TryParse<PhoneType>(number.Type, out var type);
-            return canParseType ? new PhoneNumber {Number = number.Number, Type = type} : null;
+            return canParseType ? new PhoneNumber { Number = number.Number, Type = type } : null;
         }
 
         public override Address ToDomain(DbAddress address)
