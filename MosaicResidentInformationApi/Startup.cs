@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using MosaicResidentInformationApi.V1.Gateways;
 using MosaicResidentInformationApi.V1.Infrastructure;
 using MosaicResidentInformationApi.Versioning;
+using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MosaicResidentInformationApi
@@ -29,15 +30,17 @@ namespace MosaicResidentInformationApi
 
         public IConfiguration Configuration { get; }
         private static List<ApiVersionDescription> _apiVersions { get; set; }
-        //TODO update the below to the name of your API
         private const string ApiName = "Mosaic Resident Information API";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGenNewtonsoftSupport();
             services
                 .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter()));
             services.AddApiVersioning(o =>
             {
                 o.DefaultApiVersion = new ApiVersion(1, 0);
@@ -95,7 +98,7 @@ namespace MosaicResidentInformationApi
                         Description = $"{ApiName} version {version}. Please check older versions for depreciated endpoints."
                     });
                 }
-                c.DescribeAllEnumsAsStrings();
+
                 c.CustomSchemaIds(x => x.FullName);
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -112,9 +115,7 @@ namespace MosaicResidentInformationApi
         {
             var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-            var builder = new DbContextOptionsBuilder().UseNpgsql(connectionString);
-
-            services.AddSingleton<IMosaicContext>(s => new MosaicContext(builder.Options));
+            services.AddDbContext<MosaicContext>(options => options.UseNpgsql(connectionString));
         }
 
         private static void RegisterGateways(IServiceCollection services)

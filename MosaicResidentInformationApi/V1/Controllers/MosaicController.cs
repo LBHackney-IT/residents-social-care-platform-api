@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MosaicResidentInformationApi.V1.Boundary.Responses;
@@ -18,7 +19,7 @@ namespace MosaicResidentInformationApi.V1.Controllers
         [HttpGet]
         public IActionResult ListContacts()
         {
-            return Ok(new ResidentInformationList());
+            return Ok(new ResidentInformationList { Residents = new List<ResidentInformation>() });
         }
 
         [HttpGet]
