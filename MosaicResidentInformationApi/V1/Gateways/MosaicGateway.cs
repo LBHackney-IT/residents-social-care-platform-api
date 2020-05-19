@@ -15,7 +15,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
             _entityFactory = new EntityFactory();
         }
 
-        public Entity GetEntityById(int id)
+        public ResidentInformation GetEntityById(int id)
         {
             var result = _mosaicContext.DatabaseEntities.Find(id);
 
