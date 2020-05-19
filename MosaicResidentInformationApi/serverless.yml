@@ -17,6 +17,8 @@ functions:
     name: ${self:service}-${self:provider.stage}
     handler: MosaicResidentInformationApi::MosaicResidentInformationApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
+    environment:
+      - CONNECTION_STRING: Host=${ssm:/mosaic-postgres-hostname-staging};Port=5002;Database=mosaic_mirror;Username=${ssm:/mosaic-postgres-username-staging};Password=${ssm:/mosaic-postgres-password-staging}
     events:
       - http:
           path: /{proxy+}
