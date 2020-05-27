@@ -85,8 +85,8 @@ module "postgres_db_development" {
   db_instance_class = "db.t2.micro"
   db_name = "mosaic-mirror"
   db_port  = 5002
-  db_username = "${local.parameter_store}/mosaic-postgres-username-development"
-  db_password = "${local.parameter_store}/mosaic-postgres-password-development"
+  db_username = "${local.parameter_store}/mosaic-api/development/postgres-username"
+  db_password = "${local.parameter_store}/mosaic-api/development/postgres-password"
   subnet_ids = data.aws_subnet_ids.development_private_subnets.ids
   db_allocated_storage = 20
   maintenance_window ="sun:10:00-sun:10:30"
