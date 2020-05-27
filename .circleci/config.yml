@@ -212,7 +212,7 @@ workflows:
             branches:
               only: master
       - assume-role-staging:
-          context: api-assume-role-development-context
+          context: api-assume-role-staging-context
           requires:
             - build-and-test
           filters:
