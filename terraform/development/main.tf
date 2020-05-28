@@ -17,7 +17,6 @@ locals {
    parameter_store = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter"
 }
 
-
 data "aws_iam_role" "ec2_container_service_role" {
   name = "ecsServiceRole"
 }
