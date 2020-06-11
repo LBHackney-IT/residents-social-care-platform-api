@@ -22,7 +22,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
         public async Task GetResidentInformationByIdReturnsTheCorrectInformation()
         {
             var personId = _fixture.Create<int>();
-            var expectedResponse = E2ETestHelpers.AddPersonWithRelatesEntitiesToDb(MosaicContext, personId);
+            var expectedResponse = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, personId);
 
             var response = Client.GetAsync($"api/v1/residents/{personId}");
             var statusCode = response.Result.StatusCode;
