@@ -31,6 +31,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Controllers
         {
             var residentInfo = new ResidentInformation()
             {
+                MosaicId = "abc123",
                 FirstName = "test",
                 LastName = "test",
                 DateOfBirth = "01/01/2020"
@@ -51,6 +52,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Controllers
             {
                 new ResidentInformation()
                 {
+                    MosaicId = "abc123",
                     FirstName = "test",
                     LastName = "test",
                     DateOfBirth = "01/01/2020"

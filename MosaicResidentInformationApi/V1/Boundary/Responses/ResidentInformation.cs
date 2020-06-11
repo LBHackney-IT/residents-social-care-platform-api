@@ -5,6 +5,10 @@ namespace MosaicResidentInformationApi.V1.Boundary.Responses
     public class ResidentInformation
     {
         /// <example>
+        /// abc123
+        /// </example>
+        public string MosaicId { get; set; }
+        /// <example>
         /// Ciasom
         /// </example>
         public string FirstName { get; set; }
