@@ -9,7 +9,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
 {
     public static class E2ETestHelpers
     {
-        public static ResidentInformation AddPersonWithRelatesEntitiesToDb(MosaicContext context, int? id = null, string firstname = null, string lastname = null, string postcode = null, string addressLines = null)
+        public static ResidentInformation AddPersonWithRelatedEntitiesToDb(MosaicContext context, int? id = null, string firstname = null, string lastname = null, string postcode = null, string addressLines = null)
         {
             var person = TestHelper.CreateDatabasePersonEntity(firstname, lastname, id);
             var addedPerson = context.Persons.Add(person);
@@ -21,6 +21,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
             context.Addresses.Add(address);
             context.TelephoneNumbers.Add(phone);
             context.SaveChanges();
+
             return new ResidentInformation
             {
                 FirstName = person.FirstName,

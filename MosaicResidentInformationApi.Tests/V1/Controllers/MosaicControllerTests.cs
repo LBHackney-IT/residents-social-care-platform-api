@@ -63,6 +63,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Controllers
             {
                 Residents = residentInfo
             };
+
             var rqp = new ResidentQueryParam
             {
                 FirstName = "Ciasom",
