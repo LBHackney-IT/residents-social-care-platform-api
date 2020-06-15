@@ -5,6 +5,14 @@ provider:
   vpc: ${self:custom.vpc.${opt:stage}}
   stage: ${opt:stage}
   region: eu-west-2
+  apiKeys:
+    - usage-plan-${self:service}-${opt:stage}:
+      - api-key-${self:service}-${opt:stage}
+  usagePlan:
+    - usage-plan-${self:service}-${opt:stage}:
+        throttle:
+          burstLimit: 200
+          rateLimit: 100
 
 package:
   artifact: ./bin/release/netcoreapp3.1/mosaic-resident-information-api.zip
@@ -20,6 +28,7 @@ functions:
       - http:
           path: /{proxy+}
           method: ANY
+          private: true
 resources:
   Resources:
     lambdaExecutionRole:
