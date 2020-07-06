@@ -65,6 +65,27 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
         }
 
         [Test]
+        public async Task FirstNameLastNameQueryParametersWildcardSearchReturnsMatchingResidentRecordsFromMosaic()
+        {
+            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, firstname: "ciasom", lastname: "tessellate");
+            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, firstname: "ciasom", lastname: "shape");
+            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
+
+            var uri = new Uri("api/v1/residents?first_name=ciaso&last_name=sell", UriKind.Relative);
+            var response = Client.GetAsync(uri);
+
+            var statusCode = response.Result.StatusCode;
+            statusCode.Should().Be(200);
+
+            var content = response.Result.Content;
+            var stringContent = await content.ReadAsStringAsync().ConfigureAwait(true);
+            var convertedResponse = JsonConvert.DeserializeObject<ResidentInformationList>(stringContent);
+
+            convertedResponse.Residents.Count.Should().Be(1);
+            convertedResponse.Residents.Should().ContainEquivalentOf(expectedResidentResponseOne);
+        }
+
+        [Test]
         public async Task PostcodeAndAddressQueryParametersReturnsMatchingResidentsRecordsFromMosaic()
         {
             var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", addressLines: "1 Seasame street, Hackney, LDN");
