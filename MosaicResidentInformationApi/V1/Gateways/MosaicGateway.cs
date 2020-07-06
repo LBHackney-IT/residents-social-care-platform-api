@@ -25,8 +25,8 @@ namespace MosaicResidentInformationApi.V1.Gateways
                 .Include(p => p.Person)
                 .Where(a => string.IsNullOrEmpty(address) || a.AddressLines.ToLower().Replace(" ", "").Contains(StripString(address)))
                 .Where(a => string.IsNullOrEmpty(postcode) || a.PostCode.ToLower().Replace(" ", "").Equals(StripString(postcode)))
-                .Where(a => string.IsNullOrEmpty(firstname) || a.Person.FirstName.ToLower().Replace(" ", "").Equals(StripString(firstname)))
-                .Where(a => string.IsNullOrEmpty(lastname) || a.Person.LastName.ToLower().Replace(" ", "").Equals(StripString(lastname)))
+                .Where(a => string.IsNullOrEmpty(firstname) || a.Person.FirstName.ToLower().Replace(" ", "").Contains(StripString(firstname)))
+                .Where(a => string.IsNullOrEmpty(lastname) || a.Person.LastName.ToLower().Replace(" ", "").Contains(StripString(lastname)))
                 .Where(a => a.Person.Id > cursor)
                 .ToList();
 
@@ -57,8 +57,8 @@ namespace MosaicResidentInformationApi.V1.Gateways
         private List<ResidentInformation> QueryPeopleWithNoAddressByName(string firstname, string lastname, List<Address> addressesFilteredByPostcode, int cursor)
         {
             return _mosaicContext.Persons
-                .Where(p => string.IsNullOrEmpty(firstname) || p.FirstName.ToLower().Equals(firstname.ToLower()))
-                .Where(p => string.IsNullOrEmpty(lastname) || p.LastName.ToLower().Equals(lastname.ToLower()))
+                .Where(p => string.IsNullOrEmpty(firstname) || p.FirstName.ToLower().Contains(firstname.ToLower()))
+                .Where(p => string.IsNullOrEmpty(lastname) || p.LastName.ToLower().Contains(lastname.ToLower()))
                 .Where(a => a.Id > cursor)
                 .ToList()
                 .Where(p => addressesFilteredByPostcode.All(add => add.PersonId != p.Id))

@@ -194,6 +194,19 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
         }
 
         [Test]
+        public void GetAllResidentsWildcardSearchWithFirstNameQueryParameter_ReturnsMatchingResident()
+        {
+            var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom");
+            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "shape");
+            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "Ciasom");
+
+            var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "iaso");
+            listOfPersons.Count.Should().Be(2);
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
+        }
+
+        [Test]
         public void GetAllResidentsWithLastNameQueryParameter_ReturnsMatchingResident()
         {
             var databaseEntity = AddPersonRecordToDatabase(lastname: "tessellate");
@@ -201,6 +214,19 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
             var databaseEntity2 = AddPersonRecordToDatabase(lastname: "Tessellate");
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, lastname: "tessellate");
+            listOfPersons.Count.Should().Be(2);
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
+        }
+
+        [Test]
+        public void GetAllResidentsWildcardSearchWithLastNameQueryParameter_ReturnsMatchingResident()
+        {
+            var databaseEntity = AddPersonRecordToDatabase(lastname: "tessellate");
+            var databaseEntity1 = AddPersonRecordToDatabase(lastname: "square");
+            var databaseEntity2 = AddPersonRecordToDatabase(lastname: "Tessellate");
+
+            var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, lastname: "sell");
             listOfPersons.Count.Should().Be(2);
             listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
             listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
@@ -216,6 +242,20 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
             MosaicContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", lastname: "Tessellate");
+            listOfPersons.Count.Should().Be(1);
+            listOfPersons.First().MosaicId.Should().Be(databaseEntity.Id.ToString());
+        }
+
+        [Test]
+        public void GetAllResidentsWildcardSearchWithNameQueryParameters_ReturnsMatchingResidentOnlyOnce()
+        {
+            var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom", lastname: "Tessellate");
+
+            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
+            MosaicContext.Addresses.Add(address);
+            MosaicContext.SaveChanges();
+
+            var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", lastname: "ssellat");
             listOfPersons.Count.Should().Be(1);
             listOfPersons.First().MosaicId.Should().Be(databaseEntity.Id.ToString());
         }
