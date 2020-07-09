@@ -117,7 +117,7 @@ namespace MosaicResidentInformationApi
         {
             var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-            services.AddDbContext<MosaicContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<MosaicContext>(options => options.UseNpgsql(connectionString).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         }
 
         private static void RegisterGateways(IServiceCollection services)
