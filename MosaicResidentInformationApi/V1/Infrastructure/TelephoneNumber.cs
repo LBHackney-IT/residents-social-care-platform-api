@@ -8,7 +8,6 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
     {
         [Column("telephone_number_id")]
         [MaxLength(9)]
-        [Key]
         public int Id { get; set; }
 
         [Column("telephone_number")]
