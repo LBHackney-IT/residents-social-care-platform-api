@@ -61,3 +61,7 @@ tmp/
 .vs/
 /MosaicResidentInformationApi.Tests/Properties/launchSettings.json
 .serverless/
+
+.fake
+.ionide
+.vscode
