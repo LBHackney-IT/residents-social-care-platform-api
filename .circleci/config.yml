@@ -84,7 +84,7 @@ commands:
           name: Deploy lambda
           command: |
             cd ./MosaicResidentInformationApi/
-            sls deploy --stage <<parameters.stage>> --conceal
+            sls deploy --stage <<parameters.stage>> --conceal --force
 
 jobs:
   check-code-formatting:
