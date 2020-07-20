@@ -2,9 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using MosaicResidentInformationApi.V1.Boundary.Responses;
+using MosaicResidentInformationApi.V1.Domain;
 using MosaicResidentInformationApi.V1.Factories;
 using MosaicResidentInformationApi.V1.Infrastructure;
+using Newtonsoft.Json;
 using Address = MosaicResidentInformationApi.V1.Infrastructure.Address;
+using DomainAddress = MosaicResidentInformationApi.V1.Domain.Address;
 using ResidentInformation = MosaicResidentInformationApi.V1.Domain.ResidentInformation;
 
 namespace MosaicResidentInformationApi.V1.Gateways
@@ -21,29 +26,37 @@ namespace MosaicResidentInformationApi.V1.Gateways
         public List<ResidentInformation> GetAllResidents(int cursor, int limit, string firstname = null,
             string lastname = null, string postcode = null, string address = null)
         {
-            var addressesFilteredByPostcode = _mosaicContext.Addresses
-                .Include(p => p.Person)
-                .Where(a => string.IsNullOrEmpty(address) || a.AddressLines.ToLower().Replace(" ", "").Contains(StripString(address)))
-                .Where(a => string.IsNullOrEmpty(postcode) || a.PostCode.ToLower().Replace(" ", "").Equals(StripString(postcode)))
-                .Where(a => string.IsNullOrEmpty(firstname) || a.Person.FirstName.ToLower().Replace(" ", "").Contains(StripString(firstname)))
-                .Where(a => string.IsNullOrEmpty(lastname) || a.Person.LastName.ToLower().Replace(" ", "").Contains(StripString(lastname)))
-                .Where(a => a.Person.Id > cursor)
-                .ToList();
+            var addressSearchPattern = GetSearchPattern(address);
+            var postcodeSearchPattern = GetSearchPattern(postcode);
 
-            var peopleWithAddresses = addressesFilteredByPostcode
-                .GroupBy(address => address.Person, MapPersonAndAddressesToResidentInformation)
-                .ToList();
+            var queryByAddress = postcode != null || address != null;
 
-            var peopleWithNoAddress = string.IsNullOrEmpty(postcode) && string.IsNullOrEmpty(address)
-                ? QueryPeopleWithNoAddressByName(firstname, lastname, addressesFilteredByPostcode, cursor)
-                : new List<ResidentInformation>();
+            var peopleIds = queryByAddress
+                ? PeopleIdsForAddressQuery(cursor, limit, firstname, lastname, postcode, address)
+                : PeopleIds(cursor, limit, firstname, lastname);
 
-            var allPeople = peopleWithAddresses.Concat(peopleWithNoAddress);
+            var dbRecords = _mosaicContext.Persons
+                .Where(p => peopleIds.Contains(p.Id))
+                .Select(p => new
+                {
+                    Person = p,
+                    Addresses = _mosaicContext
+                        .Addresses
+                        .Where(add => add.PersonId == p.Id)
+                        .Where(add =>
+                            string.IsNullOrEmpty(address) || EF.Functions.ILike(add.AddressLines.Replace(" ", ""), addressSearchPattern))
+                        .Where(add =>
+                            string.IsNullOrEmpty(postcode) || EF.Functions.ILike(add.PostCode.Replace(" ", ""), postcodeSearchPattern))
+                        .Distinct()
+                        .ToList(),
+                    TelephoneNumbers = _mosaicContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()
+                }).ToList();
 
-            return allPeople.Select(AttachPhoneNumberToPerson).OrderBy(a => a.MosaicId).Take(limit).ToList();
+            return dbRecords.Select(x => MapPersonAndAddressesToResidentInformation(x.Person, x.Addresses, x.TelephoneNumbers)
+            ).ToList();
         }
 
-        public ResidentInformation GetEntityById(int id)
+        public ResidentInformation GetEntityById(long id)
         {
             var databaseRecord = _mosaicContext.Persons.Find(id);
             if (databaseRecord == null) return null;
@@ -54,20 +67,44 @@ namespace MosaicResidentInformationApi.V1.Gateways
 
             return person;
         }
-        private List<ResidentInformation> QueryPeopleWithNoAddressByName(string firstname, string lastname, List<Address> addressesFilteredByPostcode, int cursor)
+
+        private List<long> PeopleIds(int cursor, int limit, string firstname, string lastname)
         {
+            var firstNameSearchPattern = GetSearchPattern(firstname);
+            var lastNameSearchPattern = GetSearchPattern(lastname);
             return _mosaicContext.Persons
-                .Where(p => string.IsNullOrEmpty(firstname) || p.FirstName.ToLower().Contains(firstname.ToLower()))
-                .Where(p => string.IsNullOrEmpty(lastname) || p.LastName.ToLower().Contains(lastname.ToLower()))
-                .Where(a => a.Id > cursor)
-                .ToList()
-                .Where(p => addressesFilteredByPostcode.All(add => add.PersonId != p.Id))
-                .Select(person =>
-                {
-                    var domainPerson = person.ToDomain();
-                    domainPerson.AddressList = null;
-                    return domainPerson;
-                }).ToList();
+                .Where(person => person.Id > cursor)
+                .Where(person =>
+                    string.IsNullOrEmpty(firstname) || EF.Functions.ILike(person.FirstName, firstNameSearchPattern))
+                .Where(person =>
+                    string.IsNullOrEmpty(lastname) || EF.Functions.ILike(person.LastName, lastNameSearchPattern))
+                .Take(limit)
+                .Select(p => p.Id)
+                .ToList();
+        }
+
+        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, string firstname, string lastname, string postcode, string address)
+        {
+            var firstNameSearchPattern = GetSearchPattern(firstname);
+            var lastNameSearchPattern = GetSearchPattern(lastname);
+            var addressSearchPattern = GetSearchPattern(address);
+            var postcodeSearchPattern = GetSearchPattern(postcode);
+            return _mosaicContext.Addresses
+                .Where(add =>
+                    string.IsNullOrEmpty(address) || EF.Functions.ILike(add.AddressLines.Replace(" ", ""), addressSearchPattern))
+                .Where(add =>
+                    string.IsNullOrEmpty(postcode) || EF.Functions.ILike(add.PostCode.Replace(" ", ""), postcodeSearchPattern))
+                .Where(add =>
+                    string.IsNullOrEmpty(firstname) || EF.Functions.ILike(add.Person.FirstName, firstNameSearchPattern))
+                .Where(add =>
+                    string.IsNullOrEmpty(lastname) || EF.Functions.ILike(add.Person.LastName, lastNameSearchPattern))
+                .Include(add => add.Person)
+                .Where(add => add.PersonId > cursor)
+                .GroupBy(add => add.PersonId)
+                .Where(p => p.Key != null)
+                .Take(limit)
+                .Select(p => (long) p.Key)
+                .ToList();
         }
 
         private ResidentInformation AttachPhoneNumberToPerson(ResidentInformation person)
@@ -79,7 +116,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
         }
 
         private static ResidentInformation MapPersonAndAddressesToResidentInformation(Person person,
-            IEnumerable<Address> addresses)
+            IEnumerable<Address> addresses, IEnumerable<TelephoneNumber> numbers = null)
         {
             var resident = person.ToDomain();
             var addressesDomain = addresses.Select(address => address.ToDomain()).ToList();
@@ -88,8 +125,12 @@ namespace MosaicResidentInformationApi.V1.Gateways
             resident.AddressList = addressesDomain.Any()
                 ? addressesDomain
                 : null;
+            resident.PhoneNumberList = numbers == null || !numbers.Any()
+                ? null
+                : numbers.Select(n => n.ToDomain()).ToList();
             return resident;
         }
+
         private static string GetMostRecentUprn(IEnumerable<Address> addressesForPerson)
         {
             if (!addressesForPerson.Any()) return null;
@@ -102,9 +143,10 @@ namespace MosaicResidentInformationApi.V1.Gateways
             return addressesForPerson.OrderByDescending(a => a.EndDate).First().Uprn.ToString();
         }
 
-        private static string StripString(string str)
+        private static string GetSearchPattern(string str)
         {
-            return str?.ToLower().Replace(" ", "");
+            return $"%{str?.Replace(" ", "")}%";
         }
     }
+
 }
