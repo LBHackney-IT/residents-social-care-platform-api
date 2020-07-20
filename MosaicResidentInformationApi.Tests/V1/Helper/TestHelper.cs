@@ -9,14 +9,14 @@ namespace MosaicResidentInformationApi.Tests.V1.Helper
 {
     public static class TestHelper
     {
-        public static Person CreateDatabasePersonEntity(string firstname = null, string lastname = null, int? id = null)
+        public static Person CreateDatabasePersonEntity(string firstname = null, string lastname = null, long? id = null)
         {
             var faker = new Fixture();
             var fp = faker.Build<Person>()
                 .Without(p => p.Id)
                 .Create();
             fp.DateOfBirth = new DateTime
-                (fp.DateOfBirth.Year, fp.DateOfBirth.Month, fp.DateOfBirth.Day);
+                (fp.DateOfBirth.Value.Year, fp.DateOfBirth.Value.Month, fp.DateOfBirth.Value.Day);
             fp.FirstName = firstname ?? fp.FirstName;
             fp.LastName = lastname ?? fp.LastName;
             if (id != null) fp.Id = (int) id;
@@ -24,7 +24,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Helper
             return fp;
         }
 
-        public static Address CreateDatabaseAddressForPersonId(int personId, string postcode = null, string address = null)
+        public static Address CreateDatabaseAddressForPersonId(long personId, string postcode = null, string address = null)
         {
             var faker = new Fixture();
 
@@ -39,7 +39,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Helper
             return fa;
         }
 
-        public static TelephoneNumber CreateDatabaseTelephoneNumberForPersonId(int personId)
+        public static TelephoneNumber CreateDatabaseTelephoneNumberForPersonId(long personId)
         {
             var faker = new Fixture();
 

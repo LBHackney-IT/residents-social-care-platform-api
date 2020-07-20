@@ -24,6 +24,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
 
             return new ResidentInformation
             {
+                MosaicId = person.Id.ToString(),
                 FirstName = person.FirstName,
                 LastName = person.LastName,
                 Uprn = address.Uprn.ToString(),
@@ -33,7 +34,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
                     {
                         new Phone {PhoneNumber = phone.Number, PhoneType = Enum.Parse<PhoneType>(phone.Type)}
                     },
-                DateOfBirth = person.DateOfBirth.ToString("O"),
+                DateOfBirth = person.DateOfBirth?.ToString("O"),
                 AddressList = new List<Address>
                 {
                     new Address {AddressLine1 = address.AddressLines, PostCode = address.PostCode}
