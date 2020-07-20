@@ -20,7 +20,6 @@ namespace MosaicResidentInformationApi.V1.Gateways
 
         public MosaicGateway(MosaicContext mosaicContext)
         {
-            Console.WriteLine("In gateway constructor");
             _mosaicContext = mosaicContext;
         }
 
@@ -53,17 +52,20 @@ namespace MosaicResidentInformationApi.V1.Gateways
                     TelephoneNumbers = _mosaicContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()
                 }).ToList();
 
-            return dbRecords.Select(x => new ResidentInformation
-            {
-                MosaicId = x.Person.Id.ToString(),
-                DateOfBirth = x.Person.DateOfBirth != null ? x.Person.DateOfBirth.Value.ToString("O") : null,
-                FirstName = x.Person.FirstName,
-                LastName = x.Person.LastName,
-                NhsNumber = x.Person.NhsNumber.ToString(),
-                AddressList = MapAddress(x.Addresses),
-                Uprn = GetMostRecentUprn(x.Addresses),
-                PhoneNumberList = MapPhoneNumbers(x.TelephoneNumbers)
-            }).ToList();
+            return dbRecords.Select(x => MapPersonAndAddressesToResidentInformation(x.Person, x.Addresses, x.TelephoneNumbers)
+            ).ToList();
+        }
+
+        public ResidentInformation GetEntityById(long id)
+        {
+            var databaseRecord = _mosaicContext.Persons.Find(id);
+            if (databaseRecord == null) return null;
+
+            var addressesForPerson = _mosaicContext.Addresses.Where(a => a.PersonId == databaseRecord.Id);
+            var person = MapPersonAndAddressesToResidentInformation(databaseRecord, addressesForPerson);
+            AttachPhoneNumberToPerson(person);
+
+            return person;
         }
 
         private List<long> PeopleIds(int cursor, int limit, string firstname, string lastname)
@@ -105,39 +107,6 @@ namespace MosaicResidentInformationApi.V1.Gateways
                 .ToList();
         }
 
-        private static List<PhoneNumber> MapPhoneNumbers(IEnumerable<TelephoneNumber> z)
-        {
-            var phoneNumberList = z.Where(tn => tn.Number != null && tn.Type != null).Select(tn => new PhoneNumber
-            {
-                Number = tn.Number,
-                Type = Enum.Parse<PhoneType>(tn.Type)
-            }).Distinct().ToList();
-
-            return !phoneNumberList.Any() ? null : phoneNumberList;
-        }
-
-        private static List<DomainAddress> MapAddress(IEnumerable<Address> q)
-        {
-            var addressList = q.Where(a => a.AddressLines != null && a.PostCode != null).Select(a => new DomainAddress
-            {
-                AddressLine1 = a.AddressLines,
-                PostCode = a.PostCode
-            }).Distinct().ToList();
-
-            return !addressList.Any() ? null : addressList;
-        }
-
-        public ResidentInformation GetEntityById(long id)
-        {
-            var databaseRecord = _mosaicContext.Persons.Find(id);
-            if (databaseRecord == null) return null;
-
-            var addressesForPerson = _mosaicContext.Addresses.Where(a => a.PersonId == databaseRecord.Id);
-            var person = MapPersonAndAddressesToResidentInformation(databaseRecord, addressesForPerson);
-            AttachPhoneNumberToPerson(person);
-
-            return person;
-        }
         private ResidentInformation AttachPhoneNumberToPerson(ResidentInformation person)
         {
             var phoneNumbersForPerson = _mosaicContext.TelephoneNumbers
