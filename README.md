@@ -1,6 +1,7 @@
 # Mosaic Resident Information API
 
 Mosaic resident information API allows services to retrieve information from Mosaic
+This API hold two GET endpoint one to retrieve all resident record from mosaic and one to retrieve record for a specified ID
 
 ## Stack
 
