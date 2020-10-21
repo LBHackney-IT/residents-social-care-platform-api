@@ -30,7 +30,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
             var queryByAddress = postcode != null || address != null;
 
             var peopleIds = queryByAddress
-                ? PeopleIdsForAddressQuery(cursor, limit, firstname, lastname, postcode, address)
+                ? PeopleIdsForAddressQuery(cursor, limit, firstname, lastname, postcode, address, contextflag)
                 : PeopleIds(cursor, limit, firstname, lastname, contextflag);
 
             var dbRecords = _mosaicContext.Persons
@@ -85,12 +85,13 @@ namespace MosaicResidentInformationApi.V1.Gateways
                 .ToList();
         }
 
-        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, string firstname, string lastname, string postcode, string address)
+        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, string firstname, string lastname, string postcode, string address, string contextflag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);
             var lastNameSearchPattern = GetSearchPattern(lastname);
             var addressSearchPattern = GetSearchPattern(address);
             var postcodeSearchPattern = GetSearchPattern(postcode);
+            var contextFlagSearchPattern = GetSearchPattern(contextflag);
 
             return _mosaicContext.Addresses
                 .Where(add =>
@@ -101,6 +102,8 @@ namespace MosaicResidentInformationApi.V1.Gateways
                     string.IsNullOrEmpty(firstname) || EF.Functions.ILike(add.Person.FirstName, firstNameSearchPattern))
                 .Where(add =>
                     string.IsNullOrEmpty(lastname) || EF.Functions.ILike(add.Person.LastName, lastNameSearchPattern))
+                .Where(add =>
+                    string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(add.Person.AgeContext, contextFlagSearchPattern))
                 .Include(add => add.Person)
                 .Where(add => add.PersonId > cursor)
                 .GroupBy(add => add.PersonId)
