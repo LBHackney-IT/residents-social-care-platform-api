@@ -24,6 +24,14 @@ namespace MosaicResidentInformationApi.V1.Boundary.Responses
         /// 2020-05-15
         /// </example>
         public string DateOfBirth { get; set; }
+        /// <example>
+        /// Female
+        /// </example>
+        public string Gender { get; set; }
+        /// <example>
+        /// British
+        /// </example>
+        public string Nationality { get; set; }
         public List<Phone> PhoneNumber { get; set; }
         public List<Address> AddressList { get; set; }
         /// <example>

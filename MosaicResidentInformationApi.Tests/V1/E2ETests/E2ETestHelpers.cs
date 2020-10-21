@@ -29,6 +29,8 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
                 LastName = person.LastName,
                 Uprn = address.Uprn.ToString(),
                 NhsNumber = person.NhsNumber.ToString(),
+                Gender = person.Gender,
+                Nationality = person.Nationality,
                 PhoneNumber =
                     new List<Phone>
                     {

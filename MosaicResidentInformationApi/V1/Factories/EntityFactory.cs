@@ -21,6 +21,8 @@ namespace MosaicResidentInformationApi.V1.Factories
                 LastName = databaseEntity.LastName,
                 NhsNumber = databaseEntity.NhsNumber?.ToString(),
                 DateOfBirth = databaseEntity.DateOfBirth?.ToString("O"),
+                Nationality = databaseEntity.Nationality,
+                Gender = databaseEntity.Gender
             };
         }
         public static List<ResidentInformation> ToDomain(this IEnumerable<Person> people)
