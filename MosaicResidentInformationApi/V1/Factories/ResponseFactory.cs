@@ -20,6 +20,8 @@ namespace MosaicResidentInformationApi.V1.Factories
                 FirstName = domain.FirstName,
                 LastName = domain.LastName,
                 NhsNumber = domain.NhsNumber,
+                Nationality = domain.Nationality,
+                Gender = domain.Gender,
                 DateOfBirth = domain.DateOfBirth,
                 Uprn = domain.Uprn,
                 AddressList = domain.AddressList?.ToResponse(),

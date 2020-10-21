@@ -39,6 +39,10 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
         [MaxLength(1)]
         public string Gender { get; set; }
 
+        [Column("nationality")]
+        [MaxLength(80)]
+        public string Nationality { get; set; }
+
         [Column("email_address")]
         [MaxLength(240)]
         public string EmailAddress { get; set; }
@@ -46,5 +50,9 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
         [Column("person_id_legacy")]
         [MaxLength(16)]
         public string PersonIdLegacy { get; set; }
+
+        [MaxLength(1)]
+        [Column("context_flag")]
+        public string AgeContext { get; set; }
     }
 }

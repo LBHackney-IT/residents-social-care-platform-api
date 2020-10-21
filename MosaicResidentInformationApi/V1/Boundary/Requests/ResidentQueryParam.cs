@@ -31,5 +31,7 @@ namespace MosaicResidentInformationApi.V1.Boundary.Requests
         /// Databind to post_code
         [FromQuery(Name = "postcode")]
         public string Postcode { get; set; }
+        [FromQuery(Name = "context_flag")]
+        public string ContextFlag { get; set; }
     }
 }
