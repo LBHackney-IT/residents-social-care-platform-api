@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MosaicResidentInformationApi.V1.Boundary.Responses;
 
@@ -26,6 +27,10 @@ namespace MosaicResidentInformationApi.V1.Domain
 
     public class Address
     {
+        public DateTime? EndDate { get; set; }
+        public string CurrentAddress { get; set; }
+        public string DisplayAddress { get; set; }
+
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }

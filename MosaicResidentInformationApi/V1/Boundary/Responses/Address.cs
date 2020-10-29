@@ -1,7 +1,13 @@
+using System;
+
 namespace MosaicResidentInformationApi.V1.Boundary.Responses
 {
     public class Address
     {
+        public DateTime? EndDate { get; set; }
+        public string CurrentAddress { get; set; }
+        public string DisplayAddress { get; set; }
+
         /// <example>
         /// 4 Green Road
         /// </example>
@@ -18,5 +24,6 @@ namespace MosaicResidentInformationApi.V1.Boundary.Responses
         /// E8 6TH
         /// </example>
         public string PostCode { get; set; }
+
     }
 }
