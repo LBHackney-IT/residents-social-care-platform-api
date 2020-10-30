@@ -5,8 +5,8 @@ namespace MosaicResidentInformationApi.V1.Boundary.Responses
     public class Address
     {
         public DateTime? EndDate { get; set; }
-        public string CurrentAddress { get; set; }
-        public string DisplayAddress { get; set; }
+        public string ContactAddressFlag { get; set; }
+        public string DisplayAddressFlag { get; set; }
 
         /// <example>
         /// 4 Green Road

@@ -28,8 +28,8 @@ namespace MosaicResidentInformationApi.V1.Domain
     public class Address
     {
         public DateTime? EndDate { get; set; }
-        public string CurrentAddress { get; set; }
-        public string DisplayAddress { get; set; }
+        public string ContactAddressFlag { get; set; }
+        public string DisplayAddressFlag { get; set; }
 
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }

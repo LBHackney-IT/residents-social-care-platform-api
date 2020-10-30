@@ -29,11 +29,11 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
 
         [Column("is_contact_address")]
         [MaxLength(1)]
-        public string CurrentAddress { get; set; }
+        public string ContactAddressFlag { get; set; }
 
         [Column("is_display_address")]
         [MaxLength(1)]
-        public string DisplayAddress { get; set; }
+        public string DisplayAddressFlag { get; set; }
 
         [Column("address")]
         [MaxLength(464)]
