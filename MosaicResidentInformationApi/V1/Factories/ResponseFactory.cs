@@ -46,6 +46,9 @@ namespace MosaicResidentInformationApi.V1.Factories
         {
             return addresses.Select(add => new AddressResponse
             {
+                EndDate = add.EndDate,
+                ContactAddressFlag = add.ContactAddressFlag,
+                DisplayAddressFlag = add.DisplayAddressFlag,
                 AddressLine1 = add.AddressLine1,
                 AddressLine2 = add.AddressLine2,
                 AddressLine3 = add.AddressLine3,

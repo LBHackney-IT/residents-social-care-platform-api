@@ -27,6 +27,14 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
         [Column("end_date")]
         public DateTime? EndDate { get; set; }
 
+        [Column("is_contact_address")]
+        [MaxLength(1)]
+        public string ContactAddressFlag { get; set; }
+
+        [Column("is_display_address")]
+        [MaxLength(1)]
+        public string DisplayAddressFlag { get; set; }
+
         [Column("address")]
         [MaxLength(464)]
         public string AddressLines { get; set; }
