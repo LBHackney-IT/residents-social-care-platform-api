@@ -44,7 +44,10 @@ namespace MosaicResidentInformationApi.V1.Factories
             return new Address
             {
                 AddressLine1 = address.AddressLines,
-                PostCode = address.PostCode
+                PostCode = address.PostCode,
+                EndDate = address.EndDate,
+                ContactAddressFlag = address.ContactAddressFlag,
+                DisplayAddressFlag = address.DisplayAddressFlag
             };
         }
     }

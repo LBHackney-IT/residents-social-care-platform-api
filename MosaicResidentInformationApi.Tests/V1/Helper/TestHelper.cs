@@ -32,6 +32,9 @@ namespace MosaicResidentInformationApi.Tests.V1.Helper
                 .With(add => add.PersonId, personId)
                 .Without(add => add.PersonAddressId)
                 .Without(add => add.Person)
+                .Without(add => add.EndDate)
+                .Without(add => add.ContactAddressFlag)
+                .Without(add => add.DisplayAddressFlag)
                 .Create();
 
             fa.PostCode = postcode ?? fa.PostCode;

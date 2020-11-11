@@ -60,7 +60,10 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
             dbAddress.ToDomain().Should().BeEquivalentTo(new DomainAddress
             {
                 AddressLine1 = dbAddress.AddressLines,
-                PostCode = dbAddress.PostCode
+                PostCode = dbAddress.PostCode,
+                EndDate = dbAddress.EndDate,
+                ContactAddressFlag = dbAddress.ContactAddressFlag,
+                DisplayAddressFlag = dbAddress.DisplayAddressFlag
             });
         }
     }
