@@ -24,6 +24,8 @@ namespace MosaicResidentInformationApi.V1.Boundary.Responses
         /// 2020-05-15
         /// </example>
         public string DateOfBirth { get; set; }
+        public string AgeContext { get; set; }
+
         /// <example>
         /// Female
         /// </example>

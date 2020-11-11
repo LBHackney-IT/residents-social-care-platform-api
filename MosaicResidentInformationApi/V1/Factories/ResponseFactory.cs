@@ -23,6 +23,7 @@ namespace MosaicResidentInformationApi.V1.Factories
                 Nationality = domain.Nationality,
                 Gender = domain.Gender,
                 DateOfBirth = domain.DateOfBirth,
+                AgeContext = domain.AgeContext,
                 Uprn = domain.Uprn,
                 AddressList = domain.AddressList?.ToResponse(),
                 PhoneNumber = domain.PhoneNumberList?.ToResponse()

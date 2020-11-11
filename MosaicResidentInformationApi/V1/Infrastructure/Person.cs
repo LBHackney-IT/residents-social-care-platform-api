@@ -34,7 +34,9 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
 
         [Column("date_of_birth")]
         public DateTime? DateOfBirth { get; set; }
-
+        [Column("context_flag")]
+        [MaxLength(1)]
+        public string AgeContext { get; set; }
         [Column("gender")]
         [MaxLength(1)]
         public string Gender { get; set; }
@@ -50,9 +52,5 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
         [Column("person_id_legacy")]
         [MaxLength(16)]
         public string PersonIdLegacy { get; set; }
-
-        [MaxLength(1)]
-        [Column("context_flag")]
-        public string AgeContext { get; set; }
     }
 }
