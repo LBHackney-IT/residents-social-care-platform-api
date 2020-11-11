@@ -34,6 +34,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                 LastName = personRecord.LastName,
                 NhsNumber = personRecord.NhsNumber.ToString(),
                 DateOfBirth = personRecord.DateOfBirth?.ToString("O"),
+                AgeContext = personRecord.AgeContext,
                 Nationality = personRecord.Nationality,
                 Gender = personRecord.Gender
             });

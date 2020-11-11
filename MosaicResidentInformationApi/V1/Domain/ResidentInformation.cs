@@ -10,6 +10,7 @@ namespace MosaicResidentInformationApi.V1.Domain
         public string LastName { get; set; }
         public string Uprn { get; set; }
         public string DateOfBirth { get; set; }
+        public string AgeContext { get; set; }
         public string Gender { get; set; }
         public string Nationality { get; set; }
 
