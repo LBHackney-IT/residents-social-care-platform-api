@@ -21,6 +21,7 @@ namespace MosaicResidentInformationApi.V1.Factories
                 LastName = databaseEntity.LastName,
                 NhsNumber = databaseEntity.NhsNumber?.ToString(),
                 DateOfBirth = databaseEntity.DateOfBirth?.ToString("O"),
+                AgeContext = databaseEntity.AgeContext,
                 Nationality = databaseEntity.Nationality,
                 Gender = databaseEntity.Gender
             };
