@@ -59,13 +59,19 @@ namespace MosaicResidentInformationApi.V1.Gateways
             }
         }
 
-        public ResidentInformation GetEntityById(long id)
+        public ResidentInformation GetEntityById(long id, string contextflag = null)
         {
-            var databaseRecord = _mosaicContext.Persons.Find(id);
-            if (databaseRecord == null) return null;
+            var contextFlagSearchPattern = GetSearchPattern(contextflag);
+            var databaseRecord = _mosaicContext.Persons
+                .Where(p => p.Id == id)
+                .Where(p =>
+                    string.IsNullOrEmpty(contextflag) || p.AgeContext == contextflag)
+                .ToList();
+            if (databaseRecord.FirstOrDefault() == null) return null;
 
-            var addressesForPerson = _mosaicContext.Addresses.Where(a => a.PersonId == databaseRecord.Id);
-            var person = MapPersonAndAddressesToResidentInformation(databaseRecord, addressesForPerson);
+            var addressesForPerson = _mosaicContext.Addresses
+                .Where(a => a.PersonId == databaseRecord.FirstOrDefault().Id);
+            var person = MapPersonAndAddressesToResidentInformation(databaseRecord.FirstOrDefault(), addressesForPerson);
             AttachPhoneNumberToPerson(person);
 
             return person;
@@ -80,7 +86,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
             return _mosaicContext.Persons
                 .Where(person => person.Id > cursor)
                 .Where(person =>
-                    string.IsNullOrEmpty(firstname) || EF.Functions.ILike(person.FirstName, firstNameSearchPattern))
+                    string.IsNullOrEmpty(firstname) || EF.Functions.ILike(person.FirstName.Replace(" ", ""), firstNameSearchPattern))
                 .Where(person =>
                     string.IsNullOrEmpty(lastname) || EF.Functions.ILike(person.LastName, lastNameSearchPattern))
                 .Where(person =>
@@ -104,7 +110,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
                 .Where(add =>
                     string.IsNullOrEmpty(postcode) || EF.Functions.ILike(add.PostCode.Replace(" ", ""), postcodeSearchPattern))
                 .Where(add =>
-                    string.IsNullOrEmpty(firstname) || EF.Functions.ILike(add.Person.FirstName, firstNameSearchPattern))
+                    string.IsNullOrEmpty(firstname) || EF.Functions.ILike(add.Person.FirstName.Replace(" ", ""), firstNameSearchPattern))
                 .Where(add =>
                     string.IsNullOrEmpty(lastname) || EF.Functions.ILike(add.Person.LastName, lastNameSearchPattern))
                 .Where(add =>

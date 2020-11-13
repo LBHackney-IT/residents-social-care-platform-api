@@ -32,7 +32,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
             var stubbedResidentInfo = _fixture.Create<ResidentInformation>();
 
             _mockMosaicGateway.Setup(x =>
-                    x.GetEntityById(12345))
+                    x.GetEntityById(12345, null))
                 .Returns(stubbedResidentInfo);
 
             var response = _classUnderTest.Execute(12345);
@@ -46,7 +46,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
         public void IfGatewayReturnsNullThrowNotFoundError()
         {
             ResidentInformation nullResult = null;
-            _mockMosaicGateway.Setup(x => x.GetEntityById(It.IsAny<int>()))
+            _mockMosaicGateway.Setup(x => x.GetEntityById(It.IsAny<int>(), null))
                 .Returns(nullResult);
             Func<ResidentInformationResponse> testDelegate = () => _classUnderTest.Execute(1);
 

@@ -30,7 +30,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
         [Test]
         public void GetResidentInformationByPersonId_WhenThereAreNoMatchingRecords_ReturnsNull()
         {
-            var response = _classUnderTest.GetEntityById(123);
+            var response = _classUnderTest.GetEntityById(123, null);
 
             response.Should().BeNull();
         }
