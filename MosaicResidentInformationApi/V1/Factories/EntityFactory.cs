@@ -21,6 +21,7 @@ namespace MosaicResidentInformationApi.V1.Factories
                 LastName = databaseEntity.LastName,
                 NhsNumber = databaseEntity.NhsNumber?.ToString(),
                 DateOfBirth = databaseEntity.DateOfBirth?.ToString("O"),
+                AgeContext = databaseEntity.AgeContext,
                 Nationality = databaseEntity.Nationality,
                 Gender = databaseEntity.Gender
             };
@@ -44,7 +45,10 @@ namespace MosaicResidentInformationApi.V1.Factories
             return new Address
             {
                 AddressLine1 = address.AddressLines,
-                PostCode = address.PostCode
+                PostCode = address.PostCode,
+                EndDate = address.EndDate,
+                ContactAddressFlag = address.ContactAddressFlag,
+                DisplayAddressFlag = address.DisplayAddressFlag
             };
         }
     }

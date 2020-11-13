@@ -34,6 +34,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                 LastName = personRecord.LastName,
                 NhsNumber = personRecord.NhsNumber.ToString(),
                 DateOfBirth = personRecord.DateOfBirth?.ToString("O"),
+                AgeContext = personRecord.AgeContext,
                 Nationality = personRecord.Nationality,
                 Gender = personRecord.Gender
             });
@@ -60,7 +61,10 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
             dbAddress.ToDomain().Should().BeEquivalentTo(new DomainAddress
             {
                 AddressLine1 = dbAddress.AddressLines,
-                PostCode = dbAddress.PostCode
+                PostCode = dbAddress.PostCode,
+                EndDate = dbAddress.EndDate,
+                ContactAddressFlag = dbAddress.ContactAddressFlag,
+                DisplayAddressFlag = dbAddress.DisplayAddressFlag
             });
         }
     }

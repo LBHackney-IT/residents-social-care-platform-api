@@ -49,10 +49,6 @@ namespace MosaicResidentInformationApi.V1.Gateways
                         Addresses = _mosaicContext
                             .Addresses
                             .Where(add => add.PersonId == p.Id)
-                            .Where(add =>
-                                string.IsNullOrEmpty(address) || EF.Functions.ILike(add.AddressLines.Replace(" ", ""), addressSearchPattern))
-                            .Where(add =>
-                                string.IsNullOrEmpty(postcode) || EF.Functions.ILike(add.PostCode.Replace(" ", ""), postcodeSearchPattern))
                             .Distinct()
                             .ToList(),
                         TelephoneNumbers = _mosaicContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()

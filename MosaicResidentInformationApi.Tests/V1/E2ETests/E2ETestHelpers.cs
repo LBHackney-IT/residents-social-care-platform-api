@@ -37,6 +37,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
                         new Phone {PhoneNumber = phone.Number, PhoneType = phone.Type}
                     },
                 DateOfBirth = person.DateOfBirth?.ToString("O"),
+                AgeContext = person.AgeContext,
                 AddressList = new List<Address>
                 {
                     new Address {AddressLine1 = address.AddressLines, PostCode = address.PostCode}
