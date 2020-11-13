@@ -27,7 +27,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
             if (id != null && id.HasValue)
             {
                 var mosaicId = id.Value;
-                var resident = GetEntityById(mosaicId);
+                var resident = GetEntityById(mosaicId, contextflag);
                 return new List<ResidentInformation> { resident };
             }
             else
