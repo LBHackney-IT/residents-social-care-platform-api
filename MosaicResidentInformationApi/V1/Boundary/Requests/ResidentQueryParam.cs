@@ -5,6 +5,8 @@ namespace MosaicResidentInformationApi.V1.Boundary.Requests
 {
     public class ResidentQueryParam
     {
+        [FromQuery(Name = "mosaic_id")]
+        public long? MosaicId { get; set; }
         /// <example>
         /// Ciasom
         /// </example>

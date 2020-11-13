@@ -21,33 +21,42 @@ namespace MosaicResidentInformationApi.V1.Gateways
             _mosaicContext = mosaicContext;
         }
 
-        public List<ResidentInformation> GetAllResidents(int cursor, int limit, string firstname = null,
+        public List<ResidentInformation> GetAllResidents(int cursor, int limit, long? id = null, string firstname = null,
             string lastname = null, string postcode = null, string address = null, string contextflag = null)
         {
-            var addressSearchPattern = GetSearchPattern(address);
-            var postcodeSearchPattern = GetSearchPattern(postcode);
+            if (id != null && id.HasValue)
+            {
+                var mosaicId = id.Value;
+                var resident = GetEntityById(mosaicId);
+                return new List<ResidentInformation> { resident };
+            }
+            else
+            {
+                var addressSearchPattern = GetSearchPattern(address);
+                var postcodeSearchPattern = GetSearchPattern(postcode);
 
-            var queryByAddress = postcode != null || address != null;
+                var queryByAddress = postcode != null || address != null;
 
-            var peopleIds = queryByAddress
-                ? PeopleIdsForAddressQuery(cursor, limit, firstname, lastname, postcode, address, contextflag)
-                : PeopleIds(cursor, limit, firstname, lastname, contextflag);
+                var peopleIds = queryByAddress
+                    ? PeopleIdsForAddressQuery(cursor, limit, firstname, lastname, postcode, address, contextflag)
+                    : PeopleIds(cursor, limit, firstname, lastname, contextflag);
 
-            var dbRecords = _mosaicContext.Persons
-                .Where(p => peopleIds.Contains(p.Id))
-                .Select(p => new
-                {
-                    Person = p,
-                    Addresses = _mosaicContext
-                        .Addresses
-                        .Where(add => add.PersonId == p.Id)
-                        .Distinct()
-                        .ToList(),
-                    TelephoneNumbers = _mosaicContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()
-                }).ToList();
+                var dbRecords = _mosaicContext.Persons
+                    .Where(p => peopleIds.Contains(p.Id))
+                    .Select(p => new
+                    {
+                        Person = p,
+                        Addresses = _mosaicContext
+                            .Addresses
+                            .Where(add => add.PersonId == p.Id)
+                            .Distinct()
+                            .ToList(),
+                        TelephoneNumbers = _mosaicContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()
+                    }).ToList();
 
-            return dbRecords.Select(x => MapPersonAndAddressesToResidentInformation(x.Person, x.Addresses, x.TelephoneNumbers)
-            ).ToList();
+                return dbRecords.Select(x => MapPersonAndAddressesToResidentInformation(x.Person, x.Addresses, x.TelephoneNumbers)
+                ).ToList();
+            }
         }
 
         public ResidentInformation GetEntityById(long id)

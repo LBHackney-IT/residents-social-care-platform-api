@@ -23,7 +23,7 @@ namespace MosaicResidentInformationApi.V1.UseCase
             CheckPostcodeValid(rqp);
             limit = limit < 10 ? 10 : limit;
             limit = limit > 100 ? 100 : limit;
-            var residents = _mosaicGateway.GetAllResidents(cursor: cursor, limit: limit, rqp.FirstName, rqp.LastName,
+            var residents = _mosaicGateway.GetAllResidents(cursor: cursor, limit: limit, rqp.MosaicId, rqp.FirstName, rqp.LastName,
                 rqp.Postcode, rqp.Address, rqp.ContextFlag);
 
             var nextCursor = residents.Count == limit ? residents.Max(r => r.MosaicId) : "";
