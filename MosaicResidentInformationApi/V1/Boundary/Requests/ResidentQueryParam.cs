@@ -19,6 +19,8 @@ namespace MosaicResidentInformationApi.V1.Boundary.Requests
         /// Databind to last_name
         [FromQuery(Name = "last_name")]
         public string LastName { get; set; }
+        [FromQuery(Name = "date_of_birth")]
+        public string DateOfBirth { get; set; }
 
         /// <example>
         /// 1 Montage street

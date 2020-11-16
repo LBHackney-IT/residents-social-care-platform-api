@@ -22,7 +22,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
         }
 
         public List<ResidentInformation> GetAllResidents(int cursor, int limit, long? id = null, string firstname = null,
-            string lastname = null, string postcode = null, string address = null, string contextflag = null)
+            string lastname = null, string dateOfBirth = null, string postcode = null, string address = null, string contextflag = null)
         {
             if (id != null && id.HasValue)
             {
@@ -39,7 +39,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
 
                 var peopleIds = queryByAddress
                     ? PeopleIdsForAddressQuery(cursor, limit, firstname, lastname, postcode, address, contextflag)
-                    : PeopleIds(cursor, limit, firstname, lastname, contextflag);
+                    : PeopleIds(cursor, limit, firstname, lastname, dateOfBirth, contextflag);
 
                 var dbRecords = _mosaicContext.Persons
                     .Where(p => peopleIds.Contains(p.Id))
@@ -77,10 +77,11 @@ namespace MosaicResidentInformationApi.V1.Gateways
             return person;
         }
 
-        private List<long> PeopleIds(int cursor, int limit, string firstname, string lastname, string contextflag)
+        private List<long> PeopleIds(int cursor, int limit, string firstname, string lastname, string dateOfBirth, string contextflag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);
             var lastNameSearchPattern = GetSearchPattern(lastname);
+            var dateOfBirthSearchPattern = GetSearchPattern(dateOfBirth);
             var contextFlagSearchPattern = GetSearchPattern(contextflag);
 
             return _mosaicContext.Persons
@@ -90,13 +91,16 @@ namespace MosaicResidentInformationApi.V1.Gateways
                 .Where(person =>
                     string.IsNullOrEmpty(lastname) || EF.Functions.ILike(person.LastName, lastNameSearchPattern))
                 .Where(person =>
+                    string.IsNullOrEmpty(dateOfBirth) || EF.Functions.ILike(person.DateOfBirth.ToString(), dateOfBirthSearchPattern))
+                .Where(person =>
                     string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(person.AgeContext, contextFlagSearchPattern))
                 .Take(limit)
                 .Select(p => p.Id)
                 .ToList();
         }
 
-        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, string firstname, string lastname, string postcode, string address, string contextflag)
+        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, string firstname, string lastname,
+            string postcode, string address, string contextflag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);
             var lastNameSearchPattern = GetSearchPattern(lastname);

@@ -38,7 +38,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
             var stubbedResidents = _fixture.CreateMany<ResidentInformation>();
 
             _mockMosaicGateway.Setup(x =>
-                    x.GetAllResidents(3, 15, null, "ciasom", "tessellate", "E8 1DY", "1 Montage street", "a"))
+                    x.GetAllResidents(3, 15, null, "ciasom", "tessellate", null, "E8 1DY", "1 Montage street", "a"))
                 .Returns(stubbedResidents.ToList());
             var rqp = new ResidentQueryParam
             {
@@ -73,7 +73,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
         [Test]
         public void IfLimitLessThanTheMinimum_WillUseTheMinimumLimit()
         {
-            _mockMosaicGateway.Setup(x => x.GetAllResidents(0, 10, null, null, null, null, null, null))
+            _mockMosaicGateway.Setup(x => x.GetAllResidents(0, 10, null, null, null, null, null, null, null))
                 .Returns(new List<ResidentInformation>()).Verifiable();
 
             _classUnderTest.Execute(new ResidentQueryParam(), 0, 4);
@@ -84,7 +84,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
         [Test]
         public void IfLimitMoreThanTheMaximum_WillUseTheMaximumLimit()
         {
-            _mockMosaicGateway.Setup(x => x.GetAllResidents(0, 100, null, null, null, null, null, null))
+            _mockMosaicGateway.Setup(x => x.GetAllResidents(0, 100, null, null, null, null, null, null, null))
                 .Returns(new List<ResidentInformation>()).Verifiable();
 
             _classUnderTest.Execute(new ResidentQueryParam(), 0, 400);
@@ -100,7 +100,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
             var expectedNextCursor = stubbedResidents.Max(r => r.MosaicId);
 
             _mockMosaicGateway.Setup(x =>
-                    x.GetAllResidents(0, 10, null, null, null, null, null, null))
+                    x.GetAllResidents(0, 10, null, null, null, null, null, null, null))
                 .Returns(stubbedResidents.ToList());
 
             _classUnderTest.Execute(new ResidentQueryParam(), 0, 10).NextCursor.Should().Be(expectedNextCursor);
@@ -112,7 +112,7 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
             var stubbedResidents = _fixture.CreateMany<ResidentInformation>(7);
 
             _mockMosaicGateway.Setup(x =>
-                    x.GetAllResidents(0, 10, null, null, null, null, null, null))
+                    x.GetAllResidents(0, 10, null, null, null, null, null, null, null))
                 .Returns(stubbedResidents.ToList());
 
             _classUnderTest.Execute(new ResidentQueryParam(), 0, 10).NextCursor.Should().Be("");
