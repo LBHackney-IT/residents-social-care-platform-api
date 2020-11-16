@@ -28,6 +28,10 @@ namespace MosaicResidentInformationApi.V1.Gateways
             {
                 var mosaicId = id.Value;
                 var resident = GetEntityById(mosaicId, contextflag);
+                if (resident == null)
+                {
+                    return new List<ResidentInformation>();
+                }
                 return new List<ResidentInformation> { resident };
             }
             else
@@ -65,7 +69,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
             var databaseRecord = _mosaicContext.Persons
                 .Where(p => p.Id == id)
                 .Where(p =>
-                    string.IsNullOrEmpty(contextflag) || p.AgeContext == contextflag)
+                    string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(p.AgeContext, contextFlagSearchPattern))
                 .ToList();
             if (databaseRecord.FirstOrDefault() == null) return null;
 
