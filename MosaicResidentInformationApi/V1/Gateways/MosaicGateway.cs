@@ -78,7 +78,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
             return _mosaicContext.Persons
                 .Where(person => person.Id > cursor)
                 .Where(person =>
-                    string.IsNullOrEmpty(id.ToString()) || EF.Functions.ILike(person.Id.ToString(), id.ToString()))
+                    id == null || EF.Functions.ILike(person.Id.ToString(), id.ToString()))
                 .Where(person =>
                     string.IsNullOrEmpty(firstname) || EF.Functions.ILike(person.FirstName.Replace(" ", ""), firstNameSearchPattern))
                 .Where(person =>
@@ -103,7 +103,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
 
             return _mosaicContext.Addresses
                 .Where(add =>
-                    string.IsNullOrEmpty(id.ToString()) || EF.Functions.ILike(add.PersonId.ToString(), id.ToString()))
+                    id == null || EF.Functions.ILike(add.PersonId.ToString(), id.ToString()))
                 .Where(add =>
                     string.IsNullOrEmpty(address) || EF.Functions.ILike(add.AddressLines.Replace(" ", ""), addressSearchPattern))
                 .Where(add =>
