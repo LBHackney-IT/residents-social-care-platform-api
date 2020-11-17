@@ -98,6 +98,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
                     string.IsNullOrEmpty(dateOfBirth) || EF.Functions.ILike(person.DateOfBirth.ToString(), dateOfBirthSearchPattern))
                 .Where(person =>
                     string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(person.AgeContext, contextFlagSearchPattern))
+                .OrderBy(p => p.Id)
                 .Take(limit)
                 .Select(p => p.Id)
                 .ToList();
@@ -125,6 +126,7 @@ namespace MosaicResidentInformationApi.V1.Gateways
                     string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(add.Person.AgeContext, contextFlagSearchPattern))
                 .Include(add => add.Person)
                 .Where(add => add.PersonId > cursor)
+                .OrderBy(add => add.PersonId)
                 .GroupBy(add => add.PersonId)
                 .Where(p => p.Key != null)
                 .Take(limit)
