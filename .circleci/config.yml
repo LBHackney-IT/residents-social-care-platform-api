@@ -85,7 +85,6 @@ commands:
           command: |
             cd ./MosaicResidentInformationApi/
             sls deploy --stage <<parameters.stage>> --conceal --force
-
 jobs:
   check-code-formatting:
     executor: docker-dotnet
@@ -203,24 +202,24 @@ workflows:
           filters:
             branches:
               only: master
-      - assume-role-production:	
-          context: api-assume-role-production-context	
-          requires:	
-            - deploy-to-staging	
-          filters:	
-            branches:	
+      - assume-role-production:
+          context: api-assume-role-production-context
+          requires:
+            - deploy-to-staging
+          filters:
+            branches:
               only: master
       - permit-production-release:
           type: approval
           requires:
             - deploy-to-staging
-            - assume-role-production
           filters:
             branches:
               only: master
       - deploy-to-production:
           requires:
             - permit-production-release
+            - assume-role-production
           filters:
             branches:
               only: master
