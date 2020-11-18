@@ -96,7 +96,12 @@ namespace MosaicResidentInformationApi.Tests.V1.UseCase
         public void ReturnsTheNextCursor()
         {
             var stubbedResidents = _fixture.CreateMany<ResidentInformation>(10);
-
+            int idCount = 10;
+            foreach (ResidentInformation resident in stubbedResidents)
+            {
+                idCount++;
+                resident.MosaicId = idCount.ToString();
+            }
             var expectedNextCursor = stubbedResidents.Max(r => r.MosaicId);
 
             _mockMosaicGateway.Setup(x =>

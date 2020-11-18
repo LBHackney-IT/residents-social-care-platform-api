@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using MosaicResidentInformationApi.V1.Boundary.Requests;
 using MosaicResidentInformationApi.V1.Boundary.Responses;
@@ -26,7 +27,7 @@ namespace MosaicResidentInformationApi.V1.UseCase
             var residents = _mosaicGateway.GetAllResidents(cursor: cursor, limit: limit, rqp.MosaicId, rqp.FirstName, rqp.LastName,
                 rqp.DateOfBirth, rqp.Postcode, rqp.Address, rqp.ContextFlag);
 
-            var nextCursor = residents.Count == limit ? residents.Max(r => r.MosaicId) : "";
+            var nextCursor = residents.Count == limit ? residents.Max(r => Int64.Parse(r.MosaicId)).ToString() : "";
             return new ResidentInformationList
             {
                 Residents = residents.ToResponse(),
