@@ -18,6 +18,7 @@ namespace MosaicResidentInformationApi.V1.Domain
         public List<PhoneNumber> PhoneNumberList { get; set; }
         public List<Address> AddressList { get; set; }
         public string NhsNumber { get; set; }
+        public string RestrictedFlag { get; set; }
     }
 
     public class PhoneNumber

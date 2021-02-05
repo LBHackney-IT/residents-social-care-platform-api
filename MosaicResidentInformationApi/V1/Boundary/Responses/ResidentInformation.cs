@@ -40,5 +40,6 @@ namespace MosaicResidentInformationApi.V1.Boundary.Responses
         /// 450 557 7104
         /// </example>
         public string NhsNumber { get; set; }
+        public string RestrictedFlag { get; set; }
     }
 }
