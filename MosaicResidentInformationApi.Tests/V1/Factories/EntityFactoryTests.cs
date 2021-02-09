@@ -36,7 +36,8 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                 DateOfBirth = personRecord.DateOfBirth?.ToString("O"),
                 AgeContext = personRecord.AgeContext,
                 Nationality = personRecord.Nationality,
-                Gender = personRecord.Gender
+                Gender = personRecord.Gender,
+                Restricted = personRecord.Restricted
             });
         }
 

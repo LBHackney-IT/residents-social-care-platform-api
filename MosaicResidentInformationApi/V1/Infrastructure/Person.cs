@@ -52,5 +52,9 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
         [Column("person_id_legacy")]
         [MaxLength(16)]
         public string PersonIdLegacy { get; set; }
+
+        [Column("restricted")]
+        [MaxLength(1)]
+        public string Restricted { get; set; }
     }
 }

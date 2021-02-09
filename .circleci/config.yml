@@ -165,12 +165,12 @@ workflows:
           filters:
             branches:
               only: development
-      - terraform-init-and-apply-to-development:
-          requires:
-            - assume-role-development
-          filters:
-            branches:
-              only: development
+      # - terraform-init-and-apply-to-development:
+          # requires:
+            # - assume-role-development
+          # filters:
+            # branches:
+              # only: development
       - deploy-to-development:
           requires:
             - assume-role-development
@@ -190,12 +190,12 @@ workflows:
           filters:
             branches:
               only: master
-      - terraform-init-and-apply-to-staging:
-          requires:
-            - assume-role-staging
-          filters:
-            branches:
-              only: master
+      # - terraform-init-and-apply-to-staging:
+          # requires:
+            # - assume-role-staging
+          # filters:
+            # branches:
+              # only: master
       - deploy-to-staging:
           requires:
             - assume-role-staging

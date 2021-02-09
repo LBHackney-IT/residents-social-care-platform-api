@@ -41,7 +41,8 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
                 AddressList = new List<Address>
                 {
                     new Address {AddressLine1 = address.AddressLines, PostCode = address.PostCode}
-                }
+                },
+                Restricted = person.Restricted
             };
         }
     }

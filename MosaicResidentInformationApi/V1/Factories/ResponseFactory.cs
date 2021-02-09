@@ -26,7 +26,8 @@ namespace MosaicResidentInformationApi.V1.Factories
                 AgeContext = domain.AgeContext,
                 Uprn = domain.Uprn,
                 AddressList = domain.AddressList?.ToResponse(),
-                PhoneNumber = domain.PhoneNumberList?.ToResponse()
+                PhoneNumber = domain.PhoneNumberList?.ToResponse(),
+                Restricted = domain.Restricted
             };
         }
         public static List<ResidentInformationResponse> ToResponse(this IEnumerable<ResidentInformation> people)

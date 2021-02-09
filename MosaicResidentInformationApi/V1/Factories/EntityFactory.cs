@@ -23,7 +23,8 @@ namespace MosaicResidentInformationApi.V1.Factories
                 DateOfBirth = databaseEntity.DateOfBirth?.ToString("O"),
                 AgeContext = databaseEntity.AgeContext,
                 Nationality = databaseEntity.Nationality,
-                Gender = databaseEntity.Gender
+                Gender = databaseEntity.Gender,
+                Restricted = databaseEntity.Restricted
             };
         }
         public static List<ResidentInformation> ToDomain(this IEnumerable<Person> people)
