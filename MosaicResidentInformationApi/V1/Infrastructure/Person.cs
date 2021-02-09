@@ -55,6 +55,6 @@ namespace MosaicResidentInformationApi.V1.Infrastructure
 
         [Column("restricted")]
         [MaxLength(1)]
-        public string RestrictedFlag { get; set; }
+        public string Restricted { get; set; }
     }
 }

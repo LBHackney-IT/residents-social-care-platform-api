@@ -42,7 +42,7 @@ namespace MosaicResidentInformationApi.Tests.V1.E2ETests
                 {
                     new Address {AddressLine1 = address.AddressLines, PostCode = address.PostCode}
                 },
-                RestrictedFlag = person.RestrictedFlag
+                Restricted = person.Restricted
             };
         }
     }

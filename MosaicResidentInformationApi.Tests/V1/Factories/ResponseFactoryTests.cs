@@ -40,7 +40,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                         Type = "Fax"
                     }
                 },
-                RestrictedFlag = "N"
+                Restricted = "N"
             };
 
             var expectedResponse = new ResidentInformationResponse
@@ -68,7 +68,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                         PhoneType = "Fax"
                     }
                 },
-                RestrictedFlag = "N"
+                Restricted = "N"
             };
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
         }
@@ -85,7 +85,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                 NhsNumber = "nhs",
                 DateOfBirth = "DOB",
                 PhoneNumberList = null,
-                RestrictedFlag = null
+                Restricted = null
             };
 
             var expectedResponse = new ResidentInformationResponse
@@ -97,7 +97,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                 NhsNumber = "nhs",
                 DateOfBirth = "DOB",
                 PhoneNumber = null,
-                RestrictedFlag = null
+                Restricted = null
             };
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
         }

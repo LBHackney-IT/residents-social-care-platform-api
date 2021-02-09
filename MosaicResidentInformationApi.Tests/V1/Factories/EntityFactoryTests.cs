@@ -37,7 +37,7 @@ namespace MosaicResidentInformationApi.Tests.V1.Factories
                 AgeContext = personRecord.AgeContext,
                 Nationality = personRecord.Nationality,
                 Gender = personRecord.Gender,
-                RestrictedFlag = personRecord.RestrictedFlag
+                Restricted = personRecord.Restricted
             });
         }
 

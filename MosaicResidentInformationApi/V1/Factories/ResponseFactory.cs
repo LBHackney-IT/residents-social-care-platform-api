@@ -27,7 +27,7 @@ namespace MosaicResidentInformationApi.V1.Factories
                 Uprn = domain.Uprn,
                 AddressList = domain.AddressList?.ToResponse(),
                 PhoneNumber = domain.PhoneNumberList?.ToResponse(),
-                RestrictedFlag = domain.RestrictedFlag
+                Restricted = domain.Restricted
             };
         }
         public static List<ResidentInformationResponse> ToResponse(this IEnumerable<ResidentInformation> people)

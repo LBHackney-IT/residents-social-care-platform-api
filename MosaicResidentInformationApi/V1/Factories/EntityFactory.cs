@@ -24,7 +24,7 @@ namespace MosaicResidentInformationApi.V1.Factories
                 AgeContext = databaseEntity.AgeContext,
                 Nationality = databaseEntity.Nationality,
                 Gender = databaseEntity.Gender,
-                RestrictedFlag = databaseEntity.RestrictedFlag
+                Restricted = databaseEntity.Restricted
             };
         }
         public static List<ResidentInformation> ToDomain(this IEnumerable<Person> people)
