@@ -23,7 +23,7 @@ functions:
           authorizer:
             arn: ${ssm:/platform-apis-lambda-authorizer-arn}
             type: request
-          private: true
+          private: false
     provisionedConcurrency: 10
 resources:
   Resources:
