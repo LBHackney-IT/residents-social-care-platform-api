@@ -67,6 +67,27 @@ namespace MosaicResidentInformationApi.V1.Gateways
 
             return person;
         }
+        public ResidentInformation InsertResident(string firstName, string lastName)
+        {
+            Person person = new Person()
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                FullName = $"{firstName} {lastName}", // Cannot be null
+                Gender = "-", // Cannot be null
+                PersonIdLegacy = "-", // Cannot be null
+            };
+
+            _mosaicContext.Persons.Add(person);
+            _mosaicContext.SaveChanges();
+
+            return new ResidentInformation()
+            {
+                MosaicId = person.Id.ToString(),
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+            };
+        }
 
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
         {

@@ -450,6 +450,25 @@ namespace MosaicResidentInformationApi.Tests.V1.Gateways
                 .Should().BeEquivalentTo(new List<string> { "3", "4", "5" });
         }
 
+        [Test]
+        public void InsertResidentReturnsResidentInformation()
+        {
+            var residentInformation = _classUnderTest.InsertResident(firstName: "Adora", lastName: "Grayskull");
+
+            residentInformation.MosaicId.Should().NotBeNull();
+            residentInformation.FirstName.Should().Be("Adora");
+            residentInformation.LastName.Should().Be("Grayskull");
+        }
+
+        [Test]
+        public void InsertResidentCreatesAPersonRecord()
+        {
+            var residentInformation = _classUnderTest.InsertResident(firstName: "Adora", lastName: "Grayskull");
+
+            MosaicContext.Persons.First().FirstName.Should().Be("Adora");
+            MosaicContext.Persons.First().LastName.Should().Be("Grayskull");
+        }
+
 
         private Person AddPersonRecordToDatabase(string firstname = null, string lastname = null, int? id = null)
         {
