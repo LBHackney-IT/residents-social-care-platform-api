@@ -27,7 +27,7 @@ functions:
     handler: ResidentsSocialCarePlatformApi::ResidentsSocialCarePlatformApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
-      CONNECTION_STRING: Host=${ssm:/mosaic-api/${self:provider.stage}/postgres-hostname};Port=${ssm:/mosaic-api/${self:provider.stage}/postgres-port};Database=${ssm:/mosaic-api/${self:provider.stage}/postgres-database};Username=${ssm:/mosaic-api/${self:provider.stage}/postgres-username};Password=${ssm:/mosaic-api/${self:provider.stage}/postgres-password};MaxPoolSize=${ssm:/mosaic-api/${self:provider.stage}/postgres-max-pool-size};
+      CONNECTION_STRING: Host=;Port=;Database=;Username=;Password=;MaxPoolSize=;
     events:
       - http:
           path: /{proxy+}
@@ -90,7 +90,7 @@ custom:
   vpc:
     production:
       securityGroupIds:
-        - sg-0e2398788c29e09ca
+        - sg-0dca2fcba0bf7a01f
       subnetIds:
-        - subnet-01d3657f97a243261
-        - subnet-0b7b8fea07efabf34
+        - subnet-0665104ee973a21be
+        - subnet-005b74d8082f68a84
