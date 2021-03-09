@@ -2,7 +2,8 @@
 
 The Residents Social Care Platform API allows for services to retrieve
 social care data of residents i.e. information formally managed by
-Mosaic.
+Mosaic. This repository is based off the
+[Mosaic Resident Information API](https://github.com/LBHackney-IT/mosaic-resident-information-api).
 
 It uses [.NET Core](https://dotnet.microsoft.com) as a web framework and
 [nUnit](https://nunit.org) for testing.
