@@ -13,7 +13,7 @@ It uses [.NET Core](https://dotnet.microsoft.com) as a web framework and
 - [Usage](#usage)
   - [Running the application](#running-the-application)
   - [Running the tests](#running-the-tests)
-- [Release process](#release-process)
+- [Documentation](#documentation)
 - [Contributors](#contributors)
 - [License](#license)
 
