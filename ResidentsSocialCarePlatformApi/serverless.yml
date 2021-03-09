@@ -1,4 +1,4 @@
-service: mosaic-resident-information-api
+service: residents-social-care-platform-api
 provider:
   name: aws
   runtime: dotnetcore3.1
@@ -19,12 +19,12 @@ provider:
           rateLimit: 100
 
 package:
-  artifact: ./bin/release/netcoreapp3.1/mosaic-resident-information-api.zip
+  artifact: ./bin/release/netcoreapp3.1/residents-social-care-platform-api.zip
 
 functions:
-  mosaicApi:
+  residentsSocialCarePlatformApi:
     name: ${self:service}-${self:provider.stage}
-    handler: MosaicResidentInformationApi::MosaicResidentInformationApi.LambdaEntryPoint::FunctionHandlerAsync
+    handler: ResidentsSocialCarePlatformApi::ResidentsSocialCarePlatformApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
       CONNECTION_STRING: Host=${ssm:/mosaic-api/${self:provider.stage}/postgres-hostname};Port=${ssm:/mosaic-api/${self:provider.stage}/postgres-port};Database=${ssm:/mosaic-api/${self:provider.stage}/postgres-database};Username=${ssm:/mosaic-api/${self:provider.stage}/postgres-username};Password=${ssm:/mosaic-api/${self:provider.stage}/postgres-password};MaxPoolSize=${ssm:/mosaic-api/${self:provider.stage}/postgres-max-pool-size};
@@ -88,18 +88,6 @@ resources:
                   Resource: "*"
 custom:
   vpc:
-    development:
-      securityGroupIds:
-        - sg-0615f1e12aacd43fb
-      subnetIds:
-        - subnet-0deabb5d8fb9c3446
-        - subnet-000b89c249f12a8ad
-    staging:
-      securityGroupIds:
-        - sg-03c4502c86db0e086
-      subnetIds:
-        - subnet-06d3de1bd9181b0d7
-        - subnet-0ed7d7713d1127656
     production:
       securityGroupIds:
         - sg-0e2398788c29e09ca
