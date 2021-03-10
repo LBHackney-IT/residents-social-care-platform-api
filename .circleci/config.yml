@@ -58,13 +58,13 @@ commands:
       - run:
           name: Build lambda
           command: |
-            cd ./MosaicResidentInformationApi/
+            cd ./ResidentsSocialCarePlatformApi/
             chmod +x ./build.sh
             ./build.sh
       - run:
           name: Deploy lambda
           command: |
-            cd ./MosaicResidentInformationApi/
+            cd ./ResidentsSocialCarePlatformApi/
             sls deploy --stage <<parameters.stage>> --conceal --force
 jobs:
   check-code-formatting:
