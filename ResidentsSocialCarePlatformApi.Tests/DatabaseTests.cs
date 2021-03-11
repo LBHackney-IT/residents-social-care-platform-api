@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using NUnit.Framework;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
 namespace ResidentsSocialCarePlatformApi.Tests
 {
@@ -9,11 +9,11 @@ namespace ResidentsSocialCarePlatformApi.Tests
     [TestFixture]
     public class DatabaseTests
     {
-        private MosaicContext _context;
+        private SocialCareContext _context;
         private IDbContextTransaction _transaction;
         private DbContextOptionsBuilder _builder;
 
-        protected MosaicContext MosaicContext => _context;
+        protected SocialCareContext SocialCareContext => _context;
 
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
@@ -25,9 +25,9 @@ namespace ResidentsSocialCarePlatformApi.Tests
         [SetUp]
         public void SetUp()
         {
-            _context = new MosaicContext(_builder.Options);
+            _context = new SocialCareContext(_builder.Options);
             _context.Database.EnsureCreated();
-            _transaction = MosaicContext.Database.BeginTransaction();
+            _transaction = SocialCareContext.Database.BeginTransaction();
         }
 
         [TearDown]

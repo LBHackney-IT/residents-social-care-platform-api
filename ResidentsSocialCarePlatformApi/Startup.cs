@@ -117,9 +117,9 @@ namespace ResidentsSocialCarePlatformApi
 
         private static void ConfigureDbContext(IServiceCollection services)
         {
-            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING") ?? "Host=;Database=;";
 
-            services.AddDbContext<MosaicContext>(options => options
+            services.AddDbContext<SocialCareContext>(options => options
                 .UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .AddXRayInterceptor(true)

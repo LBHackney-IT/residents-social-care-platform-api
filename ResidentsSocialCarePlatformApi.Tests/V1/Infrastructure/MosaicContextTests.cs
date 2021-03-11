@@ -14,10 +14,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Infrastructure
         {
             var databaseEntity = TestHelper.CreateDatabasePersonEntity();
 
-            MosaicContext.Add(databaseEntity);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Add(databaseEntity);
+            SocialCareContext.SaveChanges();
 
-            var result = MosaicContext.Persons.ToList().FirstOrDefault();
+            var result = SocialCareContext.Persons.ToList().FirstOrDefault();
 
             result.Should().BeEquivalentTo(databaseEntity);
         }

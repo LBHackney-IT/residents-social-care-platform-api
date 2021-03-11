@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 {
-    public class MosaicContext : DbContext
+    public class SocialCareContext : DbContext
     {
-        public MosaicContext(DbContextOptions options) : base(options)
+        public SocialCareContext(DbContextOptions options) : base(options)
         {
         }
         public DbSet<Person> Persons { get; set; }

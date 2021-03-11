@@ -14,11 +14,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
     public class MosaicGateway : IMosaicGateway
     {
-        private readonly MosaicContext _mosaicContext;
+        private readonly SocialCareContext _socialCareContext;
 
-        public MosaicGateway(MosaicContext mosaicContext)
+        public MosaicGateway(SocialCareContext socialCareContext)
         {
-            _mosaicContext = mosaicContext;
+            _socialCareContext = socialCareContext;
         }
 
         public List<Domain.ResidentInformation> GetAllResidents(int cursor, int limit, long? id = null, string firstname = null,
@@ -33,17 +33,17 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 ? PeopleIdsForAddressQuery(cursor, limit, id, firstname, lastname, postcode, address, contextflag)
                 : PeopleIds(cursor, limit, id, firstname, lastname, dateOfBirth, contextflag);
 
-            var dbRecords = _mosaicContext.Persons
+            var dbRecords = _socialCareContext.Persons
                 .Where(p => peopleIds.Contains(p.Id))
                 .Select(p => new
                 {
                     Person = p,
-                    Addresses = _mosaicContext
+                    Addresses = _socialCareContext
                         .Addresses
                         .Where(add => add.PersonId == p.Id)
                         .Distinct()
                         .ToList(),
-                    TelephoneNumbers = _mosaicContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()
+                    TelephoneNumbers = _socialCareContext.TelephoneNumbers.Where(n => n.PersonId == p.Id).Distinct().ToList()
                 }).ToList();
 
             return dbRecords.Select(x => MapPersonAndAddressesToResidentInformation(x.Person, x.Addresses, x.TelephoneNumbers)
@@ -53,14 +53,14 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         public Domain.ResidentInformation GetEntityById(long id, string contextflag = null)
         {
             var contextFlagSearchPattern = GetSearchPattern(contextflag);
-            var databaseRecord = _mosaicContext.Persons
+            var databaseRecord = _socialCareContext.Persons
                 .Where(p => p.Id == id)
                 .Where(p =>
                     string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(p.AgeContext, contextFlagSearchPattern))
                 .ToList();
             if (databaseRecord.FirstOrDefault() == null) return null;
 
-            var addressesForPerson = _mosaicContext.Addresses
+            var addressesForPerson = _socialCareContext.Addresses
                 .Where(a => a.PersonId == databaseRecord.FirstOrDefault().Id);
             var person = MapPersonAndAddressesToResidentInformation(databaseRecord.FirstOrDefault(), addressesForPerson);
             AttachPhoneNumberToPerson(person);
@@ -78,8 +78,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 PersonIdLegacy = "-", // Cannot be null
             };
 
-            _mosaicContext.Persons.Add(person);
-            _mosaicContext.SaveChanges();
+            _socialCareContext.Persons.Add(person);
+            _socialCareContext.SaveChanges();
 
             return new Domain.ResidentInformation()
             {
@@ -96,7 +96,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             var dateOfBirthSearchPattern = GetSearchPattern(dateOfBirth);
             var contextFlagSearchPattern = GetSearchPattern(contextflag);
 
-            return _mosaicContext.Persons
+            return _socialCareContext.Persons
                 .Where(person => person.Id > cursor)
                 .Where(person =>
                     id == null || EF.Functions.ILike(person.Id.ToString(), id.ToString()))
@@ -123,7 +123,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             var postcodeSearchPattern = GetSearchPattern(postcode);
             var contextFlagSearchPattern = GetSearchPattern(contextflag);
 
-            return _mosaicContext.Addresses
+            return _socialCareContext.Addresses
                 .Where(add =>
                     id == null || EF.Functions.ILike(add.PersonId.ToString(), id.ToString()))
                 .Where(add =>
@@ -148,7 +148,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         private Domain.ResidentInformation AttachPhoneNumberToPerson(Domain.ResidentInformation person)
         {
-            var phoneNumbersForPerson = _mosaicContext.TelephoneNumbers
+            var phoneNumbersForPerson = _socialCareContext.TelephoneNumbers
                 .Where(n => n.PersonId == int.Parse(person.MosaicId));
             person.PhoneNumberList = phoneNumbersForPerson.Any() ? phoneNumbersForPerson.Select(n => n.ToDomain()).ToList() : null;
             return person;

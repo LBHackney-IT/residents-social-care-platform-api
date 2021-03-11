@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
-using Npgsql;
 
 namespace ResidentsSocialCarePlatformApi.Tests
 {
@@ -26,11 +25,11 @@ namespace ResidentsSocialCarePlatformApi.Tests
             {
                 var dbBuilder = new DbContextOptionsBuilder();
                 dbBuilder.UseNpgsql(_connection);
-                var context = new MosaicContext(dbBuilder.Options);
+                var context = new SocialCareContext(dbBuilder.Options);
                 services.AddSingleton(context);
 
                 var serviceProvider = services.BuildServiceProvider();
-                var dbContext = serviceProvider.GetRequiredService<MosaicContext>();
+                var dbContext = serviceProvider.GetRequiredService<SocialCareContext>();
 
                 dbContext.Database.EnsureCreated();
             });
