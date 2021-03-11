@@ -4,19 +4,19 @@ setup:
 
 .PHONY: build
 build:
-	docker-compose build mosaic-resident-information-api
+	docker-compose build residents-social-care-platform-api
 
 .PHONY: serve
 serve:
-	docker-compose build mosaic-resident-information-api && docker-compose up mosaic-resident-information-api
+	docker-compose build residents-social-care-platform-api && docker-compose up residents-social-care-platform-api
 
 .PHONY: shell
 shell:
-	docker-compose run mosaic-resident-information-api bash
+	docker-compose run residents-social-care-platform-api bash
 
 .PHONY: test
 test:
-	docker-compose build mosaic-resident-information-api-test && docker-compose up mosaic-resident-information-api-test
+	docker-compose build residents-social-care-platform-api-test && docker-compose up residents-social-care-platform-api-test
 
 .PHONY: start-test-db
 start-test-db:
