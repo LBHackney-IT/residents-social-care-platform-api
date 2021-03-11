@@ -6,16 +6,16 @@ ENV DOTNET_CLI_TELEMETRY_OPTOUT='true'
 WORKDIR /app
 
 # Copy csproj and restore as distinct layers
-COPY ./MosaicResidentInformationApi.sln ./
-COPY ./MosaicResidentInformationApi/MosaicResidentInformationApi.csproj ./MosaicResidentInformationApi/
-COPY ./MosaicResidentInformationApi.Tests/MosaicResidentInformationApi.Tests.csproj ./MosaicResidentInformationApi.Tests/
+COPY ./ResidentsSocialCarePlatformApi.sln ./
+COPY ./ResidentsSocialCarePlatformApi/ResidentsSocialCarePlatformApi.csproj ./ResidentsSocialCarePlatformApi/
+COPY ./ResidentsSocialCarePlatformApi.Tests/ResidentsSocialCarePlatformApi.Tests.csproj ./ResidentsSocialCarePlatformApi.Tests/
 
-RUN dotnet restore ./MosaicResidentInformationApi/MosaicResidentInformationApi.csproj
-RUN dotnet restore ./MosaicResidentInformationApi.Tests/MosaicResidentInformationApi.Tests.csproj
+RUN dotnet restore ./ResidentsSocialCarePlatformApi/ResidentsSocialCarePlatformApi.csproj
+RUN dotnet restore ./ResidentsSocialCarePlatformApi.Tests/ResidentsSocialCarePlatformApi.Tests.csproj
 
 # Copy everything else and build
 COPY . .
 
-RUN dotnet build -c debug -o out MosaicResidentInformationApi.Tests/MosaicResidentInformationApi.Tests.csproj
+RUN dotnet build -c debug -o out ResidentsSocialCarePlatformApi.Tests/ResidentsSocialCarePlatformApi.Tests.csproj
 
 CMD dotnet test

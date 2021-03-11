@@ -84,10 +84,10 @@ jobs:
       - setup_remote_docker
       - run:
           name: build
-          command: docker-compose build mosaic-resident-information-api-test
+          command: docker-compose build residents-social-care-platform-api-test
       - run:
           name: Run tests
-          command: docker-compose run mosaic-resident-information-api-test
+          command: docker-compose run residents-social-care-platform-api-test
   assume-role-production:
     executor: docker-python
     steps:

@@ -1,10 +1,10 @@
 version: "3.2"
 
 services:
-  mosaic-resident-information-api:
-    image: mosaic-resident-information-api
+  residents-social-care-platform-api:
+    image: residents-social-care-platform-api
     build:
-      context: MosaicResidentInformationApi/
+      context: ResidentsSocialCarePlatformApi/
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
@@ -19,11 +19,11 @@ services:
     volumes:
       - ./database:/docker-entrypoint-initdb.d
 
-  mosaic-resident-information-api-test:
-    image: mosaic-resident-information-api-test
+  residents-social-care-platform-api-test:
+    image: residents-social-care-platform-api-test
     build:
       context: .
-      dockerfile: MosaicResidentInformationApi.Tests/Dockerfile
+      dockerfile: ResidentsSocialCarePlatformApi.Tests/Dockerfile
     environment:
       - DB_HOST=test-database
       - DB_PORT=5432
