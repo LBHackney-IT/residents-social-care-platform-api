@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Domain.ResidentInformation;
 
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {

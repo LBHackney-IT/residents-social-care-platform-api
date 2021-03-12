@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoFixture;
 using FluentAssertions;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
-using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
@@ -24,7 +22,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         [SetUp]
         public void Setup()
         {
-            _classUnderTest = new MosaicGateway(MosaicContext);
+            _classUnderTest = new MosaicGateway(SocialCareContext);
         }
 
         [Test]
@@ -54,8 +52,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var response = _classUnderTest.GetEntityById(databaseEntity.Id);
 
@@ -75,12 +73,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var addressOld = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
             addressOld.EndDate = DateTime.Now.AddDays(-67);
-            MosaicContext.Addresses.Add(addressOld);
+            SocialCareContext.Addresses.Add(addressOld);
 
             var addressCurrent = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
             addressCurrent.EndDate = null;
-            MosaicContext.Addresses.Add(addressCurrent);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(addressCurrent);
+            SocialCareContext.SaveChanges();
 
             var response = _classUnderTest.GetEntityById(databaseEntity.Id);
             response.Uprn.Should().Be(addressCurrent.Uprn.ToString());
@@ -93,8 +91,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var phoneNumber = TestHelper.CreateDatabaseTelephoneNumberForPersonId(databaseEntity.Id);
 
-            MosaicContext.TelephoneNumbers.Add(phoneNumber);
-            MosaicContext.SaveChanges();
+            SocialCareContext.TelephoneNumbers.Add(phoneNumber);
+            SocialCareContext.SaveChanges();
 
             var response = _classUnderTest.GetEntityById(databaseEntity.Id);
             response.PhoneNumberList.Should().BeEquivalentTo(new List<PhoneNumber>
@@ -129,8 +127,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(0, 20);
 
@@ -149,8 +147,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var phoneNumber = TestHelper.CreateDatabaseTelephoneNumberForPersonId(databaseEntity.Id);
             var type = "Primary";
             phoneNumber.Type = type;
-            MosaicContext.TelephoneNumbers.Add(phoneNumber);
-            MosaicContext.SaveChanges();
+            SocialCareContext.TelephoneNumbers.Add(phoneNumber);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(0, 20);
 
@@ -167,8 +165,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(0, 20);
 
@@ -237,8 +235,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom", lastname: "Tessellate");
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", lastname: "Tessellate");
             listOfPersons.Count.Should().Be(1);
@@ -251,8 +249,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom", lastname: "Tessellate");
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", lastname: "ssellat");
             listOfPersons.Count.Should().Be(1);
@@ -266,12 +264,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity1 = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, "E8 5TG");
-            MosaicContext.Addresses.Add(address1);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address1);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY");
             listOfPersons.Count.Should().Be(1);
@@ -287,12 +285,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
-            MosaicContext.Addresses.Add(address1);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address1);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY").ToList();
             listOfPersons.Count.Should().Be(1);
@@ -308,12 +306,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var phoneNumber = TestHelper.CreateDatabaseTelephoneNumberForPersonId(databaseEntity.Id);
-            MosaicContext.TelephoneNumbers.Add(phoneNumber);
-            MosaicContext.SaveChanges();
+            SocialCareContext.TelephoneNumbers.Add(phoneNumber);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY").ToList();
 
@@ -336,8 +334,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity2 = AddPersonRecordToDatabase(firstname: "ciasom");
             var address2 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity2.Id, "E8 5RT");
 
-            MosaicContext.Addresses.AddRange(new List<Address> { address, address1, address2 });
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.AddRange(new List<Address> { address, address1, address2 });
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", postcode: "E8 1DY").ToList();
 
@@ -355,8 +353,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, postcode);
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY");
 
@@ -377,12 +375,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity1 = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, address: "1 My Street, Hackney, London");
-            MosaicContext.Addresses.Add(address);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address);
+            SocialCareContext.SaveChanges();
 
             var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, address: "5 Another Street, Lambeth, London");
-            MosaicContext.Addresses.Add(address1);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.Add(address1);
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, address: addressQuery).ToList();
             listOfPersons.Count.Should().Be(1);
@@ -411,8 +409,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity4 = AddPersonRecordToDatabase(id: 5);
             var address4 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
 
-            MosaicContext.Addresses.AddRange(new List<Address> { address, address1, address2, address3, address4 });
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.AddRange(new List<Address> { address, address1, address2, address3, address4 });
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 3).ToList();
             listOfPersons.Count.Should().Be(3);
@@ -440,8 +438,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var databaseEntity4 = AddPersonRecordToDatabase(id: 5);
             var address4 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
 
-            MosaicContext.Addresses.AddRange(new List<Address> { address, address1, address2, address3, address4 });
-            MosaicContext.SaveChanges();
+            SocialCareContext.Addresses.AddRange(new List<Address> { address, address1, address2, address3, address4 });
+            SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 2, limit: 3).ToList();
             listOfPersons.Count.Should().Be(3);
@@ -465,16 +463,16 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         {
             var residentInformation = _classUnderTest.InsertResident(firstName: "Adora", lastName: "Grayskull");
 
-            MosaicContext.Persons.First().FirstName.Should().Be("Adora");
-            MosaicContext.Persons.First().LastName.Should().Be("Grayskull");
+            SocialCareContext.Persons.First().FirstName.Should().Be("Adora");
+            SocialCareContext.Persons.First().LastName.Should().Be("Grayskull");
         }
 
 
         private Person AddPersonRecordToDatabase(string firstname = null, string lastname = null, int? id = null)
         {
             var databaseEntity = TestHelper.CreateDatabasePersonEntity(firstname, lastname, id);
-            MosaicContext.Persons.Add(databaseEntity);
-            MosaicContext.SaveChanges();
+            SocialCareContext.Persons.Add(databaseEntity);
+            SocialCareContext.SaveChanges();
             return databaseEntity;
         }
     }

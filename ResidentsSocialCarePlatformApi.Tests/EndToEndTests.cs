@@ -1,9 +1,9 @@
 using System.Net.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using Npgsql;
 using NUnit.Framework;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
 namespace ResidentsSocialCarePlatformApi.Tests
 {
@@ -12,7 +12,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
     public class EndToEndTests<TStartup> where TStartup : class
     {
         private HttpClient _client;
-        private MosaicContext _mosaicContext;
+        private SocialCareContext _mosaicContext;
 
         private MockWebApplicationFactory<TStartup> _factory;
         private NpgsqlConnection _connection;
@@ -20,7 +20,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
         private DbContextOptionsBuilder _builder;
 
         protected HttpClient Client => _client;
-        protected MosaicContext MosaicContext => _mosaicContext;
+        protected SocialCareContext MosaicContext => _mosaicContext;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -40,7 +40,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
         {
             _factory = new MockWebApplicationFactory<TStartup>(_connection);
             _client = _factory.CreateClient();
-            _mosaicContext = new MosaicContext(_builder.Options);
+            _mosaicContext = new SocialCareContext(_builder.Options);
             _mosaicContext.Database.EnsureCreated();
             _transaction = MosaicContext.Database.BeginTransaction();
         }

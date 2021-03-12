@@ -1,5 +1,4 @@
 using Microsoft.Extensions.HealthChecks;
-using ResidentsSocialCarePlatformApi.V1.Boundary;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 
 namespace ResidentsSocialCarePlatformApi.V1.UseCase

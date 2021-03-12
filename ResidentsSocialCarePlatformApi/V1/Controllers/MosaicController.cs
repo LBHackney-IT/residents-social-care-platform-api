@@ -1,11 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Requests;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
-using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.ResidentInformation;
 
 namespace ResidentsSocialCarePlatformApi.V1.Controllers
 {
