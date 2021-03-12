@@ -19,7 +19,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     [TestFixture]
     public class GetAllResidentsUseCaseTest
     {
-        private Mock<IMosaicGateway> _mockMosaicGateway;
+        private Mock<ISocialCareGateway> _mockMosaicGateway;
         private GetAllResidentsUseCase _classUnderTest;
         private Fixture _fixture = new Fixture();
         private Mock<IValidatePostcode> _mockPostcodeValidator;
@@ -27,7 +27,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [SetUp]
         public void SetUp()
         {
-            _mockMosaicGateway = new Mock<IMosaicGateway>();
+            _mockMosaicGateway = new Mock<ISocialCareGateway>();
             _mockPostcodeValidator = new Mock<IValidatePostcode>();
             _classUnderTest = new GetAllResidentsUseCase(_mockMosaicGateway.Object, _mockPostcodeValidator.Object);
         }

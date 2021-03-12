@@ -11,11 +11,11 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {
     public class GetAllResidentsUseCase : IGetAllResidentsUseCase
     {
-        private IMosaicGateway _mosaicGateway;
+        private ISocialCareGateway _socialCareGateway;
         private IValidatePostcode _validatePostcode;
-        public GetAllResidentsUseCase(IMosaicGateway mosaicGateway, IValidatePostcode validatePostcode)
+        public GetAllResidentsUseCase(ISocialCareGateway socialCareGateway, IValidatePostcode validatePostcode)
         {
-            _mosaicGateway = mosaicGateway;
+            _socialCareGateway = socialCareGateway;
             _validatePostcode = validatePostcode;
         }
 
@@ -24,7 +24,7 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
             CheckPostcodeValid(rqp);
             limit = limit < 10 ? 10 : limit;
             limit = limit > 100 ? 100 : limit;
-            var residents = _mosaicGateway.GetAllResidents(cursor: cursor, limit: limit, rqp.MosaicId, rqp.FirstName, rqp.LastName,
+            var residents = _socialCareGateway.GetAllResidents(cursor: cursor, limit: limit, rqp.MosaicId, rqp.FirstName, rqp.LastName,
                 rqp.DateOfBirth, rqp.Postcode, rqp.Address, rqp.ContextFlag);
 
             var nextCursor = residents.Count == limit ? residents.Max(r => Int64.Parse(r.MosaicId)).ToString() : "";

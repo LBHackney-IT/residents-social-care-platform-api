@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
-    public interface IMosaicGateway
+    public interface ISocialCareGateway
     {
         List<Domain.ResidentInformation> GetAllResidents(int cursor, int limit, long? id, string firstname = null, string lastname = null,
             string dateOfBirth = null, string postcode = null, string address = null, string contextFlag = null);

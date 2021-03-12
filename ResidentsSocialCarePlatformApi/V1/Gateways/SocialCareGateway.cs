@@ -7,11 +7,11 @@ using DomainAddress = ResidentsSocialCarePlatformApi.V1.Domain.Address;
 
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
-    public class MosaicGateway : IMosaicGateway
+    public class SocialCareGateway : ISocialCareGateway
     {
         private readonly SocialCareContext _socialCareContext;
 
-        public MosaicGateway(SocialCareContext socialCareContext)
+        public SocialCareGateway(SocialCareContext socialCareContext)
         {
             _socialCareContext = socialCareContext;
         }

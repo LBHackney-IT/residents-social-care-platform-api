@@ -9,15 +9,15 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {
     public class GetEntityByIdUseCase : IGetEntityByIdUseCase
     {
-        private IMosaicGateway _mosaicGateway;
-        public GetEntityByIdUseCase(IMosaicGateway mosaicGateway)
+        private ISocialCareGateway _socialCareGateway;
+        public GetEntityByIdUseCase(ISocialCareGateway socialCareGateway)
         {
-            _mosaicGateway = mosaicGateway;
+            _socialCareGateway = socialCareGateway;
         }
 
         public ResidentInformation Execute(int id)
         {
-            var residentInfo = _mosaicGateway.GetEntityById(id);
+            var residentInfo = _socialCareGateway.GetEntityById(id);
             if (residentInfo == null) throw new ResidentNotFoundException();
 
             return residentInfo.ToResponse();

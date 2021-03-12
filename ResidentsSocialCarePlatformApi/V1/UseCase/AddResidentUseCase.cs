@@ -8,15 +8,15 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {
     public class AddResidentUseCase : IAddResidentUseCase
     {
-        private IMosaicGateway _mosaicGateway;
-        public AddResidentUseCase(IMosaicGateway mosaicGateway)
+        private ISocialCareGateway _socialCareGateway;
+        public AddResidentUseCase(ISocialCareGateway socialCareGateway)
         {
-            _mosaicGateway = mosaicGateway;
+            _socialCareGateway = socialCareGateway;
         }
 
         public ResidentInformation Execute(AddResidentRequest resident)
         {
-            var residentInformation = _mosaicGateway.InsertResident(firstName: resident.FirstName, lastName: resident.LastName);
+            var residentInformation = _socialCareGateway.InsertResident(firstName: resident.FirstName, lastName: resident.LastName);
 
             return residentInformation.ToResponse();
         }

@@ -125,7 +125,7 @@ namespace ResidentsSocialCarePlatformApi
 
         private static void RegisterGateways(IServiceCollection services)
         {
-            services.AddScoped<IMosaicGateway, MosaicGateway>();
+            services.AddScoped<ISocialCareGateway, SocialCareGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)

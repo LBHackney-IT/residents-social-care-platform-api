@@ -15,14 +15,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 {
     [NonParallelizable]
     [TestFixture]
-    public class MosaicGatewayTests : DatabaseTests
+    public class SocialCareGatewayTests : DatabaseTests
     {
-        private MosaicGateway _classUnderTest;
+        private SocialCareGateway _classUnderTest;
 
         [SetUp]
         public void Setup()
         {
-            _classUnderTest = new MosaicGateway(SocialCareContext);
+            _classUnderTest = new SocialCareGateway(SocialCareContext);
         }
 
         [Test]

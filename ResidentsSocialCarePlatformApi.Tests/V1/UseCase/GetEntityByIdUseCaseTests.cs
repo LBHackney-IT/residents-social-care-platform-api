@@ -14,14 +14,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     [TestFixture]
     public class GetEntityByIdCaseTest
     {
-        private Mock<IMosaicGateway> _mockMosaicGateway;
+        private Mock<ISocialCareGateway> _mockMosaicGateway;
         private GetEntityByIdUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
         {
-            _mockMosaicGateway = new Mock<IMosaicGateway>();
+            _mockMosaicGateway = new Mock<ISocialCareGateway>();
 
             _classUnderTest = new GetEntityByIdUseCase(_mockMosaicGateway.Object);
         }

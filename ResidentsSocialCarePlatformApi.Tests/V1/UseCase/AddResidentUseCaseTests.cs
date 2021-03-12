@@ -12,14 +12,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     [TestFixture]
     public class AddResidentUseCaseTests
     {
-        private Mock<IMosaicGateway> _mockMosaicGateway;
+        private Mock<ISocialCareGateway> _mockMosaicGateway;
         private AddResidentUseCase _classUnderTest;
         private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
         {
-            _mockMosaicGateway = new Mock<IMosaicGateway>();
+            _mockMosaicGateway = new Mock<ISocialCareGateway>();
 
             _classUnderTest = new AddResidentUseCase(_mockMosaicGateway.Object);
         }
