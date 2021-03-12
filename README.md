@@ -75,7 +75,7 @@ $ make test
 
 To run database tests locally (e.g. via Visual Studio) the `CONNECTION_STRING` environment variable will need to be populated with:
 
-`Host=localhost;Database=entitycore;Username=postgres;Password=mypassword"`
+`Host=localhost;Database=testsocialcare;Username=postgres;Password=mypassword"`
 
 Note: The Host name needs to be the name of the stub database docker-compose service, in order to run tests via Docker.
 

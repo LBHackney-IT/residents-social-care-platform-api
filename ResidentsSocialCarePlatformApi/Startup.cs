@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,6 @@ namespace ResidentsSocialCarePlatformApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            AWSSDKHandler.RegisterXRayForAllServices();
         }
 
         public IConfiguration Configuration { get; }
@@ -122,7 +120,6 @@ namespace ResidentsSocialCarePlatformApi
             services.AddDbContext<SocialCareContext>(options => options
                 .UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                .AddXRayInterceptor(true)
             );
         }
 
@@ -149,8 +146,6 @@ namespace ResidentsSocialCarePlatformApi
             {
                 app.UseHsts();
             }
-
-            app.UseXRay("mosaic-resident-information-api");
 
             //Get All ApiVersions,
             var api = app.ApplicationServices.GetService<IApiVersionDescriptionProvider>();

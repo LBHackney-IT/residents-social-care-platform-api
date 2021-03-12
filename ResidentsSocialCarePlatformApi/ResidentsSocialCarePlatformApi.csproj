@@ -15,9 +15,6 @@
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.1.1" />
     <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
     <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.7.0" />
-    <PackageReference Include="AWSXRayRecorder.Handlers.AspNetCore" Version="2.7.1" />
-    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" Version="2.8.1" />
-    <PackageReference Include="AWSXRayRecorder.Handlers.EntityFramework" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.HealthChecks" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
