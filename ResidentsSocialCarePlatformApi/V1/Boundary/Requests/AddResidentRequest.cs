@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-
 namespace ResidentsSocialCarePlatformApi.V1.Boundary.Requests
 {
     public class AddResidentRequest

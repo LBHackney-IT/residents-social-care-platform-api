@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
-using Address = ResidentsSocialCarePlatformApi.V1.Domain.Address;
 using AddressResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.Address;
 using DbAddress = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
-using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Domain.ResidentInformation;
 using ResidentInformationResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.ResidentInformation;
 
 namespace ResidentsSocialCarePlatformApi.V1.Factories

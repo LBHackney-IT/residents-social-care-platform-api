@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 
 namespace ResidentsSocialCarePlatformApi.V1.Domain
 {

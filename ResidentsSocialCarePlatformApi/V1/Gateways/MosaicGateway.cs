@@ -1,14 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
-using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
-using Address = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
 using DomainAddress = ResidentsSocialCarePlatformApi.V1.Domain.Address;
-using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Domain.ResidentInformation;
 
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
