@@ -29,6 +29,11 @@ restart-test-db:
 	-docker rm $$container_id
 	docker-compose up -d test-database
 
+.PHONY: migrate-local-test-database
+migrate-local-test-database:
+	-dotnet tool install -g dotnet-ef
+	CONNECTION_STRING="Host=127.0.0.1;Port=5432;Username=postgres;Password=mypassword;Database=testsocialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
+
 .PHONY: lint
 lint:
 	-dotnet tool install -g dotnet-format
