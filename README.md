@@ -51,7 +51,7 @@ The application will be served at http://localhost:3000.
 There are two ways of running the tests against a test database: using the
 terminal and using an IDE.
 
-## Using the terminal
+#### Using the terminal
 
 To run all tests, use:
 
@@ -59,7 +59,7 @@ To run all tests, use:
 $ make test
 ```
 
-## Using an IDE
+#### Using an IDE
 
 First start up the test database to run in the background, using:
 
