@@ -34,50 +34,40 @@ It uses [.NET Core](https://dotnet.microsoft.com) as a web framework and
 $ git clone git@github.com:LBHackney-IT/residents-social-care-platform-api.git
 ```
 
-2. In the `residents-social-care-platform-api` directory, install the dependencies
-
-```sh
-$ cd residents-social-care-platform-api
-$ dotnet restore
-```
-
-3. Build the C# projects
-
-```sh
-$ dotnet build
-```
-
 ## Usage
 
 ### Running the application
 
-To serve the application, run it using your IDE of choice, we use Visual Studio CE and JetBrains Rider on Mac.
+To serve the API using Docker, use:
 
-The application can also be served locally using docker:
-1.  Add you security credentials to AWS CLI.
 ```sh
-$ aws configure
+$ make serve
 ```
-2. Log into AWS ECR.
-```sh
-$ aws ecr get-login --no-include-email
-```
-3. Build and serve the application. It will be available in the port 3000.
-```sh
-$ make build && make serve
-```
+
+The application will be served at http://localhost:3000.
 
 ### Running the tests
+
+There are two ways of running the tests against a test database: using the
+terminal and using an IDE.
+
+## Using the terminal
+
+To run all tests, use:
 
 ```sh
 $ make test
 ```
 
-To run database tests locally (e.g. via Visual Studio) the `CONNECTION_STRING` environment variable will need to be populated with:
+## Using an IDE
 
-`Host=localhost;Database=testsocialcare;Username=postgres;Password=mypassword"`
+First start up the test database to run in the background, using:
 
-Note: The Host name needs to be the name of the stub database docker-compose service, in order to run tests via Docker.
+```sh
+$ make start-test-db
+```
+
+This will allow you to run the tests as normal in your IDE.
 
 ## Documentation
 
