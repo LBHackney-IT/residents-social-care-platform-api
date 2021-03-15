@@ -36,6 +36,6 @@ services:
       context: .
       dockerfile: database/Dockerfile
     ports:
-      - 5432:5432
+      - 6543:5432
     env_file:
       - database.env
