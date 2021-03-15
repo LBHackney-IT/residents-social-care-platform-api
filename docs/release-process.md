@@ -2,7 +2,7 @@
 
 We use a pull request workflow, where changes are made on a branch and approved by one or more other maintainers before the developer can merge into `main` branch.
 
-![Circle CI Workflow Example](docs/circle_ci_workflow.png)
+![Circle CI Workflow Example](circle_ci_workflow.png)
 
 Then we have an automated six step deployment process, which runs in CircleCI.
 
