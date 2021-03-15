@@ -57,5 +57,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Without(tel => tel.Person)
                 .Create();
         }
+
+        public static CaseNote CreateDatabaseCaseNote(long personId)
+        {
+            var faker = new Fixture();
+
+            return faker.Build<CaseNote>()
+                .With(caseNote => caseNote.PersonId, personId)
+                .Create();
+        }
     }
 }

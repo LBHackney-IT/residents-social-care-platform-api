@@ -48,5 +48,18 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 DisplayAddressFlag = address.DisplayAddressFlag
             };
         }
+
+        public static CaseNoteInformation ToDomain(this CaseNote caseNote)
+        {
+            return new CaseNoteInformation
+            {
+                MosaicId = caseNote.PersonId.ToString(),
+                CaseNoteId = caseNote.Id,
+                NoteType = caseNote.NoteType,
+                CaseNoteTitle = caseNote.Title,
+                CreatedOn = caseNote.CreatedOn,
+                CreatedByName = caseNote.CreatedBy
+            };
+        }
     }
 }
