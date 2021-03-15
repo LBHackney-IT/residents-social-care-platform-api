@@ -46,6 +46,14 @@ $ make serve
 
 The application will be served at http://localhost:3000.
 
+To serve the API locally, use:
+
+```sh
+$ cd ResidentsSocialCarePlatformApi && dotnet run
+```
+
+The application will be served at http://localhost:5000.
+
 ### Running the tests
 
 There are two ways of running the tests against a test database: using the
