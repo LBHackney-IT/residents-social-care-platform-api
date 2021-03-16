@@ -49,6 +49,22 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             };
         }
 
+        public static List<CaseNoteInformation> ToDomain(this IEnumerable<CaseNote> caseNotes)
+        {
+            return caseNotes
+                .Select(
+                    caseNote => new CaseNoteInformation
+                    {
+                        MosaicId = caseNote.PersonId.ToString(),
+                        CaseNoteId = caseNote.Id,
+                        CaseNoteTitle = caseNote.Title,
+                        EffectiveDate = caseNote.EffectiveDate,
+                        CreatedOn = caseNote.CreatedOn,
+                        LastUpdatedOn = caseNote.LastUpdatedOn
+                    }
+                ).ToList();
+        }
+
         public static CaseNoteInformation ToDomain(this CaseNote caseNote)
         {
             return new CaseNoteInformation

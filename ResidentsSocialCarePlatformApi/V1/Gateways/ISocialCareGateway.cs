@@ -10,5 +10,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         Domain.ResidentInformation GetEntityById(long id, string contextflag = null);
 
         Domain.ResidentInformation InsertResident(string firstName, string lastName);
+
+        List<Domain.CaseNoteInformation> GetCaseNotes(long personId);
     }
 }

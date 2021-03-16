@@ -1,6 +1,5 @@
 using System;
 using AutoFixture;
-using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using Address = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
 using Person = ResidentsSocialCarePlatformApi.V1.Infrastructure.Person;
