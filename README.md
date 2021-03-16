@@ -15,7 +15,7 @@ It uses [.NET Core](https://dotnet.microsoft.com) as a web framework and
   - [Running the application](#running-the-application)
   - [Running the tests](#running-the-tests)
 - [Documentation](#documentation)
-- [Contributors](#contributors)
+- [Active contributors](#active-contributors)
 - [License](#license)
 
 ## Getting started
@@ -170,9 +170,9 @@ N.B: Do not delete the public schema, if you do, you will need to recreate it us
 
 See [Docs](./docs/README.md).
 
-## Contributors
+## Active contributors
 
-- **Matt Bee**, Senior Software Engineer at Made Tech (matt.bee@hackney.gov.uk)
+- **John Farrell**, Senior Software Engineer at Made Tech (john.farrell@hackney.gov.uk)
 - **Renny Fadoju**, Software Engineer at Made Tech (renny.fadoju@hackney.gov.uk)
 - **Wen Ting Wang**, Software Engineer at Made Tech (wenting.wang@hackney.gov.uk)
 
