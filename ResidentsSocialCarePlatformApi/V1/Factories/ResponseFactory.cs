@@ -33,6 +33,19 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             return people.Select(p => p.ToResponse()).ToList();
         }
 
+        public static List<Boundary.Responses.CaseNoteInformation> ToResponse(this IEnumerable<Domain.CaseNoteInformation> caseNotes)
+        {
+            return caseNotes.Select(caseNote => new Boundary.Responses.CaseNoteInformation
+            {
+                MosaicId = caseNote.MosaicId,
+                CaseNoteId = caseNote.CaseNoteId,
+                CaseNoteTitle = caseNote.CaseNoteTitle,
+                EffectiveDate = caseNote.EffectiveDate,
+                CreatedOn = caseNote.CreatedOn,
+                LastUpdatedOn = caseNote.LastUpdatedOn
+            }).ToList();
+        }
+
         private static List<Phone> ToResponse(this List<PhoneNumber> phoneNumbers)
         {
             return phoneNumbers.Select(number => new Phone
