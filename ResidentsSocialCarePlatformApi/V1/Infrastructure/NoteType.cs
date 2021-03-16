@@ -8,6 +8,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
     {
         [Column("note_type")]
         [MaxLength(16)]
+        [Key]
         public string Type { get; set; }
 
         [Column("note_type_description")]
