@@ -84,6 +84,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             };
         }
 
+        public List<Domain.CaseNoteInformation> GetCaseNotes(long personId)
+        {
+            return _socialCareContext.CaseNotes
+                .Where(note => note.PersonId == personId).ToDomain()
+                .ToList();
+        }
+
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);

@@ -1,7 +1,6 @@
 using AutoFixture;
 using FluentAssertions;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
-using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
