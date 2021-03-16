@@ -6,7 +6,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
     {
         public string MosaicId { get; set; }
 
-        public int CaseNoteId { get; set; }
+        public long CaseNoteId { get; set; }
 
         public int PersonVisitId { get; set; }
 

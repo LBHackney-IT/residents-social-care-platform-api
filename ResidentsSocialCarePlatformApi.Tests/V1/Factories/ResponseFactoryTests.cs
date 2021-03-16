@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
@@ -5,8 +6,10 @@ using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using NUnit.Framework;
 using Address = ResidentsSocialCarePlatformApi.V1.Domain.Address;
+using CaseNoteInformation = ResidentsSocialCarePlatformApi.V1.Domain.CaseNoteInformation;
 using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Domain.ResidentInformation;
 using ResidentInformationResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.ResidentInformation;
+using CaseNoteInformationResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.CaseNoteInformation;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
 {
@@ -70,6 +73,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 },
                 Restricted = "N"
             };
+
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
         }
 
@@ -99,6 +103,60 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 PhoneNumber = null,
                 Restricted = null
             };
+
+            domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
+        }
+
+        [Test]
+        public void CanMapSummarisedCaseNoteInformationFromDomainToResponse()
+        {
+            var recordOneTime = new DateTime();
+            var recordTwoTime = new DateTime();
+
+            var domain = new List<CaseNoteInformation>
+            {
+                new CaseNoteInformation
+                {
+                    MosaicId = "12345",
+                    CaseNoteId = 67890,
+                    CaseNoteTitle = "I AM A CASE NOTE",
+                    EffectiveDate = recordOneTime,
+                    CreatedOn = recordOneTime,
+                    LastUpdatedOn = recordOneTime
+                },
+                new CaseNoteInformation
+                {
+                    MosaicId = "000000",
+                    CaseNoteId = 11111222,
+                    CaseNoteTitle = "I AM ANOTHER CASE NOTE",
+                    EffectiveDate = recordTwoTime,
+                    CreatedOn = recordTwoTime,
+                    LastUpdatedOn = recordTwoTime
+                }
+            };
+
+            var expectedResponse = new List<CaseNoteInformationResponse>
+            {
+                new CaseNoteInformationResponse
+                {
+                    MosaicId = "12345",
+                    CaseNoteId = 67890,
+                    CaseNoteTitle = "I AM A CASE NOTE",
+                    EffectiveDate = recordOneTime,
+                    CreatedOn = recordOneTime,
+                    LastUpdatedOn = recordOneTime
+                },
+                new CaseNoteInformationResponse
+                {
+                    MosaicId = "000000",
+                    CaseNoteId = 11111222,
+                    CaseNoteTitle = "I AM ANOTHER CASE NOTE",
+                    EffectiveDate = recordTwoTime,
+                    CreatedOn = recordTwoTime,
+                    LastUpdatedOn = recordTwoTime
+                }
+            };
+
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
         }
     }
