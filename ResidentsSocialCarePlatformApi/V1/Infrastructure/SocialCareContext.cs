@@ -14,6 +14,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         public DbSet<NoteType> NoteTypes { get; set; }
 
+        public DbSet<Worker> Workers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // composite primary key for TelephoneNumber table
