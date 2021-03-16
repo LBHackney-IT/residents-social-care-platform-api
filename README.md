@@ -46,10 +46,18 @@ $ make serve
 
 The application will be served at http://localhost:3000.
 
-To serve the API locally, use:
+To serve the API locally without Docker, use:
 
 ```sh
 $ cd ResidentsSocialCarePlatformApi && dotnet run
+```
+
+The application will be served at http://localhost:5000.
+
+To serve the API locally without Docker and in watch mode (application will automatically recompile and run on saving changes to code), use:
+
+```sh
+$ cd ResidentsSocialCarePlatformApi && dotnet watch run
 ```
 
 The application will be served at http://localhost:5000.
