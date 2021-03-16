@@ -12,7 +12,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
     public class EndToEndTests<TStartup> where TStartup : class
     {
         private HttpClient _client;
-        private SocialCareContext _mosaicContext;
+        private SocialCareContext _socialCareContext;
 
         private MockWebApplicationFactory<TStartup> _factory;
         private NpgsqlConnection _connection;
@@ -20,7 +20,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
         private DbContextOptionsBuilder _builder;
 
         protected HttpClient Client => _client;
-        protected SocialCareContext MosaicContext => _mosaicContext;
+        protected SocialCareContext SocialCareContext => _socialCareContext;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -40,9 +40,9 @@ namespace ResidentsSocialCarePlatformApi.Tests
         {
             _factory = new MockWebApplicationFactory<TStartup>(_connection);
             _client = _factory.CreateClient();
-            _mosaicContext = new SocialCareContext(_builder.Options);
-            _mosaicContext.Database.EnsureCreated();
-            _transaction = MosaicContext.Database.BeginTransaction();
+            _socialCareContext = new SocialCareContext(_builder.Options);
+            _socialCareContext.Database.EnsureCreated();
+            _transaction = SocialCareContext.Database.BeginTransaction();
         }
 
         [TearDown]

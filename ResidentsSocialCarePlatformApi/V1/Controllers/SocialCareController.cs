@@ -11,15 +11,18 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
     [Route("api/v1/residents")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    public class MosaicController : BaseController
+    public class SocialCareController : BaseController
     {
         private IGetAllResidentsUseCase _getAllResidentsUseCase;
         private IGetEntityByIdUseCase _getEntityByIdUseCase;
-        public MosaicController(IGetAllResidentsUseCase getAllResidentsUseCase, IGetEntityByIdUseCase getEntityByIdUseCase)
+
+        private IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
+
+        public SocialCareController(IGetAllResidentsUseCase getAllResidentsUseCase, IGetEntityByIdUseCase getEntityByIdUseCase, IGetAllCaseNotesUseCase getAllCaseNotesUseCase)
         {
             _getAllResidentsUseCase = getAllResidentsUseCase;
             _getEntityByIdUseCase = getEntityByIdUseCase;
-
+            _getAllCaseNotesUseCase = getAllCaseNotesUseCase;
         }
         /// <summary>
         /// Returns list of contacts who share the query search parameter
@@ -60,5 +63,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             }
         }
 
+        public IActionResult ListCaseNotes(long personId)
+        {
+            return Ok(_getAllCaseNotesUseCase.Execute(personId));
+        }
     }
 }

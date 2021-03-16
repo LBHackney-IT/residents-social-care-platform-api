@@ -23,9 +23,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task IfNoQueryParametersReturnsAllResidentRecordsFromMosaic()
         {
-            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
-            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
-            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
+            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
+            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
+            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
 
             var uri = new Uri("api/v1/residents", UriKind.Relative);
             var response = Client.GetAsync(uri);
@@ -46,9 +46,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task FirstNameLastNameQueryParametersReturnsMatchingResidentRecordsFromMosaic()
         {
-            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, firstname: "ciasom", lastname: "tessellate");
-            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, firstname: "ciasom", lastname: "shape");
-            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
+            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, firstname: "ciasom", lastname: "tessellate");
+            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, firstname: "ciasom", lastname: "shape");
+            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
 
             var uri = new Uri("api/v1/residents?first_name=ciasom&last_name=tessellate", UriKind.Relative);
             var response = Client.GetAsync(uri);
@@ -67,9 +67,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task FirstNameLastNameQueryParametersWildcardSearchReturnsMatchingResidentRecordsFromMosaic()
         {
-            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, firstname: "ciasom", lastname: "tessellate");
-            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, firstname: "ciasom", lastname: "shape");
-            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
+            var expectedResidentResponseOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, firstname: "ciasom", lastname: "tessellate");
+            var expectedResidentResponseTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, firstname: "ciasom", lastname: "shape");
+            var expectedResidentResponseThree = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
 
             var uri = new Uri("api/v1/residents?first_name=ciaso&last_name=sell", UriKind.Relative);
             var response = Client.GetAsync(uri);
@@ -88,11 +88,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task PostcodeAndAddressQueryParametersReturnsMatchingResidentsRecordsFromMosaic()
         {
-            var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", addressLines: "1 Seasame street, Hackney, LDN");
-            var matchingResidentTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", addressLines: "1 Seasame street");
-            var nonMatchingResident1 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E4 1RR");
-            var nonMatchingResident2 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, addressLines: "1 Seasame street, Hackney, LDN");
-            var nonMatchingResident3 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
+            var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", addressLines: "1 Seasame street, Hackney, LDN");
+            var matchingResidentTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", addressLines: "1 Seasame street");
+            var nonMatchingResident1 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E4 1RR");
+            var nonMatchingResident2 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, addressLines: "1 Seasame street, Hackney, LDN");
+            var nonMatchingResident3 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
 
             var uri = new Uri("api/v1/residents?postcode=e21rr&address=1 Seasame street", UriKind.Relative);
             var response = Client.GetAsync(uri);
@@ -113,12 +113,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task UsingAllQueryParametersReturnsMatchingResidentsRecordsFromMosaic()
         {
-            var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR",
+            var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR",
                 addressLines: "1 Seasame street, Hackney, LDN", firstname: "ciasom", lastname: "shape");
-            var nonmatchingResidentTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", addressLines: "1 Seasame street", lastname: "shap");
-            var nonMatchingResident1 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E4 1RR", firstname: "ciasom");
-            var nonMatchingResident2 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, addressLines: "1 Seasame street, Hackney, LDN");
-            var nonMatchingResident3 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext);
+            var nonmatchingResidentTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", addressLines: "1 Seasame street", lastname: "shap");
+            var nonMatchingResident1 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E4 1RR", firstname: "ciasom");
+            var nonMatchingResident2 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, addressLines: "1 Seasame street, Hackney, LDN");
+            var nonMatchingResident3 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext);
 
             var uri = new Uri("api/v1/residents?postcode=e21rr&address=1 Seasame street&first_name=ciasom&last_name=shape", UriKind.Relative);
             var response = Client.GetAsync(uri);
@@ -139,11 +139,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task UsingQueryParametersReturnsAPaginatedResponse()
         {
-            var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", firstname: "ciasom", lastname: "shape", id: 1);
-            var nonmatchingResidentTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", lastname: "shap", id: 2);
-            var matchingResident5 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", id: 5);
-            var matchingResident4 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, postcode: "E2 1RR", id: 4);
-            var nonMatchingResident3 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, id: 3);
+            var matchingResidentOne = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", firstname: "ciasom", lastname: "shape", id: 1);
+            var nonmatchingResidentTwo = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", lastname: "shap", id: 2);
+            var matchingResident5 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", id: 5);
+            var matchingResident4 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, postcode: "E2 1RR", id: 4);
+            var nonMatchingResident3 = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, id: 3);
 
             var uri = new Uri("api/v1/residents?postcode=e21rr&cursor=2&limit=2", UriKind.Relative);
             var response = Client.GetAsync(uri);

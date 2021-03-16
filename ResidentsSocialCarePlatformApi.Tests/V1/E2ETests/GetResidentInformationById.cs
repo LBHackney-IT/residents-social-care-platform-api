@@ -23,7 +23,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         public async Task GetResidentInformationByIdReturnsTheCorrectInformation()
         {
             var personId = _fixture.Create<int>();
-            var expectedResponse = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(MosaicContext, personId);
+            var expectedResponse = E2ETestHelpers.AddPersonWithRelatedEntitiesToDb(SocialCareContext, personId);
 
             var uri = new Uri($"api/v1/residents/{personId}", UriKind.Relative);
             var response = Client.GetAsync(uri);
