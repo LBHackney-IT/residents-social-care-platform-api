@@ -38,7 +38,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
 
         public long CopyOfCaseNoteId { get; set; }
 
-        public string CopiedBy { get; set; }
+        public string CopiedByName { get; set; }
+
+        public string CopiedByEmail { get; set; }
 
         public DateTime CopiedDate { get; set; }
     }
