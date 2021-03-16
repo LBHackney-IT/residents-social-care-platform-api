@@ -11,14 +11,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Infrastructure
         [Test]
         public void CanCreateADatabaseRecordForAPerson()
         {
-            var databaseEntity = TestHelper.CreateDatabasePersonEntity();
+            var person = TestHelper.CreateDatabasePersonEntity();
 
-            SocialCareContext.Add(databaseEntity);
+            SocialCareContext.Add(person);
             SocialCareContext.SaveChanges();
 
             var result = SocialCareContext.Persons.ToList().FirstOrDefault();
 
-            result.Should().BeEquivalentTo(databaseEntity);
+            result.Should().BeEquivalentTo(person);
         }
 
         [Test]

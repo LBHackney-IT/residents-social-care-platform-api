@@ -33,6 +33,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             AddCaseNoteToDatabase(person.Id);
 
             var response = _classUnderTest.GetCaseNotes(person.Id);
+
             response.FirstOrDefault().Should().NotBe(null);
         }
 
