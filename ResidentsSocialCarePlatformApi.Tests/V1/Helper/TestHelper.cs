@@ -57,7 +57,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Create();
         }
 
-        public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC", string copiedBy = "CGYORFI", string workerSystemUserId = "CGYORFI")
+        public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
+            string copiedBy = "CGYORFI", string workerSystemUserId = "CGYORFI", string createdBy="CGYORFI")
         {
             var faker = new Fixture();
 
@@ -65,7 +66,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .With(caseNote => caseNote.Id, id)
                 .With(caseNote => caseNote.PersonId, personId)
                 .With(caseNote => caseNote.NoteType, noteType)
-                .With(caseNote => caseNote.CreatedBy, workerSystemUserId)
+                .With(caseNote => caseNote.CreatedBy, createdBy)
                 .With(caseNote => caseNote.LastUpdatedBy, workerSystemUserId)
                 .With(caseNote => caseNote.CopiedBy, copiedBy)
                 .Create();

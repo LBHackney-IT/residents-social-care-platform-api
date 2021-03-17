@@ -125,6 +125,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             response.CopiedByEmail.Should().BeNull();
         }
 
+        [Test]
+        public void WhenCreatedByWorkerIsNull_ReturnsNullForCreatedByNameAndEmail()
+        {
+            var noteType = TestHelper.CreateDatabaseNoteType();
+            var worker = TestHelper.CreateDatabaseWorker(systemUserId: "existingUser");
+            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdBy: "nonExistingUser");
+            SocialCareContext.NoteTypes.Add(noteType);
+            SocialCareContext.Workers.Add(worker);
+            SocialCareContext.CaseNotes.Add(caseNote);
+            SocialCareContext.SaveChanges();
+
+            var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
+
+            response.CreatedByEmail.Should().BeNull();
+            response.CreatedByName.Should().BeNull();
+        }
         private CaseNote AddCaseNoteWithNoteTypeAndWorkerToDatabase(long id = 123, long personId = 123, string caseNoteType = "CASSUMASC", string caseNoteTypeDescription = "Case Summary (ASC)", string copiedBy = "CGYORFI", string workerFirstNames = "Csaba", string workerLastNames = "Gyorfi", string workerEmailAddress = "cgyorfi@email.com", string workerSystemUserId = "CGYORFI")
         {
             var noteType = TestHelper.CreateDatabaseNoteType(caseNoteType, caseNoteTypeDescription);
