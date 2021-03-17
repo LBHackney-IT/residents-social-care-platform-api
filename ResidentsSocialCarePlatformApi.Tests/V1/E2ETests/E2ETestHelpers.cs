@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AutoFixture;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -56,7 +57,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
         public static CaseNoteInformation AddCaseNoteForASpecificPersonToDb(SocialCareContext context, long personId)
         {
-            var caseNote = TestHelper.CreateDatabaseCaseNote(personId);
+            var faker = new Fixture();
+            var caseNoteId = faker.Create<long>();
+
+            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId);
 
             context.CaseNotes.Add(caseNote);
             context.SaveChanges();
