@@ -109,10 +109,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 caseNoteInformation.CreatedByEmail = createdByWorker.EmailAddress;
             }
 
-            // what if lastUpdatedWorker is null (test this)
             var lastUpdatedByWorker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId == caseNote.LastUpdatedBy);
-            caseNoteInformation.LastUpdatedName = $"{lastUpdatedByWorker.FirstNames} {lastUpdatedByWorker.LastNames}";
-            caseNoteInformation.LastUpdatedEmail = lastUpdatedByWorker.EmailAddress;
+            if (lastUpdatedByWorker != null)
+            {
+                caseNoteInformation.LastUpdatedName =
+                    $"{lastUpdatedByWorker.FirstNames} {lastUpdatedByWorker.LastNames}";
+                caseNoteInformation.LastUpdatedEmail = lastUpdatedByWorker.EmailAddress;
+            }
 
             if (caseNote.CopiedBy != null)
             {
