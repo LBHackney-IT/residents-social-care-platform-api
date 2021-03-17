@@ -57,12 +57,40 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Create();
         }
 
-        public static CaseNote CreateDatabaseCaseNote(long personId)
+        public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
+            string copiedBy = "CGYORFI", string createdBy="CGYORFI", string updatedBy = "CGYORFI")
         {
             var faker = new Fixture();
 
             return faker.Build<CaseNote>()
+                .With(caseNote => caseNote.Id, id)
                 .With(caseNote => caseNote.PersonId, personId)
+                .With(caseNote => caseNote.NoteType, noteType)
+                .With(caseNote => caseNote.CreatedBy, createdBy)
+                .With(caseNote => caseNote.LastUpdatedBy, updatedBy)
+                .With(caseNote => caseNote.CopiedBy, copiedBy)
+                .Create();
+        }
+
+        public static NoteType CreateDatabaseNoteType(string noteType = "CASSUMASC", string description = "Case Summary (ASC)")
+        {
+            var faker = new Fixture();
+
+            return faker.Build<NoteType>()
+                .With(noteType => noteType.Type, noteType)
+                .With(noteType => noteType.Description, description)
+                .Create();
+        }
+
+        public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string systemUserId = "CGYORFI")
+        {
+            var faker = new Fixture();
+
+            return faker.Build<Worker>()
+                .With(worker => worker.FirstNames, firstNames)
+                .With(worker => worker.LastNames, lastNames)
+                .With(worker => worker.EmailAddress, emailAddress)
+                .With(worker => worker.SystemUserId, systemUserId)
                 .Create();
         }
     }

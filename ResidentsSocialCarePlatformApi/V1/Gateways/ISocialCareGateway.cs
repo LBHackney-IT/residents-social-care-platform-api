@@ -12,5 +12,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         Domain.ResidentInformation InsertResident(string firstName, string lastName);
 
         List<Domain.CaseNoteInformation> GetCaseNotes(long personId);
+
+        Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId);
     }
 }

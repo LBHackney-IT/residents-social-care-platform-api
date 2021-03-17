@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
-using DomainAddress = ResidentsSocialCarePlatformApi.V1.Domain.Address;
 
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
@@ -89,6 +89,42 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return _socialCareContext.CaseNotes
                 .Where(note => note.PersonId == personId).ToDomain()
                 .ToList();
+        }
+
+        public Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId)
+        {
+            var caseNote = _socialCareContext.CaseNotes.FirstOrDefault(caseNote => caseNote.Id == caseNoteId);
+
+            if (caseNote == null) return null;
+
+            var caseNoteInformation = caseNote.ToDomain();
+
+            var noteType = _socialCareContext.NoteTypes.FirstOrDefault(noteType => noteType.Type == caseNote.NoteType);
+            caseNoteInformation.NoteType = noteType?.Description;
+
+            var createdByWorker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId == caseNote.CreatedBy);
+            if (createdByWorker != null)
+            {
+                caseNoteInformation.CreatedByName = $"{createdByWorker.FirstNames} {createdByWorker.LastNames}";
+                caseNoteInformation.CreatedByEmail = createdByWorker.EmailAddress;
+            }
+
+            var lastUpdatedByWorker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId == caseNote.LastUpdatedBy);
+            if (lastUpdatedByWorker != null)
+            {
+                caseNoteInformation.LastUpdatedName =
+                    $"{lastUpdatedByWorker.FirstNames} {lastUpdatedByWorker.LastNames}";
+                caseNoteInformation.LastUpdatedEmail = lastUpdatedByWorker.EmailAddress;
+            }
+
+            if (caseNote.CopiedBy != null)
+            {
+                var copiedByWorker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId == caseNote.CopiedBy);
+                caseNoteInformation.CopiedByName = $"{copiedByWorker.FirstNames} {copiedByWorker.LastNames}";
+                caseNoteInformation.CopiedByEmail = copiedByWorker.EmailAddress;
+            }
+
+            return caseNoteInformation;
         }
 
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
@@ -189,5 +225,4 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return $"%{str?.Replace(" ", "")}%";
         }
     }
-
 }

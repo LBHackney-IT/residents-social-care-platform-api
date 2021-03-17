@@ -71,10 +71,17 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             {
                 MosaicId = caseNote.PersonId.ToString(),
                 CaseNoteId = caseNote.Id,
-                NoteType = caseNote.NoteType,
                 CaseNoteTitle = caseNote.Title,
                 CreatedOn = caseNote.CreatedOn,
-                CreatedByName = caseNote.CreatedBy
+                PersonVisitId = caseNote.PersonVisitId,
+                CaseNoteContent = caseNote.Note,
+                RootCaseNoteId = caseNote.RootCaseNoteId,
+                EffectiveDate = caseNote.EffectiveDate,
+                LastUpdatedOn = caseNote.LastUpdatedOn,
+                CompletedDate = caseNote.CompletedDate,
+                TimeoutDate = caseNote.TimeoutDate,
+                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
+                CopiedDate = caseNote.CopiedDate
             };
         }
     }

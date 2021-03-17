@@ -25,9 +25,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
                     telephoneNumber.Id,
                     telephoneNumber.PersonId
                 });
-
-            // set Note Type table to have no defined primary key
-            modelBuilder.Entity<NoteType>().HasNoKey();
         }
     }
 }

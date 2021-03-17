@@ -30,7 +30,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereIsOneMatch_ReturnsCaseNoteInformationForAGivenPersonId()
         {
             var person = AddPersonToDatabase();
-            AddCaseNoteToDatabase(person.Id);
+            AddCaseNoteToDatabase(personId: person.Id);
 
             var response = _classUnderTest.GetCaseNotes(person.Id);
 
@@ -41,8 +41,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereAreMatchingRecords_ReturnsCaseNoteInformationForAGivenPersonId()
         {
             var person = AddPersonToDatabase();
-            AddCaseNoteToDatabase(person.Id);
-            AddCaseNoteToDatabase(person.Id);
+            AddCaseNoteToDatabase(id: 123, personId: person.Id);
+            AddCaseNoteToDatabase(id: 456, personId: person.Id);
 
             var response = _classUnderTest.GetCaseNotes(person.Id);
 
@@ -55,7 +55,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereAreMatchingRecords_InformationReturnedIsASummaryOfTheCaseNotesForASpecificPersonId()
         {
             var person = AddPersonToDatabase();
-            var caseNote = AddCaseNoteToDatabase(person.Id);
+            var caseNote = AddCaseNoteToDatabase(personId: person.Id);
 
             var expectedCaseNoteInformation = new CaseNoteInformation
             {
@@ -80,9 +80,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             return databaseEntity;
         }
 
-        private CaseNote AddCaseNoteToDatabase(long id)
+        private CaseNote AddCaseNoteToDatabase(long personId, long id = 123)
         {
-            var caseNote = TestHelper.CreateDatabaseCaseNote(id);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(id: id, personId: personId);
             SocialCareContext.CaseNotes.Add(caseNote);
             SocialCareContext.SaveChanges();
             return caseNote;
