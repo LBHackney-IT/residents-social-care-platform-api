@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
-using AddressResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.Address;
-using DbAddress = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
-using ResidentInformationResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.ResidentInformation;
 
 namespace ResidentsSocialCarePlatformApi.V1.Factories
 {
@@ -40,9 +37,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 MosaicId = caseNote.MosaicId,
                 CaseNoteId = caseNote.CaseNoteId,
                 CaseNoteTitle = caseNote.CaseNoteTitle,
-                EffectiveDate = caseNote.EffectiveDate,
-                CreatedOn = caseNote.CreatedOn,
-                LastUpdatedOn = caseNote.LastUpdatedOn
+                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
+                CreatedOn = caseNote.CreatedOn.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
             }).ToList();
         }
 

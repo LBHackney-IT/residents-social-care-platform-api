@@ -14,11 +14,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 
         public string CaseNoteTitle { get; set; }
 
-        public DateTime EffectiveDate { get; set; }
+        public string EffectiveDate { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
-        public DateTime LastUpdatedOn { get; set; }
+        public string LastUpdatedOn { get; set; }
 
         public string CreatedByName { get; set; }
 
@@ -32,14 +32,14 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 
         public int RootCaseNoteId { get; set; }
 
-        public DateTime CompletedDate { get; set; }
+        public string CompletedDate { get; set; }
 
-        public DateTime TimeoutDate { get; set; }
+        public string TimeoutDate { get; set; }
 
         public int CopyOfCaseNoteId { get; set; }
 
         public string CopiedBy { get; set; }
 
-        public DateTime CopiedDate { get; set; }
+        public string CopiedDate { get; set; }
     }
 }

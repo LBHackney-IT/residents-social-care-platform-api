@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AutoFixture;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -42,6 +43,36 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                     new Address {AddressLine1 = address.AddressLines, PostCode = address.PostCode}
                 },
                 Restricted = person.Restricted
+            };
+        }
+
+        public static Person AddPersonToDatabase(SocialCareContext context, long personId)
+        {
+            var person = TestHelper.CreateDatabasePersonEntity(id: personId);
+            context.Persons.Add(person);
+            context.SaveChanges();
+
+            return person;
+        }
+
+        public static CaseNoteInformation AddCaseNoteForASpecificPersonToDb(SocialCareContext context, long personId)
+        {
+            var faker = new Fixture();
+            var caseNoteId = faker.Create<long>();
+
+            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId);
+
+            context.CaseNotes.Add(caseNote);
+            context.SaveChanges();
+
+            return new CaseNoteInformation
+            {
+                MosaicId = personId.ToString(),
+                CaseNoteId = caseNote.Id,
+                CaseNoteTitle = caseNote.Title,
+                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
+                CreatedOn = caseNote.CreatedOn.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
             };
         }
     }

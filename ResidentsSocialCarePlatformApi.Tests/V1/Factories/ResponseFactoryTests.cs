@@ -142,18 +142,18 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     MosaicId = "12345",
                     CaseNoteId = 67890,
                     CaseNoteTitle = "I AM A CASE NOTE",
-                    EffectiveDate = recordOneTime,
-                    CreatedOn = recordOneTime,
-                    LastUpdatedOn = recordOneTime
+                    EffectiveDate = recordOneTime.ToString("s"),
+                    CreatedOn = recordOneTime.ToString("s"),
+                    LastUpdatedOn = recordOneTime.ToString("s")
                 },
                 new CaseNoteInformationResponse
                 {
                     MosaicId = "000000",
                     CaseNoteId = 11111222,
                     CaseNoteTitle = "I AM ANOTHER CASE NOTE",
-                    EffectiveDate = recordTwoTime,
-                    CreatedOn = recordTwoTime,
-                    LastUpdatedOn = recordTwoTime
+                    EffectiveDate = recordTwoTime.ToString("s"),
+                    CreatedOn = recordTwoTime.ToString("s"),
+                    LastUpdatedOn = recordTwoTime.ToString("s")
                 }
             };
 
