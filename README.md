@@ -174,6 +174,7 @@ See [Docs](./docs/README.md).
 
 - **John Farrell**, Senior Software Engineer at Made Tech (john.farrell@hackney.gov.uk)
 - **Renny Fadoju**, Software Engineer at Made Tech (renny.fadoju@hackney.gov.uk)
+- **Neil Kidd**, Lead Software Engineer at Made Tech (neil.kidd@hackney.gov.uk)
 - **Wen Ting Wang**, Software Engineer at Made Tech (wenting.wang@hackney.gov.uk)
 
 ## License
