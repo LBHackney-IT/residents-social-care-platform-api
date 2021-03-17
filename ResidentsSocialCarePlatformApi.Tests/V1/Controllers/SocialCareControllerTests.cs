@@ -97,9 +97,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
                     MosaicId = "00000",
                     CaseNoteId = 2222,
                     CaseNoteTitle = "THIS CASE NOTE HAS A TITLE",
-                    EffectiveDate = fakeTime,
-                    CreatedOn = fakeTime,
-                    LastUpdatedOn = fakeTime
+                    EffectiveDate = fakeTime.ToString("s"),
+                    CreatedOn = fakeTime.ToString("s"),
+                    LastUpdatedOn = fakeTime.ToString("s")
                 }
             };
 

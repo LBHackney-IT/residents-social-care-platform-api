@@ -63,6 +63,14 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             }
         }
 
+        /// /// <summary>
+        /// Returns list of cases notes for a Person/Mosaic ID
+        /// </summary>
+        /// <response code="200">Success. Returns a list of matching case note information</response>
+        // TO DO: Error Handling & responses????
+        [ProducesResponseType(typeof(CaseNoteInformationList), StatusCodes.Status200OK)]
+        [HttpGet]
+        [Route("{personId}/case-notes")]
         public IActionResult ListCaseNotes(long personId)
         {
             return Ok(_getAllCaseNotesUseCase.Execute(personId));

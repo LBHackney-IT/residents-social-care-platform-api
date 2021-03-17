@@ -44,5 +44,32 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 Restricted = person.Restricted
             };
         }
+
+        public static Person AddPersonToDatabase(SocialCareContext context, long personId)
+        {
+            var person = TestHelper.CreateDatabasePersonEntity(id: personId);
+            context.Persons.Add(person);
+            context.SaveChanges();
+
+            return person;
+        }
+
+        public static CaseNoteInformation AddCaseNoteForASpecificPersonToDb(SocialCareContext context, long personId)
+        {
+            var caseNote = TestHelper.CreateDatabaseCaseNote(personId);
+
+            context.CaseNotes.Add(caseNote);
+            context.SaveChanges();
+
+            return new CaseNoteInformation
+            {
+                MosaicId = personId.ToString(),
+                CaseNoteId = caseNote.Id,
+                CaseNoteTitle = caseNote.Title,
+                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
+                CreatedOn = caseNote.CreatedOn.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
+            };
+        }
     }
 }
