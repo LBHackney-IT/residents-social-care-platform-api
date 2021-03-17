@@ -27,7 +27,7 @@ functions:
     handler: ResidentsSocialCarePlatformApi::ResidentsSocialCarePlatformApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
-      CONNECTION_STRING: Host=;Port=;Database=;Username=;Password=;MaxPoolSize=;
+      CONNECTION_STRING: Host=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_hostname~true};Port=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_port~true};Database=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_database~true};Username=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_username~true};MaxPoolSize=100;
     events:
       - http:
           path: /{proxy+}
