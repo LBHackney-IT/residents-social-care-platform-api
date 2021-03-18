@@ -102,27 +102,27 @@ jobs:
 workflows:
   check-and-deploy-production:
     jobs:
-      - build-and-test:
-          filters:
-            branches:
-              only: main
-      - permit-production-release:
-          type: approval
-          requires:
-            - build-and-test
-          filters:
-            branches:
-              only: main
+#      - build-and-test:
+#          filters:
+#            branches:
+#              only: main
+#      - permit-production-release:
+#          type: approval
+#          requires:
+#            - build-and-test
+#          filters:
+#            branches:
+#              only: main
       - assume-role-production:
           context: api-assume-role-social-care-production-context
-          requires:
-            - permit-production-release
-          filters:
-            branches:
-              only: main
+#          requires:
+#            - permit-production-release
+#          filters:
+#            branches:
+#              only: main
       - deploy-to-production:
           requires:
             - assume-role-production
-          filters:
-            branches:
-              only: main
+#          filters:
+#            branches:
+#              only: main
