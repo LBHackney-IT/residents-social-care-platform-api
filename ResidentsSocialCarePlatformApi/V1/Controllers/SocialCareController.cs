@@ -78,6 +78,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             return Ok(_getAllCaseNotesUseCase.Execute(personId));
         }
 
+        // api/v1/residents/test
         [HttpGet]
         [Route("test")]
         public IActionResult TestEndpoint()
