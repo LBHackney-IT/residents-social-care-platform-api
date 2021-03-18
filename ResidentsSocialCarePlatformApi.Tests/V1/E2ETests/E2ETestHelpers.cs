@@ -75,5 +75,41 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
             };
         }
+
+        public static CaseNoteInformation AddCaseNoteWithNoteTypeAndWorkerToDatabase(SocialCareContext socialCareContext)
+        {
+            var noteType = TestHelper.CreateDatabaseNoteType();
+            var worker = TestHelper.CreateDatabaseWorker(firstNames: "Bow", lastNames: "Archer");
+            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdBy: worker.SystemUserId, updatedBy: worker.SystemUserId, copiedBy: worker.SystemUserId);
+
+            socialCareContext.NoteTypes.Add(noteType);
+            socialCareContext.Workers.Add(worker);
+            socialCareContext.CaseNotes.Add(caseNote);
+            socialCareContext.SaveChanges();
+
+            return new CaseNoteInformation
+            {
+                MosaicId = caseNote.PersonId.ToString(),
+                CaseNoteId = caseNote.Id,
+                CaseNoteTitle = caseNote.Title,
+                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
+                CreatedOn = caseNote.CreatedOn.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s"),
+                PersonVisitId = caseNote.PersonVisitId,
+                NoteType = noteType.Description,
+                CreatedByName = "Bow Archer",
+                CreatedByEmail = worker.EmailAddress,
+                LastUpdatedName = "Bow Archer",
+                LastUpdatedEmail = worker.EmailAddress,
+                CaseNoteContent = caseNote.Note,
+                RootCaseNoteId = caseNote.RootCaseNoteId,
+                CompletedDate = caseNote.CompletedDate.ToString("s"),
+                TimeoutDate = caseNote.TimeoutDate.ToString("s"),
+                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
+                CopiedDate = caseNote.CopiedDate.ToString("s"),
+                CopiedByName = "Bow Archer",
+                CopiedByEmail = worker.EmailAddress,
+            };
+        }
     }
 }
