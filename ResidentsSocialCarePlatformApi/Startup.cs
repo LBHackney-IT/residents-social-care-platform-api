@@ -133,6 +133,7 @@ namespace ResidentsSocialCarePlatformApi
             services.AddScoped<IGetAllResidentsUseCase, GetAllResidentsUseCase>();
             services.AddScoped<IGetEntityByIdUseCase, GetEntityByIdUseCase>();
             services.AddScoped<IGetAllCaseNotesUseCase, GetAllCaseNotesUseCase>();
+            services.AddScoped<IGetCaseNoteInformationByIdUseCase, GetCaseNoteInformationByIdUseCase>();
             services.AddScoped<IValidatePostcode, ValidatePostcode>();
         }
 

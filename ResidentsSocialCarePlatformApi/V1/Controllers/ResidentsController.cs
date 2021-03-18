@@ -11,14 +11,14 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
     [Route("api/v1/residents")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
-    public class SocialCareController : BaseController
+    public class ResidentsController : BaseController
     {
         private IGetAllResidentsUseCase _getAllResidentsUseCase;
         private IGetEntityByIdUseCase _getEntityByIdUseCase;
 
         private IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
 
-        public SocialCareController(IGetAllResidentsUseCase getAllResidentsUseCase, IGetEntityByIdUseCase getEntityByIdUseCase, IGetAllCaseNotesUseCase getAllCaseNotesUseCase)
+        public ResidentsController(IGetAllResidentsUseCase getAllResidentsUseCase, IGetEntityByIdUseCase getEntityByIdUseCase, IGetAllCaseNotesUseCase getAllCaseNotesUseCase)
         {
             _getAllResidentsUseCase = getAllResidentsUseCase;
             _getEntityByIdUseCase = getEntityByIdUseCase;
