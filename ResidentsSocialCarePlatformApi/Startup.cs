@@ -32,7 +32,7 @@ namespace ResidentsSocialCarePlatformApi
 
         public IConfiguration Configuration { get; }
         private static List<ApiVersionDescription> _apiVersions { get; set; }
-        private const string ApiName = "Mosaic Resident Information API";
+        private const string ApiName = "Social Care Resident Information API";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public static void ConfigureServices(IServiceCollection services)

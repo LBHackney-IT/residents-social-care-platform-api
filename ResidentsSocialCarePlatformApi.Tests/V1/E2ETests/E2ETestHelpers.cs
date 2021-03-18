@@ -70,9 +70,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 MosaicId = personId.ToString(),
                 CaseNoteId = caseNote.Id,
                 CaseNoteTitle = caseNote.Title,
-                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
-                CreatedOn = caseNote.CreatedOn.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
+                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
+                CreatedOn = caseNote.CreatedOn?.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s")
             };
         }
     }
