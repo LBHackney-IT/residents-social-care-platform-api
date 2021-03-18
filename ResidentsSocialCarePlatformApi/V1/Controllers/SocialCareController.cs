@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Requests;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
@@ -74,6 +76,22 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         public IActionResult ListCaseNotes(long personId)
         {
             return Ok(_getAllCaseNotesUseCase.Execute(personId));
+        }
+
+        [HttpGet]
+        [Route("test")]
+        public IActionResult TestEndpoint()
+        {
+            var connection = new NpgsqlConnection(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+            connection.Open();
+
+            var npgsqlCommand = connection.CreateCommand();
+            npgsqlCommand.CommandText = "SELECT RANDOM()";
+            var result = npgsqlCommand.ExecuteScalar();
+
+            connection.Close();
+
+            return Ok(result);
         }
     }
 }
