@@ -159,5 +159,62 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
 
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
         }
+
+        [Test]
+        public void CanMapCaseNoteInformationFromDomainToResponse()
+        {
+            var dateTime = new DateTime(2021, 3, 1, 15, 30, 00);
+            const string formattedDateTime = "2021-03-01T15:30:00";
+
+            var domain = new CaseNoteInformation
+            {
+                MosaicId = "12345",
+                CaseNoteId = 67890,
+                CaseNoteTitle = "I AM A CASE NOTE",
+                EffectiveDate = dateTime,
+                CreatedOn = dateTime,
+                LastUpdatedOn = dateTime,
+                PersonVisitId = 456,
+                NoteType = "Case Summary (ASC)",
+                CreatedByName = "Catra Grayskull",
+                CreatedByEmail = "catra@grayskull.com",
+                LastUpdatedName = "Catra Grayskull",
+                LastUpdatedEmail = "catra@grayskull.com",
+                CaseNoteContent = "I am case note content.",
+                RootCaseNoteId = 789,
+                CompletedDate = dateTime,
+                TimeoutDate = dateTime,
+                CopyOfCaseNoteId = 567,
+                CopiedDate = dateTime,
+                CopiedByName = "Catra Grayskull",
+                CopiedByEmail = "catra@grayskull.com",
+            };
+
+            var expectedResponse = new CaseNoteInformationResponse
+            {
+                MosaicId = "12345",
+                CaseNoteId = 67890,
+                CaseNoteTitle = "I AM A CASE NOTE",
+                EffectiveDate = formattedDateTime,
+                CreatedOn = formattedDateTime,
+                LastUpdatedOn = formattedDateTime,
+                PersonVisitId = 456,
+                NoteType = "Case Summary (ASC)",
+                CreatedByName = "Catra Grayskull",
+                CreatedByEmail = "catra@grayskull.com",
+                LastUpdatedName = "Catra Grayskull",
+                LastUpdatedEmail = "catra@grayskull.com",
+                CaseNoteContent = "I am case note content.",
+                RootCaseNoteId = 789,
+                CompletedDate = formattedDateTime,
+                TimeoutDate = formattedDateTime,
+                CopyOfCaseNoteId = 567,
+                CopiedDate = formattedDateTime,
+                CopiedByName = "Catra Grayskull",
+                CopiedByEmail = "catra@grayskull.com",
+            };
+
+            domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
+        }
     }
 }

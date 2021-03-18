@@ -25,9 +25,37 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 Restricted = domain.Restricted
             };
         }
+
         public static List<Boundary.Responses.ResidentInformation> ToResponse(this IEnumerable<Domain.ResidentInformation> people)
         {
             return people.Select(p => p.ToResponse()).ToList();
+        }
+
+        public static Boundary.Responses.CaseNoteInformation ToResponse(this Domain.CaseNoteInformation caseNote)
+        {
+            return new Boundary.Responses.CaseNoteInformation
+            {
+                MosaicId = caseNote.MosaicId,
+                CaseNoteId = caseNote.CaseNoteId,
+                CaseNoteTitle = caseNote.CaseNoteTitle,
+                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
+                CreatedOn = caseNote.CreatedOn.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s"),
+                PersonVisitId = caseNote.PersonVisitId,
+                NoteType = caseNote.NoteType,
+                CreatedByName = caseNote.CreatedByName,
+                CreatedByEmail = caseNote.CreatedByEmail,
+                LastUpdatedName = caseNote.LastUpdatedName,
+                LastUpdatedEmail = caseNote.LastUpdatedEmail,
+                CaseNoteContent = caseNote.CaseNoteContent,
+                RootCaseNoteId = caseNote.RootCaseNoteId,
+                CompletedDate = caseNote.CompletedDate.ToString("s"),
+                TimeoutDate = caseNote.TimeoutDate.ToString("s"),
+                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
+                CopiedDate = caseNote.CopiedDate.ToString("s"),
+                CopiedByName = caseNote.CopiedByName,
+                CopiedByEmail = caseNote.CopiedByEmail,
+            };
         }
 
         public static List<Boundary.Responses.CaseNoteInformation> ToResponse(this IEnumerable<Domain.CaseNoteInformation> caseNotes)
