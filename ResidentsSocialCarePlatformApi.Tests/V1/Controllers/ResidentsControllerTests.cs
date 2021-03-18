@@ -13,9 +13,9 @@ using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 {
     [TestFixture]
-    public class SocialCareControllerTests
+    public class ResidentsControllerTests
     {
-        private SocialCareController _classUnderTest;
+        private ResidentsController _classUnderTest;
         private Mock<IGetAllResidentsUseCase> _mockGetAllResidentsUseCase;
         private Mock<IGetEntityByIdUseCase> _mockGetEntityByIdUseCase;
 
@@ -29,7 +29,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 
             _mockGetAllCaseNotesUseCase = new Mock<IGetAllCaseNotesUseCase>();
 
-            _classUnderTest = new SocialCareController(_mockGetAllResidentsUseCase.Object,
+            _classUnderTest = new ResidentsController(_mockGetAllResidentsUseCase.Object,
                 _mockGetEntityByIdUseCase.Object, _mockGetAllCaseNotesUseCase.Object);
         }
 
