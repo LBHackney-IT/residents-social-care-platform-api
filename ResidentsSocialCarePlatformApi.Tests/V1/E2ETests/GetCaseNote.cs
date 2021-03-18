@@ -11,7 +11,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
     public class GetCaseNote : EndToEndTests<Startup>
     {
         [Test]
-        public async Task ReturnsCaseNoteForProvidedCaseNoteId()
+        public async Task WhenThereIsAMatchingCaseNoteId_Returns200AndCaseNoteInformation()
         {
             var caseNote = E2ETestHelpers.AddCaseNoteWithNoteTypeAndWorkerToDatabase(SocialCareContext);
             var uri = new Uri($"api/v1/case-notes/{caseNote.CaseNoteId}", UriKind.Relative);
@@ -25,6 +25,17 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             var convertedResponse = JsonConvert.DeserializeObject<CaseNoteInformation>(stringContent);
 
             convertedResponse.Should().BeEquivalentTo(caseNote);
+        }
+
+        [Test]
+        public async Task WhenThereIsNotAMatchingCaseNoteId_Returns404()
+        {
+            var nonExistentCaseNoteId = "1234";
+            var uri = new Uri($"api/v1/case-notes/{nonExistentCaseNoteId}", UriKind.Relative);
+
+            var response = Client.GetAsync(uri);
+
+            response.Result.StatusCode.Should().Be(404);
         }
     }
 }
