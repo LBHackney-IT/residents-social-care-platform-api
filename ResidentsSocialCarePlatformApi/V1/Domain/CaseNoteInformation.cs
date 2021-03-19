@@ -8,17 +8,17 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
 
         public long CaseNoteId { get; set; }
 
-        public long PersonVisitId { get; set; }
+        public long? PersonVisitId { get; set; }
 
         public string NoteType { get; set; }
 
         public string CaseNoteTitle { get; set; }
 
-        public DateTime EffectiveDate { get; set; }
+        public DateTime? EffectiveDate { get; set; }
 
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
-        public DateTime LastUpdatedOn { get; set; }
+        public DateTime? LastUpdatedOn { get; set; }
 
         public string CreatedByName { get; set; }
 
@@ -30,18 +30,18 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
 
         public string CaseNoteContent { get; set; }
 
-        public long RootCaseNoteId { get; set; }
+        public long? RootCaseNoteId { get; set; }
 
-        public DateTime CompletedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
 
-        public DateTime TimeoutDate { get; set; }
+        public DateTime? TimeoutDate { get; set; }
 
-        public long CopyOfCaseNoteId { get; set; }
+        public long? CopyOfCaseNoteId { get; set; }
 
         public string CopiedByName { get; set; }
 
         public string CopiedByEmail { get; set; }
 
-        public DateTime CopiedDate { get; set; }
+        public DateTime? CopiedDate { get; set; }
     }
 }

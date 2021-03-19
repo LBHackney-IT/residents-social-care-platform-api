@@ -38,9 +38,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 MosaicId = caseNote.MosaicId,
                 CaseNoteId = caseNote.CaseNoteId,
                 CaseNoteTitle = caseNote.CaseNoteTitle,
-                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
-                CreatedOn = caseNote.CreatedOn.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s"),
+                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
+                CreatedOn = caseNote.CreatedOn?.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s"),
                 PersonVisitId = caseNote.PersonVisitId,
                 NoteType = caseNote.NoteType,
                 CreatedByName = caseNote.CreatedByName,
@@ -49,12 +49,12 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 LastUpdatedEmail = caseNote.LastUpdatedEmail,
                 CaseNoteContent = caseNote.CaseNoteContent,
                 RootCaseNoteId = caseNote.RootCaseNoteId,
-                CompletedDate = caseNote.CompletedDate.ToString("s"),
-                TimeoutDate = caseNote.TimeoutDate.ToString("s"),
+                CompletedDate = caseNote.CompletedDate?.ToString("s"),
+                TimeoutDate = caseNote.TimeoutDate?.ToString("s"),
                 CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate.ToString("s"),
+                CopiedDate = caseNote.CopiedDate?.ToString("s"),
                 CopiedByName = caseNote.CopiedByName,
-                CopiedByEmail = caseNote.CopiedByEmail,
+                CopiedByEmail = caseNote.CopiedByEmail
             };
         }
 
@@ -65,9 +65,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 MosaicId = caseNote.MosaicId,
                 CaseNoteId = caseNote.CaseNoteId,
                 CaseNoteTitle = caseNote.CaseNoteTitle,
-                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
-                CreatedOn = caseNote.CreatedOn.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
+                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
+                CreatedOn = caseNote.CreatedOn?.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s")
             }).ToList();
         }
 

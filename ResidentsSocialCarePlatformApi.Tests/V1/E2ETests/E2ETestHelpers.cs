@@ -70,9 +70,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 MosaicId = personId.ToString(),
                 CaseNoteId = caseNote.Id,
                 CaseNoteTitle = caseNote.Title,
-                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
-                CreatedOn = caseNote.CreatedOn.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s")
+                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
+                CreatedOn = caseNote.CreatedOn?.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s")
             };
         }
 
@@ -92,9 +92,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 MosaicId = caseNote.PersonId.ToString(),
                 CaseNoteId = caseNote.Id,
                 CaseNoteTitle = caseNote.Title,
-                EffectiveDate = caseNote.EffectiveDate.ToString("s"),
-                CreatedOn = caseNote.CreatedOn.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn.ToString("s"),
+                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
+                CreatedOn = caseNote.CreatedOn?.ToString("s"),
+                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s"),
                 PersonVisitId = caseNote.PersonVisitId,
                 NoteType = noteType.Description,
                 CreatedByName = "Bow Archer",
@@ -103,10 +103,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 LastUpdatedEmail = worker.EmailAddress,
                 CaseNoteContent = caseNote.Note,
                 RootCaseNoteId = caseNote.RootCaseNoteId,
-                CompletedDate = caseNote.CompletedDate.ToString("s"),
-                TimeoutDate = caseNote.TimeoutDate.ToString("s"),
+                CompletedDate = caseNote.CompletedDate?.ToString("s"),
+                TimeoutDate = caseNote.TimeoutDate?.ToString("s"),
                 CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate.ToString("s"),
+                CopiedDate = caseNote.CopiedDate?.ToString("s"),
                 CopiedByName = "Bow Archer",
                 CopiedByEmail = worker.EmailAddress,
             };
