@@ -26,8 +26,9 @@ functions:
     name: ${self:service}-${self:provider.stage}
     handler: ResidentsSocialCarePlatformApi::ResidentsSocialCarePlatformApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
+    timeout: 30
     environment:
-      CONNECTION_STRING: Host=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_host~true};Port=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_port~true};Database=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_name~true};Username=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_username~true};MaxPoolSize=100;
+      CONNECTION_STRING: Host=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_host~true};Port=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_port~true};Database=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_name~true};Username=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_username~true};Password=${ssm:/aws/reference/secretsmanager/mosaic_prod_postgres_db_password~true};MaxPoolSize=100;
     events:
       - http:
           path: /{proxy+}
