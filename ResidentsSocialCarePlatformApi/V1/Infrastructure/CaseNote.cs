@@ -18,7 +18,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         [Column("person_visit_id")]
         [MaxLength(9)]
-        public long PersonVisitId { get; set; }
+        public long? PersonVisitId { get; set; }
 
         [Column("note_type")]
         [MaxLength(16)]
@@ -29,13 +29,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         public string Title { get; set; }
 
         [Column("effective_date")]
-        public DateTime EffectiveDate { get; set; }
+        public DateTime? EffectiveDate { get; set; }
 
         [Column("created_on")]
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
         [Column("last_updated_on")]
-        public DateTime LastUpdatedOn { get; set; }
+        public DateTime? LastUpdatedOn { get; set; }
 
         [Column("created_by")]
         [MaxLength(30)]
@@ -50,13 +50,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         [Column("root_case_note")]
         [MaxLength(9)]
-        public long RootCaseNoteId { get; set; }
+        public long? RootCaseNoteId { get; set; }
 
         [Column("completed_date")]
-        public DateTime CompletedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
 
         [Column("timeout_date")]
-        public DateTime TimeoutDate { get; set; }
+        public DateTime? TimeoutDate { get; set; }
 
         [Column("state")]
         [MaxLength(16)]
@@ -64,13 +64,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         [Column("copy_of_case_note_id")]
         [MaxLength(9)]
-        public long CopyOfCaseNoteId { get; set; }
+        public long? CopyOfCaseNoteId { get; set; }
 
         [Column("copied_by")]
         [MaxLength(30)]
         public string CopiedBy { get; set; }
 
         [Column("copied_date")]
-        public DateTime CopiedDate { get; set; }
+        public DateTime? CopiedDate { get; set; }
     }
 }
