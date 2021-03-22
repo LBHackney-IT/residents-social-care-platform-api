@@ -130,15 +130,17 @@ Note: Any changes made to a `DbSet` or within `SocialCareContext` should have an
 ### Applying a Migration
 
 While running the test database locally (i.e you are able to run tests from within your IDE), run any new migrations with:
+
 ```sh
-$ make migrate-local-test-database
+$ make migrate-test-db
 ```
 
 This will run migrations on the `socialcare` database on your local machine.
 (Your IDE connects to the `socialcare` database hosted on your localhost to run tests and not to the docker container).
 
 ### Troubleshooting Migrations
-If you encounter errors about tables already existing after running the `migrate-local-test-database` make command,
+
+If you encounter errors about tables already existing after running the `migrate-test-db` make command,
 you can try using [psql](https://www.postgresql.org/docs/current/app-psql.html)
 to delete all the existing tables in `dbo` schema and the `__EFMigrationsHistory` table from the `socialcare` database hosted on your localhost.
 
@@ -163,7 +165,7 @@ N.B: Do not delete the public schema, if you do, you will need to recreate it us
 
 4. Exit the psql. You can use `\q`
 
-5. Run the `make migrate-local-test-database` command again.
+5. Run the `make migrate-test-db` command again.
    This should run the migrations on the database, create a new `__EFMigrationsHistory` table and save the new migration history there.
 
 ## Documentation
