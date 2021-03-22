@@ -16,7 +16,7 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 
         public CaseNoteInformationList Execute(long personId)
         {
-            var caseNotes = _socialCareGateway.GetCaseNotes(personId);
+            var caseNotes = _socialCareGateway.GetAllCaseNotes(personId);
 
             return new CaseNoteInformationList
             {

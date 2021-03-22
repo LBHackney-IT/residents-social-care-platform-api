@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
@@ -84,11 +84,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             };
         }
 
-        public List<Domain.CaseNoteInformation> GetCaseNotes(long personId)
+        public List<CaseNoteInformation> GetAllCaseNotes(long personId)
         {
-            return _socialCareContext.CaseNotes
-                .Where(note => note.PersonId == personId).ToDomain()
-                .ToList();
+            var caseNotes = _socialCareContext.CaseNotes.Where(note => note.PersonId == personId).ToList();
+
+            return caseNotes.Select(AddRelatedInformationToCaseNote).ToList();
         }
 
         public Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId)
@@ -223,6 +223,43 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         private static string GetSearchPattern(string str)
         {
             return $"%{str?.Replace(" ", "")}%";
+        }
+
+        private string LookUpNoteTypeDescription(string noteTypeCode)
+        {
+            return _socialCareContext.NoteTypes.FirstOrDefault(type => type.Type.Equals(noteTypeCode))?.Description;
+        }
+
+
+        private string GetWorkerName(string actionDoneById)
+        {
+            var worker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById));
+            return worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
+        }
+
+        private string GetWorkerEmailAddress(string actionDoneById)
+        {
+            return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))
+                ?.EmailAddress;
+        }
+
+        private CaseNoteInformation AddRelatedInformationToCaseNote(CaseNote caseNote)
+        {
+            var caseNoteInformation = caseNote.ToDomain();
+            caseNoteInformation.CaseNoteContent = null;
+
+            caseNoteInformation.NoteType = LookUpNoteTypeDescription(caseNote.NoteType);
+
+            caseNoteInformation.CreatedByName = GetWorkerName(caseNote.CreatedBy);
+            caseNoteInformation.CreatedByEmail = GetWorkerEmailAddress(caseNote.CreatedBy);
+
+            caseNoteInformation.LastUpdatedName = GetWorkerName(caseNote.LastUpdatedBy);
+            caseNoteInformation.LastUpdatedEmail = GetWorkerEmailAddress(caseNote.LastUpdatedBy);
+
+            caseNoteInformation.CopiedByName = GetWorkerName(caseNote.CopiedBy);
+            caseNoteInformation.CopiedByEmail = GetWorkerEmailAddress(caseNote.CopiedBy);
+
+            return caseNoteInformation;
         }
     }
 }
