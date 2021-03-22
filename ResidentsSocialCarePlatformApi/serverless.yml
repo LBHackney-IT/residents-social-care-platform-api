@@ -33,7 +33,7 @@ functions:
       - http:
           path: /{proxy+}
           method: ANY
-          private: false
+          private: true
     provisionedConcurrency: 10
 resources:
   Resources:
