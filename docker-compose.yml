@@ -9,7 +9,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      - CONNECTION_STRING=Host=dev-database;Port=5432;Database=testsocialcare;Username=postgres;Password=mypassword
+      - CONNECTION_STRING=Host=dev-database;Port=5432;Database=socialcare;Username=postgres;Password=mypassword
     links:
       - dev-database
   dev-database:
@@ -27,7 +27,7 @@ services:
       - DB_PORT=5432
       - DB_USERNAME=postgres
       - DB_PASSWORD=mypassword
-      - DB_DATABASE=testsocialcare
+      - DB_DATABASE=socialcare
     links:
       - test-database
   test-database:

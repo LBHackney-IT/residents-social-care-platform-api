@@ -120,7 +120,7 @@ If the migration file looks wrong or you have missed something, you can do eithe
 
 1. While the test database is running in the background, run:
    ```sh
-   $ CONNECTION_STRING="Host=127.0.0.1;Database=testsocialcare;Username=postgres;Password=mypassword;" dotnet ef migrations remove -p ResidentsSocialCarePlatformApi
+   $ CONNECTION_STRING="Host=127.0.0.1;Database=socialcare;Username=postgres;Password=mypassword;" dotnet ef migrations remove -p ResidentsSocialCarePlatformApi
    ```
 
 2. Or delete the migration files and revert the changes to `SocialCareContextModelSnapshot.cs`. Make the necessary changes to the context, then create the migration files again.
@@ -134,20 +134,20 @@ While running the test database locally (i.e you are able to run tests from with
 $ make migrate-local-test-database
 ```
 
-This will run migrations on the `testsocialcare` database on your local machine.
-(Your IDE connects to the `testsocialcare` database hosted on your localhost to run tests and not to the docker container).
+This will run migrations on the `socialcare` database on your local machine.
+(Your IDE connects to the `socialcare` database hosted on your localhost to run tests and not to the docker container).
 
 ### Troubleshooting Migrations
 If you encounter errors about tables already existing after running the `migrate-local-test-database` make command,
 you can try using [psql](https://www.postgresql.org/docs/current/app-psql.html)
-to delete all the existing tables in `dbo` schema and the `__EFMigrationsHistory` table from the `testsocialcare` database hosted on your localhost.
+to delete all the existing tables in `dbo` schema and the `__EFMigrationsHistory` table from the `socialcare` database hosted on your localhost.
 
-1. In your terminal, connect to the localhost instance of testsocialcare using psql:
+1. In your terminal, connect to the localhost instance of socialcare using psql:
 ```sh
-$ psql -h 127.0.0.1 -p 5432 -d testsocialcare -U postgres
+$ psql -h 127.0.0.1 -p 5432 -d socialcare -U postgres
 ```
 
-2. Delete all the tables in the testsocialcare `dbo` schema:
+2. Delete all the tables in the socialcare `dbo` schema:
 ```sh
 DROP SCHEMA IF EXISTS dbo CASCADE;
 ```

@@ -32,7 +32,7 @@ restart-test-db:
 .PHONY: migrate-local-test-database
 migrate-local-test-database:
 	-dotnet tool install -g dotnet-ef
-	CONNECTION_STRING="Host=127.0.0.1;Port=6543;Username=postgres;Password=mypassword;Database=testsocialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
+	CONNECTION_STRING="Host=127.0.0.1;Port=6543;Username=postgres;Password=mypassword;Database=socialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
 
 .PHONY: lint
 lint:
