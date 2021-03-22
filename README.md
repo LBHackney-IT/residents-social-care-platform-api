@@ -38,13 +38,18 @@ $ git clone git@github.com:LBHackney-IT/residents-social-care-platform-api.git
 
 ### Running the application
 
+#### With Docker
+
 To serve the API using Docker, use:
 
 ```sh
 $ make serve
 ```
 
-The application will be served at http://localhost:3000.
+The application will be served at http://localhost:3000 and expose the database
+at port `7654`.
+
+#### Without Docker
 
 To serve the API locally without Docker, use:
 

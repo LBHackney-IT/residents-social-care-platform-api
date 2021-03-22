@@ -13,6 +13,8 @@ services:
     links:
       - dev-database
   dev-database:
+    ports:
+      - 7654:5432
     env_file:
       - database.env
     image: postgres:12
