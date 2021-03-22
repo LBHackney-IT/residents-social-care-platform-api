@@ -5,6 +5,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 {
@@ -22,14 +23,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task ReturnsAllCaseNotesForASpecificPerson()
         {
-            var personId = _fixture.Create<long>();
-            var person = E2ETestHelpers.AddPersonToDatabase(SocialCareContext, personId);
+
+            var person = E2ETestHelpers.AddPersonToDatabase(SocialCareContext);
 
             var expectedCaseNoteResponseOne = E2ETestHelpers.AddCaseNoteForASpecificPersonToDb(SocialCareContext, person.Id);
             var expectedCaseNoteResponseTwo = E2ETestHelpers.AddCaseNoteForASpecificPersonToDb(SocialCareContext, person.Id);
             var expectedCaseNoteResponseThree = E2ETestHelpers.AddCaseNoteForASpecificPersonToDb(SocialCareContext, person.Id);
 
-            var uri = new Uri($"api/v1/residents/{personId}/case-notes", UriKind.Relative);
+            var uri = new Uri($"api/v1/residents/{person.Id}/case-notes", UriKind.Relative);
             var response = Client.GetAsync(uri);
 
             var statusCode = response.Result.StatusCode;

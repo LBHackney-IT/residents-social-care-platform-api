@@ -1,4 +1,5 @@
 using System.Linq;
+using AutoFixture;
 using FluentAssertions;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
@@ -30,10 +31,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereIsOneMatch_ReturnsCaseNoteInformationForAGivenPersonId()
         {
             var person = AddPersonToDatabase();
-            AddCaseNoteToDatabase(personId: person.Id);
+            AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
 
             var response = _classUnderTest.GetCaseNotes(person.Id);
 
+            response.Count.Should().Be(1);
             response.FirstOrDefault().Should().NotBe(null);
         }
 
@@ -41,8 +43,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereAreMatchingRecords_ReturnsCaseNoteInformationForAGivenPersonId()
         {
             var person = AddPersonToDatabase();
-            AddCaseNoteToDatabase(id: 123, personId: person.Id);
-            AddCaseNoteToDatabase(id: 456, personId: person.Id);
+            AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
+            AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id, 456);
 
             var response = _classUnderTest.GetCaseNotes(person.Id);
 
@@ -55,16 +57,29 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereAreMatchingRecords_InformationReturnedIsASummaryOfTheCaseNotesForASpecificPersonId()
         {
             var person = AddPersonToDatabase();
-            var caseNote = AddCaseNoteToDatabase(personId: person.Id);
+            var (caseNote, noteType, caseWorker) = AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
 
             var expectedCaseNoteInformation = new CaseNoteInformation
             {
                 MosaicId = caseNote.PersonId.ToString(),
                 CaseNoteId = caseNote.Id,
+                NoteType = noteType.Description,
                 CaseNoteTitle = caseNote.Title,
                 EffectiveDate = caseNote.EffectiveDate,
                 CreatedOn = caseNote.CreatedOn,
-                LastUpdatedOn = caseNote.LastUpdatedOn
+                CreatedByName = $"{caseWorker.FirstNames} {caseWorker.LastNames}",
+                CreatedByEmail = caseWorker.EmailAddress,
+                LastUpdatedOn = caseNote.LastUpdatedOn,
+                LastUpdatedName = $"{caseWorker.FirstNames} {caseWorker.LastNames}",
+                LastUpdatedEmail = caseWorker.EmailAddress,
+                CompletedDate = caseNote.CompletedDate,
+                TimeoutDate = caseNote.TimeoutDate,
+                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
+                CopiedDate = caseNote.CopiedDate,
+                CopiedByName = $"{caseWorker.FirstNames} {caseWorker.LastNames}",
+                CopiedByEmail = caseWorker.EmailAddress,
+                RootCaseNoteId = caseNote.RootCaseNoteId,
+                PersonVisitId = caseNote.PersonVisitId
             };
 
             var response = _classUnderTest.GetCaseNotes(person.Id);
@@ -82,10 +97,34 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 
         private CaseNote AddCaseNoteToDatabase(long personId, long id = 123)
         {
-            var caseNote = TestHelper.CreateDatabaseCaseNote(id: id, personId: personId);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(id, personId);
             SocialCareContext.CaseNotes.Add(caseNote);
             SocialCareContext.SaveChanges();
             return caseNote;
+        }
+
+        private (CaseNote, NoteType, Worker) AddCaseNoteWithNoteTypeAndWorkerToDatabase(long personId, long caseNoteId = 123)
+        {
+            var faker = new Fixture();
+
+            var caseNoteType = faker.Create<NoteType>().Type;
+            var caseNoteTypeDescription = faker.Create<NoteType>().Description;
+            var noteType = TestHelper.CreateDatabaseNoteType(caseNoteType, caseNoteTypeDescription);
+            SocialCareContext.NoteTypes.Add(noteType);
+
+            var workerFirstNames = faker.Create<Worker>().FirstNames;
+            var workerLastNames = faker.Create<Worker>().LastNames;
+            var workerEmailAddress = faker.Create<Worker>().EmailAddress;
+            var workerSystemUserId = faker.Create<string>().Substring(0, 10);
+            var worker = TestHelper.CreateDatabaseWorker(workerFirstNames, workerLastNames, workerEmailAddress, workerSystemUserId);
+            SocialCareContext.Workers.Add(worker);
+
+            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type, workerSystemUserId, workerSystemUserId, workerSystemUserId);
+            SocialCareContext.CaseNotes.Add(caseNote);
+
+            SocialCareContext.SaveChanges();
+
+            return (caseNote, noteType, worker);
         }
     }
 }

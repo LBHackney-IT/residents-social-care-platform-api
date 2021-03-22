@@ -86,9 +86,30 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         public List<Domain.CaseNoteInformation> GetCaseNotes(long personId)
         {
-            return _socialCareContext.CaseNotes
-                .Where(note => note.PersonId == personId).ToDomain()
-                .ToList();
+            var caseNotes = _socialCareContext.CaseNotes.Where(note => note.PersonId == personId).ToList();
+
+            return caseNotes.Select(caseNote => new Domain.CaseNoteInformation
+            {
+                MosaicId = caseNote.PersonId.ToString(),
+                CaseNoteId = caseNote.Id,
+                NoteType = LookUpNoteTypeDescription(caseNote.NoteType),
+                CaseNoteTitle = caseNote.Title,
+                EffectiveDate = caseNote.EffectiveDate,
+                CreatedOn = caseNote.CreatedOn,
+                CreatedByName = GetWorkerName(caseNote.CreatedBy),
+                CreatedByEmail = GetWorkerEmailAddress(caseNote.CreatedBy),
+                LastUpdatedOn = caseNote.LastUpdatedOn,
+                LastUpdatedName = GetWorkerName(caseNote.LastUpdatedBy),
+                LastUpdatedEmail = GetWorkerEmailAddress(caseNote.LastUpdatedBy),
+                CompletedDate = caseNote.CompletedDate,
+                TimeoutDate = caseNote.TimeoutDate,
+                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
+                CopiedDate = caseNote.CopiedDate,
+                CopiedByName = GetWorkerName(caseNote.CopiedBy),
+                CopiedByEmail = GetWorkerEmailAddress(caseNote.CopiedBy),
+                RootCaseNoteId = caseNote.RootCaseNoteId,
+                PersonVisitId = caseNote.PersonVisitId
+            }).ToList();
         }
 
         public Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId)
@@ -223,6 +244,24 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         private static string GetSearchPattern(string str)
         {
             return $"%{str?.Replace(" ", "")}%";
+        }
+
+        private string LookUpNoteTypeDescription(string noteTypeCode)
+        {
+            return _socialCareContext.NoteTypes.FirstOrDefault(type => type.Type.Equals(noteTypeCode))?.Description;
+        }
+
+
+        private string GetWorkerName(string actionDoneById)
+        {
+            var worker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById));
+            return worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
+        }
+
+        private string GetWorkerEmailAddress(string actionDoneById)
+        {
+            return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))
+                ?.EmailAddress;
         }
     }
 }
