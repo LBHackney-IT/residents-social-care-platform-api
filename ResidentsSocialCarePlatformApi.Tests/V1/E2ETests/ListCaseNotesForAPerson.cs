@@ -5,7 +5,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
-using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 {
