@@ -46,8 +46,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             };
         }
 
-        public static Person AddPersonToDatabase(SocialCareContext context, long personId)
+        public static Person AddPersonToDatabase(SocialCareContext context)
         {
+            var faker = new Fixture();
+            var personId = faker.Create<CaseNote>().PersonId;
+
             var person = TestHelper.CreateDatabasePersonEntity(id: personId);
             context.Persons.Add(person);
             context.SaveChanges();
@@ -58,21 +61,47 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         public static CaseNoteInformation AddCaseNoteForASpecificPersonToDb(SocialCareContext context, long personId)
         {
             var faker = new Fixture();
-            var caseNoteId = faker.Create<long>();
 
-            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId);
+            var noteTypeCode = faker.Create<NoteType>().Type;
+            var noteTypeDescription = faker.Create<NoteType>().Description;
+            var savedNoteType = TestHelper.CreateDatabaseNoteType(noteTypeCode, noteTypeDescription);
+            context.NoteTypes.Add(savedNoteType);
 
-            context.CaseNotes.Add(caseNote);
+            var workerFirstName = faker.Create<Worker>().FirstNames;
+            var workerLastName = faker.Create<Worker>().LastNames;
+            var workerEmailAddress = faker.Create<Worker>().EmailAddress;
+            var workerSystemUserId = faker.Create<string>().Substring(0, 10);
+            var savedWorker = TestHelper.CreateDatabaseWorker(workerFirstName, workerLastName, workerEmailAddress, workerSystemUserId);
+            context.Workers.Add(savedWorker);
+
+            var caseNoteId = faker.Create<CaseNote>().Id;
+            var savedCaseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, savedNoteType.Type, savedWorker.SystemUserId, savedWorker.SystemUserId, savedWorker.SystemUserId);
+
+
+            context.CaseNotes.Add(savedCaseNote);
             context.SaveChanges();
 
             return new CaseNoteInformation
             {
-                MosaicId = personId.ToString(),
-                CaseNoteId = caseNote.Id,
-                CaseNoteTitle = caseNote.Title,
-                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
-                CreatedOn = caseNote.CreatedOn?.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s")
+                MosaicId = savedCaseNote.PersonId.ToString(),
+                CaseNoteId = savedCaseNote.Id,
+                NoteType = savedNoteType.Description,
+                CaseNoteTitle = savedCaseNote.Title,
+                EffectiveDate = savedCaseNote.EffectiveDate?.ToString("s"),
+                CreatedOn = savedCaseNote.CreatedOn?.ToString("s"),
+                CreatedByName = $"{workerFirstName} {workerLastName}",
+                CreatedByEmail = workerEmailAddress,
+                LastUpdatedOn = savedCaseNote.LastUpdatedOn?.ToString("s"),
+                LastUpdatedName = $"{workerFirstName} {workerLastName}",
+                LastUpdatedEmail = workerEmailAddress,
+                CompletedDate = savedCaseNote.CompletedDate?.ToString("s"),
+                TimeoutDate = savedCaseNote.TimeoutDate?.ToString("s"),
+                CopyOfCaseNoteId = savedCaseNote.CopyOfCaseNoteId,
+                CopiedDate = savedCaseNote.CopiedDate?.ToString("s"),
+                CopiedByName = $"{workerFirstName} {workerLastName}",
+                CopiedByEmail = workerEmailAddress,
+                RootCaseNoteId = savedCaseNote.RootCaseNoteId,
+                PersonVisitId = savedCaseNote.PersonVisitId
             };
         }
 
@@ -108,7 +137,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
                 CopiedDate = caseNote.CopiedDate?.ToString("s"),
                 CopiedByName = "Bow Archer",
-                CopiedByEmail = worker.EmailAddress,
+                CopiedByEmail = worker.EmailAddress
             };
         }
     }
