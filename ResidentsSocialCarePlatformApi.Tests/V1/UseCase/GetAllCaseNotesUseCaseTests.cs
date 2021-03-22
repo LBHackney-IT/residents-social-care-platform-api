@@ -31,7 +31,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             var noRecords = new List<CaseNoteInformation>();
 
             _mockSocialCareGateway.Setup(x =>
-                    x.GetCaseNotes(34567))
+                    x.GetAllCaseNotes(34567))
                 .Returns(noRecords);
 
             var response = _classUnderTest.Execute(34567);
@@ -45,7 +45,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             var stubbedCaseNotes = _fixture.CreateMany<CaseNoteInformation>();
 
             _mockSocialCareGateway.Setup(x =>
-                    x.GetCaseNotes(34567))
+                    x.GetAllCaseNotes(34567))
                 .Returns(stubbedCaseNotes.ToList());
 
             var response = _classUnderTest.Execute(34567);

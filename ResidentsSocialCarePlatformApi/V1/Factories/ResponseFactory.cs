@@ -60,28 +60,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
 
         public static List<Boundary.Responses.CaseNoteInformation> ToResponse(this IEnumerable<Domain.CaseNoteInformation> caseNotes)
         {
-            return caseNotes.Select(caseNote => new Boundary.Responses.CaseNoteInformation
-            {
-                MosaicId = caseNote.MosaicId,
-                CaseNoteId = caseNote.CaseNoteId,
-                NoteType = caseNote.NoteType,
-                CaseNoteTitle = caseNote.CaseNoteTitle,
-                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
-                CreatedOn = caseNote.CreatedOn?.ToString("s"),
-                CreatedByName = caseNote.CreatedByName,
-                CreatedByEmail = caseNote.CreatedByEmail,
-                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s"),
-                LastUpdatedName = caseNote.LastUpdatedName,
-                LastUpdatedEmail = caseNote.LastUpdatedEmail,
-                CompletedDate = caseNote.CompletedDate?.ToString("s"),
-                TimeoutDate = caseNote.TimeoutDate?.ToString("s"),
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate?.ToString("s"),
-                CopiedByName = caseNote.CopiedByName,
-                CopiedByEmail = caseNote.CopiedByEmail,
-                PersonVisitId = caseNote.PersonVisitId
-            }).ToList();
+            return caseNotes.Select(caseNote => caseNote.ToResponse()).ToList();
         }
 
         private static List<Phone> ToResponse(this List<PhoneNumber> phoneNumbers)

@@ -111,10 +111,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
         public void CanMapCaseNoteInformationListFromDomainToResponse()
         {
             var recordOneTime = new DateTime(2020, 4, 1, 20, 30, 00);
-            const string formattedrecordOneTime = "2020-04-01T20:30:00";
+            const string formattedRecordOneTime = "2020-04-01T20:30:00";
 
             var recordTwoTime = new DateTime(1990, 11, 12, 10, 25, 00);
-            const string formattedrecordTwoTime = "1990-11-12T10:25:00";
+            const string formattedRecordTwoTime = "1990-11-12T10:25:00";
 
             var domain = new List<CaseNoteInformation>
             {
@@ -128,6 +128,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     LastUpdatedOn = recordOneTime,
                     PersonVisitId = 456,
                     NoteType = "Case Summary (ASC)",
+                    CaseNoteContent = "",
                     CreatedByName = "Catra Grayskull",
                     CreatedByEmail = "catra@grayskull.com",
                     LastUpdatedName = "Catra Grayskull",
@@ -150,6 +151,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     LastUpdatedOn = recordTwoTime,
                     PersonVisitId = 123,
                     NoteType = "Case Summary (ASC)",
+                    CaseNoteContent = "",
                     CreatedByName = "A Name goes here",
                     CreatedByEmail = "some@email.com",
                     LastUpdatedName = "A Name goes here",
@@ -171,20 +173,21 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     MosaicId = "12345",
                     CaseNoteId = 67890,
                     CaseNoteTitle = "I AM A CASE NOTE",
-                    EffectiveDate = formattedrecordOneTime,
-                    CreatedOn = formattedrecordOneTime,
-                    LastUpdatedOn = formattedrecordOneTime,
+                    EffectiveDate = formattedRecordOneTime,
+                    CreatedOn = formattedRecordOneTime,
+                    LastUpdatedOn = formattedRecordOneTime,
                     PersonVisitId = 456,
                     NoteType = "Case Summary (ASC)",
+                    CaseNoteContent = "",
                     CreatedByName = "Catra Grayskull",
                     CreatedByEmail = "catra@grayskull.com",
                     LastUpdatedName = "Catra Grayskull",
                     LastUpdatedEmail = "catra@grayskull.com",
                     RootCaseNoteId = 789,
-                    CompletedDate = formattedrecordOneTime,
-                    TimeoutDate = formattedrecordOneTime,
+                    CompletedDate = formattedRecordOneTime,
+                    TimeoutDate = formattedRecordOneTime,
                     CopyOfCaseNoteId = 567,
-                    CopiedDate = formattedrecordOneTime,
+                    CopiedDate = formattedRecordOneTime,
                     CopiedByName = "Catra Grayskull",
                     CopiedByEmail = "catra@grayskull.com"
                 },
@@ -193,20 +196,21 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     MosaicId = "12345",
                     CaseNoteId = 100000,
                     CaseNoteTitle = "I AM ANOTHER CASE NOTE",
-                    EffectiveDate = formattedrecordTwoTime,
-                    CreatedOn = formattedrecordTwoTime,
-                    LastUpdatedOn = formattedrecordTwoTime,
+                    EffectiveDate = formattedRecordTwoTime,
+                    CreatedOn = formattedRecordTwoTime,
+                    LastUpdatedOn = formattedRecordTwoTime,
                     PersonVisitId = 123,
                     NoteType = "Case Summary (ASC)",
+                    CaseNoteContent = "",
                     CreatedByName = "A Name goes here",
                     CreatedByEmail = "some@email.com",
                     LastUpdatedName = "A Name goes here",
                     LastUpdatedEmail = "some@email.com",
                     RootCaseNoteId = 456,
-                    CompletedDate = formattedrecordTwoTime,
-                    TimeoutDate = formattedrecordTwoTime,
+                    CompletedDate = formattedRecordTwoTime,
+                    TimeoutDate = formattedRecordTwoTime,
                     CopyOfCaseNoteId = 789,
-                    CopiedDate = formattedrecordTwoTime,
+                    CopiedDate = formattedRecordTwoTime,
                     CopiedByName = "This was copied",
                     CopiedByEmail = "copied@copy.com"
                 }

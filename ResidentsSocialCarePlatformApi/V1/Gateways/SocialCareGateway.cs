@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
@@ -84,32 +84,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             };
         }
 
-        public List<Domain.CaseNoteInformation> GetCaseNotes(long personId)
+        public List<CaseNoteInformation> GetAllCaseNotes(long personId)
         {
             var caseNotes = _socialCareContext.CaseNotes.Where(note => note.PersonId == personId).ToList();
 
-            return caseNotes.Select(caseNote => new Domain.CaseNoteInformation
-            {
-                MosaicId = caseNote.PersonId.ToString(),
-                CaseNoteId = caseNote.Id,
-                NoteType = LookUpNoteTypeDescription(caseNote.NoteType),
-                CaseNoteTitle = caseNote.Title,
-                EffectiveDate = caseNote.EffectiveDate,
-                CreatedOn = caseNote.CreatedOn,
-                CreatedByName = GetWorkerName(caseNote.CreatedBy),
-                CreatedByEmail = GetWorkerEmailAddress(caseNote.CreatedBy),
-                LastUpdatedOn = caseNote.LastUpdatedOn,
-                LastUpdatedName = GetWorkerName(caseNote.LastUpdatedBy),
-                LastUpdatedEmail = GetWorkerEmailAddress(caseNote.LastUpdatedBy),
-                CompletedDate = caseNote.CompletedDate,
-                TimeoutDate = caseNote.TimeoutDate,
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate,
-                CopiedByName = GetWorkerName(caseNote.CopiedBy),
-                CopiedByEmail = GetWorkerEmailAddress(caseNote.CopiedBy),
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                PersonVisitId = caseNote.PersonVisitId
-            }).ToList();
+            return caseNotes.Select(AddRelatedInformationToCaseNote).ToList();
         }
 
         public Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId)
@@ -262,6 +241,25 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))
                 ?.EmailAddress;
+        }
+
+        private CaseNoteInformation AddRelatedInformationToCaseNote(CaseNote caseNote)
+        {
+            var caseNoteInformation = caseNote.ToDomain();
+            caseNoteInformation.CaseNoteContent = null;
+
+            caseNoteInformation.NoteType = LookUpNoteTypeDescription(caseNote.NoteType);
+
+            caseNoteInformation.CreatedByName = GetWorkerName(caseNote.CreatedBy);
+            caseNoteInformation.CreatedByEmail = GetWorkerEmailAddress(caseNote.CreatedBy);
+
+            caseNoteInformation.LastUpdatedName = GetWorkerName(caseNote.LastUpdatedBy);
+            caseNoteInformation.LastUpdatedEmail = GetWorkerEmailAddress(caseNote.LastUpdatedBy);
+
+            caseNoteInformation.CopiedByName = GetWorkerName(caseNote.CopiedBy);
+            caseNoteInformation.CopiedByEmail = GetWorkerEmailAddress(caseNote.CopiedBy);
+
+            return caseNoteInformation;
         }
     }
 }

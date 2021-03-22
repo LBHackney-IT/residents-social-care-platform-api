@@ -22,39 +22,37 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereAreNoMatchingRecords_ReturnsEmptyList()
         {
-            var response = _classUnderTest.GetCaseNotes(123);
+            var response = _classUnderTest.GetAllCaseNotes(123);
 
             response.Should().BeEmpty();
         }
 
         [Test]
-        public void WhenThereIsOneMatch_ReturnsCaseNoteInformationForAGivenPersonId()
+        public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingCaseNote()
         {
             var person = AddPersonToDatabase();
-            AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
+            var (caseNote, _, _) = AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
 
-            var response = _classUnderTest.GetCaseNotes(person.Id);
+            var response = _classUnderTest.GetAllCaseNotes(person.Id);
 
             response.Count.Should().Be(1);
-            response.FirstOrDefault().Should().NotBe(null);
+            response.FirstOrDefault().CaseNoteId.Should().Be(caseNote.Id);
         }
 
         [Test]
-        public void WhenThereAreMatchingRecords_ReturnsCaseNoteInformationForAGivenPersonId()
+        public void WhenThereAreMultipleMatches_ReturnsAListContainingAllMatchingCaseNotes()
         {
             var person = AddPersonToDatabase();
             AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
             AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id, 456);
 
-            var response = _classUnderTest.GetCaseNotes(person.Id);
+            var response = _classUnderTest.GetAllCaseNotes(person.Id);
 
             response.Count.Should().Be(2);
-            response.ElementAt(0).Should().NotBe(null);
-            response.ElementAt(1).Should().NotBe(null);
         }
 
         [Test]
-        public void WhenThereAreMatchingRecords_InformationReturnedIsASummaryOfTheCaseNotesForASpecificPersonId()
+        public void WhenThereAreMatchingRecords_ReturnsSpecificInformationAboutTheCaseNote()
         {
             var person = AddPersonToDatabase();
             var (caseNote, noteType, caseWorker) = AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
@@ -82,9 +80,20 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
                 PersonVisitId = caseNote.PersonVisitId
             };
 
-            var response = _classUnderTest.GetCaseNotes(person.Id);
+            var response = _classUnderTest.GetAllCaseNotes(person.Id);
 
             response.FirstOrDefault().Should().BeEquivalentTo(expectedCaseNoteInformation);
+        }
+
+        [Test]
+        public void WhenListingMatchingRecords_WillNotReturnTheDetailedContentsOfACaseNote()
+        {
+            var person = AddPersonToDatabase();
+            AddCaseNoteWithNoteTypeAndWorkerToDatabase(person.Id);
+
+            var response = _classUnderTest.GetAllCaseNotes(person.Id);
+
+            response.FirstOrDefault().CaseNoteContent.Should().BeNullOrEmpty();
         }
 
         private Person AddPersonToDatabase(string firstname = null, string lastname = null, int? id = null)
@@ -93,14 +102,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             SocialCareContext.Persons.Add(databaseEntity);
             SocialCareContext.SaveChanges();
             return databaseEntity;
-        }
-
-        private CaseNote AddCaseNoteToDatabase(long personId, long id = 123)
-        {
-            var caseNote = TestHelper.CreateDatabaseCaseNote(id, personId);
-            SocialCareContext.CaseNotes.Add(caseNote);
-            SocialCareContext.SaveChanges();
-            return caseNote;
         }
 
         private (CaseNote, NoteType, Worker) AddCaseNoteWithNoteTypeAndWorkerToDatabase(long personId, long caseNoteId = 123)
