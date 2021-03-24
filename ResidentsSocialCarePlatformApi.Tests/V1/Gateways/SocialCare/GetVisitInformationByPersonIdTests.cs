@@ -32,7 +32,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         }
 
         [Test]
-        public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingCaseNote()
+        public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingVisit()
         {
             const long realPersonId = 123L;
             var visit = AddVisitWithAPerson();
