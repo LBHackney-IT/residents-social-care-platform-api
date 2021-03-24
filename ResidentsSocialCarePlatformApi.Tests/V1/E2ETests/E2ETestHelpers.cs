@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using AutoFixture;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
+using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using Address = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.Address;
 
@@ -140,5 +141,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 CopiedByEmail = worker.EmailAddress
             };
         }
+
+        public static VisitInformation AddVisitToDatabase(SocialCareContext socialCareContext)
+        {
+            var visitInformation = TestHelper.CreateDatabaseVisit();
+            return visitInformation.ToDomain().ToResponse();
+        }
     }
+
 }
