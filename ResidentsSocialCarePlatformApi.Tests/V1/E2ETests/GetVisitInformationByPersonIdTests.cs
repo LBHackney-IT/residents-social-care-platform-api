@@ -30,7 +30,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task WhenThereIsNotAMatchingVisitForPersonId_Returns404()
         {
-            var nonExistentPersonId = "1234";
+            const long nonExistentPersonId = 1234L;
             var uri = new Uri($"api/v1/visit-information/person-id/{nonExistentPersonId}", UriKind.Relative);
 
             var response = Client.GetAsync(uri);
