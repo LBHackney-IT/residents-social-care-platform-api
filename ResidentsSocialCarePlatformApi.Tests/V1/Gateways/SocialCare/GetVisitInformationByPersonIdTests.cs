@@ -44,7 +44,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         }
 
         [Test]
-        public void WhenThereAreMultipleMatches_ReturnsAListContainingAllMatchingCaseNotes()
+        public void WhenThereAreMultipleMatches_ReturnsAListContainingAllMatchingVisits()
         {
             const long realPersonId = 123L;
             AddVisitWithAPerson(realPersonId);
