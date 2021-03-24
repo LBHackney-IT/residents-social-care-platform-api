@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
-    public partial class AddVisitsTable : Migration
+    public partial class UpdateCaseNotesColumnsToBeNullable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -10,8 +10,8 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    [Migration("20210324094653_AddVisitsTable")]
-    partial class AddVisitsTable
+    [Migration("20210324142939_UpdateCaseNotesColumnsToBeNullable")]
+    partial class UpdateCaseNotesColumnsToBeNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
