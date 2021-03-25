@@ -18,19 +18,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         private ResidentsController _classUnderTest;
         private Mock<IGetAllResidentsUseCase> _mockGetAllResidentsUseCase;
         private Mock<IGetEntityByIdUseCase> _mockGetEntityByIdUseCase;
-
         private Mock<IGetAllCaseNotesUseCase> _mockGetAllCaseNotesUseCase;
+        private Mock<IGetVisitInformationByPersonId> _mockGetVisitInformationByPersonIdUseCase;
 
         [SetUp]
         public void SetUp()
         {
             _mockGetAllResidentsUseCase = new Mock<IGetAllResidentsUseCase>();
             _mockGetEntityByIdUseCase = new Mock<IGetEntityByIdUseCase>();
-
             _mockGetAllCaseNotesUseCase = new Mock<IGetAllCaseNotesUseCase>();
+            _mockGetVisitInformationByPersonIdUseCase = new Mock<IGetVisitInformationByPersonId>();
 
-            _classUnderTest = new ResidentsController(_mockGetAllResidentsUseCase.Object,
-                _mockGetEntityByIdUseCase.Object, _mockGetAllCaseNotesUseCase.Object);
+            _classUnderTest = new ResidentsController(
+                _mockGetAllResidentsUseCase.Object,
+                _mockGetEntityByIdUseCase.Object,
+                _mockGetAllCaseNotesUseCase.Object,
+                _mockGetVisitInformationByPersonIdUseCase.Object);
         }
 
         [Test]
@@ -114,6 +117,55 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(200);
             response.Value.Should().BeEquivalentTo(caseNoteInformationList);
+        }
+
+        [Test]
+        public void GetCaseNote_WhenThereIsAMatchingCaseNoteId_ReturnsCaseNoteInformation()
+        {
+            var formattedDateTime = new DateTime(2020, 4, 1, 20, 30, 00).ToString("s");
+            const long visitId = 12345L;
+
+            var visitInformation = new List<VisitInformation>
+            {
+                new VisitInformation
+                {
+                    VisitId = visitId,
+                    PersonId = 000L,
+                    VisitType = "VisitType",
+                    PlannedDateTime = formattedDateTime,
+                    ActualDateTime = formattedDateTime,
+                    ReasonNotPlanned = "ReasonNotPlanned",
+                    ReasonVisitNotMade = "ReasonVisitNotMade",
+                    SeenAloneFlag = true,
+                    CompletedFlag = true,
+                    OrgId = 000L,
+                    WorkerId = 000L,
+                    CpRegistrationId = 000L,
+                    CpVisitScheduleStepId = 000L,
+                    CpVisitScheduleDays = 000L,
+                    CpVisitOnTime = true
+                }
+            };
+
+            _mockGetVisitInformationByPersonIdUseCase.Setup(x => x.Execute(visitId)).Returns(visitInformation);
+
+            var response = _classUnderTest.GetVisitInformation(visitId) as OkObjectResult;
+
+            response.StatusCode.Should().Be(200);
+            response.Value.Should().BeEquivalentTo(visitInformation);
+        }
+
+        [Test]
+        public void GetCaseNote_WhenThereIsNoAMatchingVisits_ReturnEmptyTList()
+        {
+            var visitInformation = new List<VisitInformation>();
+            const long visitId = 12345L;
+
+            _mockGetVisitInformationByPersonIdUseCase.Setup(x => x.Execute(visitId)).Returns(visitInformation);
+
+            var response = _classUnderTest.GetVisitInformation(visitId) as NotFoundResult;
+
+            response.StatusCode.Should().Be(404);
         }
 
     }

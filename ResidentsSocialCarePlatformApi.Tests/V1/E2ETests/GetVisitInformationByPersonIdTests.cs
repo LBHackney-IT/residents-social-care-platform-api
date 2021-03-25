@@ -14,7 +14,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         public async Task WhenThereIsAVisitWithMatchingPersonId_Returns200AndVisitInformation()
         {
             var visitInformation = E2ETestHelpers.AddVisitToDatabase(SocialCareContext);
-            var uri = new Uri($"api/v1/visit-information/person-id/{visitInformation.PersonId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/residents/{visitInformation.PersonId}/visits", UriKind.Relative);
 
             var response = Client.GetAsync(uri);
 
@@ -31,7 +31,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         public async Task WhenThereIsNotAMatchingVisitForPersonId_Returns404()
         {
             const long nonExistentPersonId = 1234L;
-            var uri = new Uri($"api/v1/visit-information/person-id/{nonExistentPersonId}", UriKind.Relative);
+            var uri = new Uri($"api/v1/residents/{nonExistentPersonId}/visits", UriKind.Relative);
 
             var response = Client.GetAsync(uri);
 
