@@ -8,7 +8,7 @@ build:
 
 .PHONY: serve
 serve:
-	docker-compose build residents-social-care-platform-api
+	docker-compose build residents-social-care-platform-api && docker-compose up -d dev-database
 	-dotnet tool install -g dotnet-ef
 	CONNECTION_STRING="Host=127.0.0.1;Port=7654;Username=postgres;Password=mypassword;Database=socialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
 	docker-compose up residents-social-care-platform-api
