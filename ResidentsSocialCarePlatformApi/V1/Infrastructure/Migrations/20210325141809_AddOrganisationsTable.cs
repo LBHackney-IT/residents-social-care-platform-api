@@ -35,6 +35,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                     created_acting_for = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     updated_by = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     updated_acting_for = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
+                    updated_on = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     purchaser_flag = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: true),
                     organisation_notes = table.Column<string>(type: "text", nullable: true),
                     department = table.Column<string>(type: "character varying(240)", maxLength: 240, nullable: true),

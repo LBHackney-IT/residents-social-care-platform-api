@@ -10,8 +10,8 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    [Migration("20210324143027_AddVisitsTable")]
-    partial class AddVisitsTable
+    [Migration("20210325140637_UpdateCaseNoteColumnsTobeNullable")]
+    partial class UpdateCaseNoteColumnsTobeNullable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -285,89 +285,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("dm_telephone_numbers", "dbo");
-                });
-
-            modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.Visit", b =>
-                {
-                    b.Property<long>("VisitId")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("visit_id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime?>("ActualDateTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("actual_datetime");
-
-                    b.Property<string>("CompletedFlag")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("completed_flag");
-
-                    b.Property<long>("CpRegistrationId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("cp_registration_id");
-
-                    b.Property<string>("CpVisitOnTime")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("cp_visit_on_time");
-
-                    b.Property<long?>("CpVisitScheduleDays")
-                        .HasMaxLength(3)
-                        .HasColumnType("bigint")
-                        .HasColumnName("cp_visit_schedule_days");
-
-                    b.Property<long?>("CpVisitScheduleStepId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("cp_visit_schedule_step_id");
-
-                    b.Property<long?>("OrgId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("org_id");
-
-                    b.Property<long>("PersonId")
-                        .HasMaxLength(16)
-                        .HasColumnType("bigint")
-                        .HasColumnName("person_id");
-
-                    b.Property<DateTime?>("PlannedDateTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("planned_datetime");
-
-                    b.Property<string>("ReasonNotPlanned")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("reason_not_planned");
-
-                    b.Property<string>("ReasonVisitNotMade")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("reason_visit_not_made");
-
-                    b.Property<string>("SeenAloneFlag")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("seen_alone_flag");
-
-                    b.Property<string>("VisitType")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("visit_type");
-
-                    b.Property<long?>("WorkerId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("worker_id");
-
-                    b.HasKey("VisitId");
-
-                    b.ToTable("dm_visits", "dbo");
                 });
 
             modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.Worker", b =>
