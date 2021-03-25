@@ -32,7 +32,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         }
 
         [Test]
-        public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingCaseNote()
+        public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingVisit()
         {
             const long realPersonId = 123L;
             var visit = AddVisitWithAPerson();
@@ -44,7 +44,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         }
 
         [Test]
-        public void WhenThereAreMultipleMatches_ReturnsAListContainingAllMatchingCaseNotes()
+        public void WhenThereAreMultipleMatches_ReturnsAListContainingAllMatchingVisits()
         {
             const long realPersonId = 123L;
             AddVisitWithAPerson(realPersonId);
