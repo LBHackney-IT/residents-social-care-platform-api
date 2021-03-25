@@ -17,7 +17,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("name")]
         [StringLength(240)]
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Column("referrable")]
         [StringLength(1)]
@@ -94,7 +94,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [StringLength(30)]
         public string? UpdatedActingFor { get; set; }
 
-        [Column("created_on")]
+        [Column("updated_on")]
         public DateTime? UpdatedOn { get; set; }
 
         [Column("purchaser_flag")]
@@ -115,6 +115,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("responsible_authority")]
         [StringLength(1)]
         [Required]
-        public string ResponsibleAuthority { get; set; }
+        public string ResponsibleAuthority { get; set; } = null!;
     }
 }
