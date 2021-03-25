@@ -47,8 +47,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void WhenThereAreMultipleMatches_ReturnsAListContainingAllMatchingVisits()
         {
             const long realPersonId = 123L;
-            AddVisitWithAPerson(realPersonId);
-            AddVisitWithAPerson(realPersonId);
+            const long visitIdOne = 1L;
+            const long visitIdTwo = 2L;
+
+            AddVisitWithAPerson(visitIdOne, realPersonId);
+            AddVisitWithAPerson(visitIdTwo, realPersonId);
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
@@ -60,8 +63,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         {
             const long realPersonId = 123L;
             const long otherPersonId = 456L;
-            AddVisitWithAPerson(personId: realPersonId);
-            AddVisitWithAPerson(personId: otherPersonId);
+            const long visitIdOne = 1L;
+            const long visitIdTwo = 2L;
+
+            AddVisitWithAPerson(visitIdOne, realPersonId);
+            AddVisitWithAPerson(visitIdTwo, otherPersonId);
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
