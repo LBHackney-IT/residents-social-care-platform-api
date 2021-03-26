@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -22,9 +23,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
             var content = response.Result.Content;
             var stringContent = await content.ReadAsStringAsync().ConfigureAwait(true);
-            var convertedResponse = JsonConvert.DeserializeObject<VisitInformation>(stringContent);
+            var convertedResponse = JsonConvert.DeserializeObject<List<VisitInformation>>(stringContent);
 
-            convertedResponse.Should().BeEquivalentTo(visitInformation);
+            convertedResponse.Should().BeEquivalentTo(new List<VisitInformation>{visitInformation});
         }
 
         [Test]

@@ -108,13 +108,18 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Create();
         }
 
-        public static Organisation CreateDatabaseOrganisation(long id = 0, string name = "testOrganisationName")
+        public static Organisation CreateDatabaseOrganisation(
+            long id = 1L,
+            string name = "testOrganisationName",
+            string responsibleAuthority = "Y"
+            )
         {
             var faker = new Fixture();
 
             return faker.Build<Organisation>()
                 .With(organisation => organisation.Id, id)
                 .With(organisation => organisation.Name, name)
+                .With(organisation => organisation.ResponsibleAuthority, responsibleAuthority)
                 .Create();
         }
     }
