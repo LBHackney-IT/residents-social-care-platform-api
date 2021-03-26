@@ -5,6 +5,7 @@ using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
+#nullable enable
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
     public class SocialCareGateway : ISocialCareGateway
@@ -133,6 +134,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 .Where(visit => visit.PersonId == personId)
                 .Select(visit => visit.ToDomain())
                 .ToList();
+        }
+
+        public VisitInformation? GetVisitInformationByVisitId(long visitId)
+        {
+            var visitInformation =  _socialCareContext.Visits.FirstOrDefault(visit => visit.VisitId == visitId);
+
+            return visitInformation?.ToDomain();
         }
 
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
