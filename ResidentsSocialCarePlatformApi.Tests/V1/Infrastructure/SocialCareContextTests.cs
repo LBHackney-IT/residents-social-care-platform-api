@@ -34,5 +34,31 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Infrastructure
 
             result.Should().BeEquivalentTo(caseNote);
         }
+
+        [Test]
+        public void CanCreateADatabaseRecordForAVisit()
+        {
+            var visit = TestHelper.CreateDatabaseVisit();
+
+            SocialCareContext.Add(visit);
+            SocialCareContext.SaveChanges();
+
+            var result = SocialCareContext.Visits.FirstOrDefault();
+
+            result.Should().BeEquivalentTo(visit);
+        }
+
+        [Test]
+        public void CanCreateADatabaseRecordForAnOrganisation()
+        {
+            var organisation = TestHelper.CreateDatabaseOrganisation();
+
+            SocialCareContext.Add(organisation);
+            SocialCareContext.SaveChanges();
+
+            var result = SocialCareContext.Organisations.FirstOrDefault();
+
+            result.Should().BeEquivalentTo(organisation);
+        }
     }
 }

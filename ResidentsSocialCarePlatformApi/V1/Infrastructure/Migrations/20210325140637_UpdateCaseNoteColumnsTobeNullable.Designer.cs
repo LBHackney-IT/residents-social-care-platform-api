@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -9,9 +10,10 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    partial class SocialCareContextModelSnapshot : ModelSnapshot
+    [Migration("20210325140637_UpdateCaseNoteColumnsTobeNullable")]
+    partial class UpdateCaseNoteColumnsTobeNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -183,149 +185,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                     b.ToTable("dm_case_note_types", "dbo");
                 });
 
-            modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.Organisation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("AcFlag")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("ac_flag");
-
-                    b.Property<string>("ApprovedSupplier")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("approved_supplier");
-
-                    b.Property<string>("Available")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("available");
-
-                    b.Property<string>("CreatedActingFor")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("created_acting_for");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("created_by");
-
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("created_on");
-
-                    b.Property<string>("Department")
-                        .HasMaxLength(240)
-                        .HasColumnType("character varying(240)")
-                        .HasColumnName("department");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)")
-                        .HasColumnName("description");
-
-                    b.Property<string>("EmailAddress")
-                        .HasMaxLength(240)
-                        .HasColumnType("character varying(240)")
-                        .HasColumnName("email_address");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(240)
-                        .HasColumnType("character varying(240)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("OrganisationNotes")
-                        .HasColumnType("text")
-                        .HasColumnName("organisation_notes");
-
-                    b.Property<string>("PlacementCode")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("placement_code");
-
-                    b.Property<string>("PurchaserFlag")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("purchaser_flag");
-
-                    b.Property<string>("Referrable")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("referrable");
-
-                    b.Property<string>("RegisteringAuthority")
-                        .HasMaxLength(240)
-                        .HasColumnType("character varying(240)")
-                        .HasColumnName("registering_authority");
-
-                    b.Property<string>("RegistrationStatus")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("registration_status");
-
-                    b.Property<string>("ResponsibleAuthority")
-                        .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("responsible_authority");
-
-                    b.Property<string>("Sector")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("sector");
-
-                    b.Property<string>("SubSector")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("sub_sector");
-
-                    b.Property<long?>("TeamOrgId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("team_org_id");
-
-                    b.Property<string>("Type")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("type");
-
-                    b.Property<string>("UpdatedActingFor")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("updated_acting_for");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
-                        .HasColumnName("updated_by");
-
-                    b.Property<DateTime?>("UpdatedOn")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("updated_on");
-
-                    b.Property<string>("WardSpecific")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("ward_specific");
-
-                    b.Property<string>("WebAddress")
-                        .HasMaxLength(240)
-                        .HasColumnType("character varying(240)")
-                        .HasColumnName("web_address");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("organisations", "dbo");
-                });
-
             modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.Person", b =>
                 {
                     b.Property<long>("Id")
@@ -426,89 +285,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                     b.HasIndex("PersonId");
 
                     b.ToTable("dm_telephone_numbers", "dbo");
-                });
-
-            modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.Visit", b =>
-                {
-                    b.Property<long>("VisitId")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("visit_id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime?>("ActualDateTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("actual_datetime");
-
-                    b.Property<string>("CompletedFlag")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("completed_flag");
-
-                    b.Property<long>("CpRegistrationId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("cp_registration_id");
-
-                    b.Property<string>("CpVisitOnTime")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("cp_visit_on_time");
-
-                    b.Property<long?>("CpVisitScheduleDays")
-                        .HasMaxLength(3)
-                        .HasColumnType("bigint")
-                        .HasColumnName("cp_visit_schedule_days");
-
-                    b.Property<long?>("CpVisitScheduleStepId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("cp_visit_schedule_step_id");
-
-                    b.Property<long?>("OrgId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("org_id");
-
-                    b.Property<long>("PersonId")
-                        .HasMaxLength(16)
-                        .HasColumnType("bigint")
-                        .HasColumnName("person_id");
-
-                    b.Property<DateTime?>("PlannedDateTime")
-                        .HasColumnType("timestamp without time zone")
-                        .HasColumnName("planned_datetime");
-
-                    b.Property<string>("ReasonNotPlanned")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("reason_not_planned");
-
-                    b.Property<string>("ReasonVisitNotMade")
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("reason_visit_not_made");
-
-                    b.Property<string>("SeenAloneFlag")
-                        .HasMaxLength(1)
-                        .HasColumnType("character varying(1)")
-                        .HasColumnName("seen_alone_flag");
-
-                    b.Property<string>("VisitType")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("visit_type");
-
-                    b.Property<long?>("WorkerId")
-                        .HasMaxLength(9)
-                        .HasColumnType("bigint")
-                        .HasColumnName("worker_id");
-
-                    b.HasKey("VisitId");
-
-                    b.ToTable("dm_visits", "dbo");
                 });
 
             modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.Worker", b =>

@@ -68,5 +68,27 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CopiedDate = caseNote.CopiedDate
             };
         }
+
+        public static VisitInformation ToDomain(this Visit visit)
+        {
+            return new VisitInformation
+            {
+                VisitId = visit.VisitId,
+                PersonId = visit.PersonId,
+                VisitType = visit.VisitType,
+                PlannedDateTime = visit.PlannedDateTime,
+                ActualDateTime = visit.ActualDateTime,
+                ReasonNotPlanned = visit.ReasonNotPlanned,
+                ReasonVisitNotMade = visit.ReasonVisitNotMade,
+                SeenAloneFlag = visit.SeenAloneFlag,
+                CompletedFlag = visit.CompletedFlag,
+                OrgId = visit.OrgId,
+                WorkerId = visit.WorkerId,
+                CpRegistrationId = visit.CpRegistrationId,
+                CpVisitScheduleStepId = visit.CpVisitScheduleStepId,
+                CpVisitScheduleDays = visit.CpVisitScheduleDays,
+                CpVisitOnTime = visit.CpVisitOnTime
+            };
+        }
     }
 }

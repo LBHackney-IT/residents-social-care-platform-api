@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -9,9 +10,10 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    partial class SocialCareContextModelSnapshot : ModelSnapshot
+    [Migration("20210325141809_AddOrganisationsTable")]
+    partial class AddOrganisationsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -127,6 +127,14 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return caseNoteInformation;
         }
 
+        public List<VisitInformation> GetVisitInformationByPersonId(long personId)
+        {
+            return _socialCareContext.Visits
+                .Where(visit => visit.PersonId == personId)
+                .Select(visit => visit.ToDomain())
+                .ToList();
+        }
+
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);

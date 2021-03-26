@@ -93,5 +93,34 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .With(worker => worker.SystemUserId, systemUserId)
                 .Create();
         }
+
+        public static Visit CreateDatabaseVisit(long visitId = 0, long personId = 0, string visitType = "testVisitType",
+            long orgId = 0, long workerId = 0)
+        {
+            var faker = new Fixture();
+
+            return faker.Build<Visit>()
+                .With(visit => visit.VisitId, visitId)
+                .With(visit => visit.PersonId, personId)
+                .With(visit => visit.VisitType, visitType)
+                .With(visit => visit.OrgId, orgId)
+                .With(visit => visit.WorkerId, workerId)
+                .Create();
+        }
+
+        public static Organisation CreateDatabaseOrganisation(
+            long id = 1L,
+            string name = "testOrganisationName",
+            string responsibleAuthority = "Y"
+            )
+        {
+            var faker = new Fixture();
+
+            return faker.Build<Organisation>()
+                .With(organisation => organisation.Id, id)
+                .With(organisation => organisation.Name, name)
+                .With(organisation => organisation.ResponsibleAuthority, responsibleAuthority)
+                .Create();
+        }
     }
 }

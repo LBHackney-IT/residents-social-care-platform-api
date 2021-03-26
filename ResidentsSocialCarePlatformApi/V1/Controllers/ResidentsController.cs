@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Requests;
@@ -15,15 +16,22 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
     {
         private IGetAllResidentsUseCase _getAllResidentsUseCase;
         private IGetEntityByIdUseCase _getEntityByIdUseCase;
-
         private IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
+        private readonly IGetVisitInformationByPersonId _getVisitInformationByPersonId;
 
-        public ResidentsController(IGetAllResidentsUseCase getAllResidentsUseCase, IGetEntityByIdUseCase getEntityByIdUseCase, IGetAllCaseNotesUseCase getAllCaseNotesUseCase)
+        public ResidentsController(
+            IGetAllResidentsUseCase getAllResidentsUseCase,
+            IGetEntityByIdUseCase getEntityByIdUseCase,
+            IGetAllCaseNotesUseCase getAllCaseNotesUseCase,
+            IGetVisitInformationByPersonId getVisitInformationByPersonId
+            )
         {
             _getAllResidentsUseCase = getAllResidentsUseCase;
             _getEntityByIdUseCase = getEntityByIdUseCase;
             _getAllCaseNotesUseCase = getAllCaseNotesUseCase;
+            _getVisitInformationByPersonId = getVisitInformationByPersonId;
         }
+
         /// <summary>
         /// Returns list of contacts who share the query search parameter
         /// </summary>
@@ -74,6 +82,23 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         public IActionResult ListCaseNotes(long personId)
         {
             return Ok(_getAllCaseNotesUseCase.Execute(personId));
+        }
+
+        /// /// <summary>
+        /// Returns a list of visit information for a Person/Mosaic ID
+        /// </summary>
+        /// <response code="200">Success. Returns a list of visit information for a resident</response>
+        /// <response code="404">No visit information found for the specified Person ID</response>
+        [ProducesResponseType(typeof(List<Boundary.Responses.VisitInformation>), StatusCodes.Status200OK)]
+        [HttpGet]
+        [Route("{personId}/visits")]
+        public IActionResult GetVisitInformation(long personId)
+        {
+            var visitInformation = _getVisitInformationByPersonId.Execute(personId);
+
+            if (visitInformation.Count == 0) return NotFound();
+
+            return Ok(visitInformation);
         }
     }
 }

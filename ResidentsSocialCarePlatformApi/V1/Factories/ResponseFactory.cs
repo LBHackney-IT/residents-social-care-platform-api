@@ -85,5 +85,32 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 PostCode = add.PostCode
             }).ToList();
         }
+
+        public static List<Boundary.Responses.VisitInformation> ToResponse(this IEnumerable<Domain.VisitInformation> visits)
+        {
+            return visits.Select(visit => visit.ToResponse()).ToList();
+        }
+
+        public static Boundary.Responses.VisitInformation ToResponse(this Domain.VisitInformation visit)
+        {
+            return new Boundary.Responses.VisitInformation
+            {
+                VisitId = visit.VisitId,
+                PersonId = visit.PersonId,
+                VisitType = visit.VisitType,
+                PlannedDateTime = visit.PlannedDateTime?.ToString("s"),
+                ActualDateTime = visit.ActualDateTime?.ToString("s"),
+                ReasonNotPlanned = visit.ReasonNotPlanned,
+                ReasonVisitNotMade = visit.ReasonVisitNotMade,
+                SeenAloneFlag = !string.IsNullOrEmpty(visit.SeenAloneFlag) && visit.SeenAloneFlag.Equals("Y"),
+                CompletedFlag = !string.IsNullOrEmpty(visit.CompletedFlag) && visit.CompletedFlag.Equals("Y"),
+                OrgId = visit.OrgId,
+                WorkerId = visit.WorkerId,
+                CpRegistrationId = visit.CpRegistrationId,
+                CpVisitScheduleStepId = visit.CpVisitScheduleStepId,
+                CpVisitScheduleDays = visit.CpVisitScheduleDays,
+                CpVisitOnTime = !string.IsNullOrEmpty(visit.CpVisitOnTime) && visit.CpVisitOnTime == "Y"
+            };
+        }
     }
 }

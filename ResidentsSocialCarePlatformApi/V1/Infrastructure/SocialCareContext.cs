@@ -16,6 +16,10 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         public DbSet<Worker> Workers { get; set; }
 
+        public DbSet<Visit> Visits { get; set; }
+
+        public DbSet<Organisation> Organisations { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // composite primary key for TelephoneNumber table
