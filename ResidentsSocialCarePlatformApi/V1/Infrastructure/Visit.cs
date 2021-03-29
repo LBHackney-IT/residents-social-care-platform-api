@@ -24,10 +24,10 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         public string VisitType { get; set; } = null!;
 
         [Column("planned_datetime")]
-        public DateTime? PlannedDateTime { get; set;  }
+        public DateTime? PlannedDateTime { get; set; }
 
         [Column("actual_datetime")]
-        public DateTime? ActualDateTime { get; set;  }
+        public DateTime? ActualDateTime { get; set; }
 
         [Column("reason_not_planned")]
         [StringLength(16)]

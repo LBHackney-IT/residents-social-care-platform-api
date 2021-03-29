@@ -9,9 +9,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 
         public string VisitType { get; set; } = null!;
 
-        public string? PlannedDateTime { get; set;  }
+        public string? PlannedDateTime { get; set; }
 
-        public string? ActualDateTime { get; set;  }
+        public string? ActualDateTime { get; set; }
 
         public string? ReasonNotPlanned { get; set; }
 
