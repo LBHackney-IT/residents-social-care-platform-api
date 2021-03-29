@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
