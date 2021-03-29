@@ -2,11 +2,11 @@
 
 The Residents Social Care Platform API allows for services to retrieve
 social care data of residents i.e. information formally managed by
-Mosaic. This repository is based off the
-[Mosaic Resident Information API](https://github.com/LBHackney-IT/mosaic-resident-information-api).
+Mosaic.
 
-It uses [.NET Core](https://dotnet.microsoft.com) as a web framework and
-[nUnit](https://nunit.org) for testing.
+It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details).
+
+![Platform API Architecture](docs/architecture.png)
 
 ## Contents
 
@@ -38,13 +38,18 @@ $ git clone git@github.com:LBHackney-IT/residents-social-care-platform-api.git
 
 ### Running the application
 
+#### With Docker
+
 To serve the API using Docker, use:
 
 ```sh
 $ make serve
 ```
 
-The application will be served at http://localhost:3000.
+The application will be served at http://localhost:3000 and expose the database
+at port `7654`.
+
+#### Without Docker
 
 To serve the API locally without Docker, use:
 
@@ -85,6 +90,26 @@ $ make start-test-db
 
 This will allow you to run the tests as normal in your IDE.
 
+### Updating the architecture diagram
+
+The [architecture diagram](./docs/architecture.png) is generated using [Diagrams by mingrammer](https://diagrams.mingrammer.com/) which allows you to create
+diagrams by writing Python code.
+
+1. Install diagrams
+```bash
+$ pip install diagrams
+```
+2. Update [architecture.py](./docs/architecture.py) with your changes (see [Diagrams' documentation](https://diagrams.mingrammer.com/docs/guides/diagram))
+3. Change directory into `/docs` so the new image replaces the current one
+```bash
+$ cd docs
+```
+4. Run the script to generate the diagram
+```bash
+$ python architecture.py
+```
+5. Commit the updated image and Python script
+
 ## Migrations
 
 ### Adding a migration
@@ -120,7 +145,7 @@ If the migration file looks wrong or you have missed something, you can do eithe
 
 1. While the test database is running in the background, run:
    ```sh
-   $ CONNECTION_STRING="Host=127.0.0.1;Database=testsocialcare;Username=postgres;Password=mypassword;" dotnet ef migrations remove -p ResidentsSocialCarePlatformApi
+   $ CONNECTION_STRING="Host=127.0.0.1;Database=socialcare;Username=postgres;Password=mypassword;" dotnet ef migrations remove -p ResidentsSocialCarePlatformApi
    ```
 
 2. Or delete the migration files and revert the changes to `SocialCareContextModelSnapshot.cs`. Make the necessary changes to the context, then create the migration files again.
@@ -130,24 +155,26 @@ Note: Any changes made to a `DbSet` or within `SocialCareContext` should have an
 ### Applying a Migration
 
 While running the test database locally (i.e you are able to run tests from within your IDE), run any new migrations with:
+
 ```sh
-$ make migrate-local-test-database
+$ make migrate-test-db
 ```
 
-This will run migrations on the `testsocialcare` database on your local machine.
-(Your IDE connects to the `testsocialcare` database hosted on your localhost to run tests and not to the docker container).
+This will run migrations on the `socialcare` database on your local machine.
+(Your IDE connects to the `socialcare` database hosted on your localhost to run tests and not to the docker container).
 
 ### Troubleshooting Migrations
-If you encounter errors about tables already existing after running the `migrate-local-test-database` make command,
-you can try using [psql](https://www.postgresql.org/docs/current/app-psql.html)
-to delete all the existing tables in `dbo` schema and the `__EFMigrationsHistory` table from the `testsocialcare` database hosted on your localhost.
 
-1. In your terminal, connect to the localhost instance of testsocialcare using psql:
+If you encounter errors about tables already existing after running the `migrate-test-db` make command,
+you can try using [psql](https://www.postgresql.org/docs/current/app-psql.html)
+to delete all the existing tables in `dbo` schema and the `__EFMigrationsHistory` table from the `socialcare` database hosted on your localhost.
+
+1. In your terminal, connect to the localhost instance of socialcare using psql:
 ```sh
-$ psql -h 127.0.0.1 -p 5432 -d testsocialcare -U postgres
+$ psql -h 127.0.0.1 -p 5432 -d socialcare -U postgres
 ```
 
-2. Delete all the tables in the testsocialcare `dbo` schema:
+2. Delete all the tables in the socialcare `dbo` schema:
 ```sh
 DROP SCHEMA IF EXISTS dbo CASCADE;
 ```
@@ -163,7 +190,7 @@ N.B: Do not delete the public schema, if you do, you will need to recreate it us
 
 4. Exit the psql. You can use `\q`
 
-5. Run the `make migrate-local-test-database` command again.
+5. Run the `make migrate-test-db` command again.
    This should run the migrations on the database, create a new `__EFMigrationsHistory` table and save the new migration history there.
 
 ## Documentation

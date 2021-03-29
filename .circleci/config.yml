@@ -102,10 +102,8 @@ jobs:
 workflows:
   check-and-deploy-production:
     jobs:
-      - build-and-test:
-          filters:
-            branches:
-              only: main
+      - check-code-formatting
+      - build-and-test
       - permit-production-release:
           type: approval
           requires:

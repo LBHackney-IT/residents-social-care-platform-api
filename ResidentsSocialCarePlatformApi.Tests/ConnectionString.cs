@@ -10,7 +10,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
                    $"Port={Environment.GetEnvironmentVariable("DB_PORT") ?? "6543"};" +
                    $"Username={Environment.GetEnvironmentVariable("DB_USERNAME") ?? "postgres"};" +
                    $"Password={Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "mypassword"};" +
-                   $"Database={Environment.GetEnvironmentVariable("DB_DATABASE") ?? "testsocialcare"}";
+                   $"Database={Environment.GetEnvironmentVariable("DB_DATABASE") ?? "socialcare"}";
         }
     }
 }
