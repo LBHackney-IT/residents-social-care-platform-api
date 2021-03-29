@@ -138,7 +138,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         public VisitInformation? GetVisitInformationByVisitId(long visitId)
         {
-            var visitInformation =  _socialCareContext.Visits.FirstOrDefault(visit => visit.VisitId == visitId);
+            var visitInformation = _socialCareContext.Visits.FirstOrDefault(visit => visit.VisitId == visitId);
 
             return visitInformation?.ToDomain();
         }
