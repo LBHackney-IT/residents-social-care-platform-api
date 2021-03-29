@@ -102,6 +102,7 @@ jobs:
 workflows:
   check-and-deploy-production:
     jobs:
+      - check-code-formatting
       - build-and-test
       - permit-production-release:
           type: approval
