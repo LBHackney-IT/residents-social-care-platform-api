@@ -55,7 +55,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         [Column("cp_registration_id")]
         [MaxLength(9)]
-        public long CpRegistrationId { get; set; }
+        public long? CpRegistrationId { get; set; }
 
         [Column("cp_visit_schedule_step_id")]
         [MaxLength(9)]
