@@ -11,9 +11,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
 
         public string VisitType { get; set; } = null!;
 
-        public DateTime? PlannedDateTime { get; set;  }
+        public DateTime? PlannedDateTime { get; set; }
 
-        public DateTime? ActualDateTime { get; set;  }
+        public DateTime? ActualDateTime { get; set; }
 
         public string? ReasonNotPlanned { get; set; }
 

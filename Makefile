@@ -8,7 +8,10 @@ build:
 
 .PHONY: serve
 serve:
-	docker-compose build residents-social-care-platform-api && docker-compose up residents-social-care-platform-api
+	docker-compose build residents-social-care-platform-api && docker-compose up -d dev-database
+	-dotnet tool install -g dotnet-ef
+	CONNECTION_STRING="Host=127.0.0.1;Port=7654;Username=postgres;Password=mypassword;Database=socialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
+	docker-compose up residents-social-care-platform-api
 
 .PHONY: shell
 shell:
@@ -29,10 +32,10 @@ restart-test-db:
 	-docker rm $$container_id
 	docker-compose up -d test-database
 
-.PHONY: migrate-local-test-database
-migrate-local-test-database:
+.PHONY: migrate-test-db
+migrate-test-db:
 	-dotnet tool install -g dotnet-ef
-	CONNECTION_STRING="Host=127.0.0.1;Port=6543;Username=postgres;Password=mypassword;Database=testsocialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
+	CONNECTION_STRING="Host=127.0.0.1;Port=6543;Username=postgres;Password=mypassword;Database=socialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
 
 .PHONY: lint
 lint:
