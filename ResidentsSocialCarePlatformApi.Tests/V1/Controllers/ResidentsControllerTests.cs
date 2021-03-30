@@ -120,7 +120,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         }
 
         [Test]
-        public void GetCaseNote_WhenThereIsAMatchingCaseNoteId_ReturnsCaseNoteInformation()
+        public void GetVisitInformation_WhenThereIsAMatchingVisitId_ReturnsListOfVisitInformationWith200Status()
         {
             var formattedDateTime = new DateTime(2020, 4, 1, 20, 30, 00).ToString("s");
             const long visitId = 12345L;
@@ -156,7 +156,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         }
 
         [Test]
-        public void GetCaseNote_WhenThereIsNoAMatchingVisits_ReturnEmptyTList()
+        public void GetVisitInformation_WhenThereIsNoMatchingVisits_Return404Status()
         {
             var visitInformation = new List<VisitInformation>();
             const long visitId = 12345L;
