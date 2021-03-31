@@ -36,7 +36,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         }
 
         [Test]
-        public void WhenThereIsAMatchingCaseNote_ReturnsCaseNoteInformation()
+        public void WhenThereIsAMatchingVisit_ReturnsCaseNoteInformation()
         {
             var visit = _fixture.Create<VisitInformation>();
             const long fakeVisitId = 123L;
