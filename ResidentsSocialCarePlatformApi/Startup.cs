@@ -135,6 +135,7 @@ namespace ResidentsSocialCarePlatformApi
             services.AddScoped<IGetAllCaseNotesUseCase, GetAllCaseNotesUseCase>();
             services.AddScoped<IGetCaseNoteInformationByIdUseCase, GetCaseNoteInformationByIdUseCase>();
             services.AddScoped<IGetVisitInformationByPersonId, GetVisitInformationByPersonId>();
+            services.AddScoped<IGetVisitInformationByVisitId, GetVisitInformationByVisitId>();
             services.AddScoped<IValidatePostcode, ValidatePostcode>();
         }
 

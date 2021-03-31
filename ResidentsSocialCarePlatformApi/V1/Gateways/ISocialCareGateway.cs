@@ -16,5 +16,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId);
 
         List<Domain.VisitInformation> GetVisitInformationByPersonId(long personId);
+
+        Domain.VisitInformation GetVisitInformationByVisitId(long visitId);
     }
 }
