@@ -24,7 +24,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         }
 
         [Test]
-        public void WhenThereIsNoMatchingCaseNote_ReturnsNull()
+        public void WhenThereIsNoMatchingVisit_ReturnsNull()
         {
             VisitInformation? noVisit = null;
             const long fakeVisitId = 123L;
