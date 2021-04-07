@@ -16,7 +16,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 FirstName = databaseEntity.FirstName,
                 LastName = databaseEntity.LastName,
                 NhsNumber = databaseEntity.NhsNumber?.ToString(),
-                DateOfBirth = databaseEntity.DateOfBirth?.ToString("O"),
+                DateOfBirth = databaseEntity.DateOfBirth?.ToString("s"),
                 AgeContext = databaseEntity.AgeContext,
                 Nationality = databaseEntity.Nationality,
                 Gender = databaseEntity.Gender,

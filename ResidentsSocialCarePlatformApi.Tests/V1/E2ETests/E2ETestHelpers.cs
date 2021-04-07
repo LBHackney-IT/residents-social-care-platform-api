@@ -37,7 +37,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                     {
                         new Phone {PhoneNumber = phone.Number, PhoneType = phone.Type}
                     },
-                DateOfBirth = person.DateOfBirth?.ToString("O"),
+                DateOfBirth = person.DateOfBirth?.ToString("s"),
                 AgeContext = person.AgeContext,
                 AddressList = new List<Address>
                 {

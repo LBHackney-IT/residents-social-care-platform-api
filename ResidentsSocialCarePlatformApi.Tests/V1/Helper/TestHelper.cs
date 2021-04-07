@@ -19,7 +19,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(person => person.FirstName, f => firstname ?? f.Name.FirstName())
                 .RuleFor(person => person.LastName, f => lastname ?? f.Name.LastName())
                 .RuleFor(person => person.FullName, f => f.Name.FullName())
-                .RuleFor(person => person.DateOfBirth, f => f.Date.Past(50, DateTime.Now))
+                .RuleFor(person => person.DateOfBirth, f => f.Date.Past(50, DateTime.Now).Date)
                 .RuleFor(person => person.NhsNumber, f => f.Random.Number(MaxValue))
                 .RuleFor(person => person.Gender, f => f.Person.Gender.ToString()[0].ToString())
                 .RuleFor(person => person.EmailAddress, f => f.Person.Email)

@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoFixture;
 using FluentAssertions;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using Newtonsoft.Json;
@@ -12,13 +11,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
     [TestFixture]
     public class ListResidentsReturnsAndQueriesAListOfAllResidents : EndToEndTests<Startup>
     {
-        private IFixture _fixture;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _fixture = new Fixture();
-        }
 
         [Test]
         public async Task IfNoQueryParametersReturnsAllResidentRecordsFromMosaic()
