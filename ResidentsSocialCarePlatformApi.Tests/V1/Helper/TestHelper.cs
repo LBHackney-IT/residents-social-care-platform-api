@@ -1,26 +1,32 @@
 using System;
 using AutoFixture;
+using Bogus;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
+using static System.Int32;
 using Address = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
 using Person = ResidentsSocialCarePlatformApi.V1.Infrastructure.Person;
 
+#nullable enable
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
 {
     public static class TestHelper
     {
-        public static Person CreateDatabasePersonEntity(string firstname = null, string lastname = null, long? id = null)
+        public static Person CreateDatabasePersonEntity(long? id = null, string? firstname = null, string? lastname = null)
         {
-            var faker = new Fixture();
-            var fp = faker.Build<Person>()
-                .Without(p => p.Id)
-                .Create();
-            fp.DateOfBirth = new DateTime
-                (fp.DateOfBirth.Value.Year, fp.DateOfBirth.Value.Month, fp.DateOfBirth.Value.Day);
-            fp.FirstName = firstname ?? fp.FirstName;
-            fp.LastName = lastname ?? fp.LastName;
-            if (id != null) fp.Id = (int) id;
-
-            return fp;
+            return new Faker<Person>()
+                .RuleFor(person => person.Id, f => id ?? f.UniqueIndex)
+                .RuleFor(person => person.PersonIdLegacy, f => f.UniqueIndex.ToString())
+                .RuleFor(person => person.FirstName, f => firstname ?? f.Name.FirstName())
+                .RuleFor(person => person.LastName, f => lastname?? f.Name.LastName())
+                .RuleFor(person => person.FullName, f => f.Name.FullName())
+                .RuleFor(person => person.DateOfBirth, f => f.Date.Past(50, DateTime.Now))
+                .RuleFor(person => person.NhsNumber, f => f.Random.Number(MaxValue))
+                .RuleFor(person => person.Gender, f => f.Person.Gender.ToString()[0].ToString())
+                .RuleFor(person => person.EmailAddress, f => f.Person.Email)
+                .RuleFor(person => person.Restricted, f => f.Random.String2(1, "YN"))
+                .RuleFor(person => person.AgeContext, f => f.Random.String2(1, "YN"))
+                .RuleFor(person => person.Title, f => f.Name.Prefix())
+                .RuleFor(person => person.Nationality, f => f.Random.String2(1, 20));
         }
 
         public static Address CreateDatabaseAddressForPersonId(long personId, string postcode = null, string address = null)

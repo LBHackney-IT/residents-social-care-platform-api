@@ -180,65 +180,71 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         [Test]
         public void GetAllResidentsWithFirstNameQueryParameter_ReturnsMatchingResident()
         {
-            var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom");
-            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "shape");
-            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "Ciasom");
+            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "ciasom");
+            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "shape");
+            var databaseEntity3 = AddPersonRecordToDatabase(firstname: "Ciasom");
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom");
+
             listOfPersons.Count.Should().Be(2);
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity1.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity3.ToDomain());
         }
 
         [Test]
         public void GetAllResidentsWildcardSearchWithFirstNameQueryParameter_ReturnsMatchingResident()
         {
-            var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom");
-            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "shape");
-            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "Ciasom");
+            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "ciasom");
+            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "shape");
+            var databaseEntity3 = AddPersonRecordToDatabase(firstname: "Ciasom");
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "iaso");
+
             listOfPersons.Count.Should().Be(2);
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity1.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity3.ToDomain());
         }
 
         [Test]
         public void GetAllResidentsWithLastNameQueryParameter_ReturnsMatchingResident()
         {
-            var databaseEntity = AddPersonRecordToDatabase(lastname: "tessellate");
-            var databaseEntity1 = AddPersonRecordToDatabase(lastname: "square");
-            var databaseEntity2 = AddPersonRecordToDatabase(lastname: "Tessellate");
+            var databaseEntity1 = AddPersonRecordToDatabase(lastname: "tessellate");
+            var databaseEntity2 = AddPersonRecordToDatabase(lastname: "square");
+            var databaseEntity3 = AddPersonRecordToDatabase(lastname: "Tessellate");
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, lastname: "tessellate");
+
             listOfPersons.Count.Should().Be(2);
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity1.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity3.ToDomain());
         }
 
         [Test]
         public void GetAllResidentsWildcardSearchWithLastNameQueryParameter_ReturnsMatchingResident()
         {
-            var databaseEntity = AddPersonRecordToDatabase(lastname: "tessellate");
-            var databaseEntity1 = AddPersonRecordToDatabase(lastname: "square");
-            var databaseEntity2 = AddPersonRecordToDatabase(lastname: "Tessellate");
+            var databaseEntity1 = AddPersonRecordToDatabase(lastname: "tessellate");
+            var databaseEntity2 = AddPersonRecordToDatabase(lastname: "square");
+            var databaseEntity3 = AddPersonRecordToDatabase(lastname: "Tessellate");
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, lastname: "sell");
+
             listOfPersons.Count.Should().Be(2);
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity.ToDomain());
-            listOfPersons.Should().ContainEquivalentOf(databaseEntity2.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity1.ToDomain());
+            listOfPersons.Should().ContainEquivalentOf(databaseEntity3.ToDomain());
         }
 
         [Test]
         public void GetAllResidentsWithNameQueryParameters_ReturnsMatchingResidentOnlyOnce()
         {
-            var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom", lastname: "Tessellate");
+            var databaseEntity = AddPersonRecordToDatabase();
 
             var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
             SocialCareContext.Addresses.Add(address);
             SocialCareContext.SaveChanges();
 
-            var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", lastname: "Tessellate");
+            var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20,
+                firstname: databaseEntity.FirstName, lastname: databaseEntity.LastName);
+
             listOfPersons.Count.Should().Be(1);
             listOfPersons.First().MosaicId.Should().Be(databaseEntity.Id.ToString());
         }
@@ -260,21 +266,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         [Test]
         public void GetAllResidentsWithPostCodeQueryParameter_ReturnsMatchingResident()
         {
-            var databaseEntity = AddPersonRecordToDatabase();
             var databaseEntity1 = AddPersonRecordToDatabase();
+            var databaseEntity2 = AddPersonRecordToDatabase();
 
-            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
+            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, "E8 1DY");
             SocialCareContext.Addresses.Add(address);
             SocialCareContext.SaveChanges();
 
-            var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, "E8 5TG");
+            var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity2.Id, "E8 5TG");
             SocialCareContext.Addresses.Add(address1);
             SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY");
+
             listOfPersons.Count.Should().Be(1);
             listOfPersons
-                .First(p => p.MosaicId.Equals(databaseEntity.Id.ToString()))
+                .First(p => p.MosaicId.Equals(databaseEntity1.Id.ToString()))
                 .AddressList
                 .Should().ContainEquivalentOf(address.ToDomain());
         }
@@ -284,12 +291,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         {
             var databaseEntity = AddPersonRecordToDatabase();
 
-            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
-            SocialCareContext.Addresses.Add(address);
-            SocialCareContext.SaveChanges();
-
             var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
             SocialCareContext.Addresses.Add(address1);
+            SocialCareContext.SaveChanges();
+
+            var address2 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
+            SocialCareContext.Addresses.Add(address2);
             SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY").ToList();
@@ -325,25 +332,25 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         [Test]
         public void GetAllResidentsWithNameAndPostCodeQueryParameter_ReturnsMatchingResident()
         {
-            var databaseEntity = AddPersonRecordToDatabase(firstname: "ciasom");
-            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, "E8 1DY");
-
-            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "wrong name");
+            var databaseEntity1 = AddPersonRecordToDatabase(firstname: "ciasom");
             var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, "E8 1DY");
 
-            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "ciasom");
-            var address2 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity2.Id, "E8 5RT");
+            var databaseEntity2 = AddPersonRecordToDatabase(firstname: "wrong name");
+            var address2 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity2.Id, "E8 1DY");
 
-            SocialCareContext.Addresses.AddRange(new List<Address> { address, address1, address2 });
+            var databaseEntity3 = AddPersonRecordToDatabase(firstname: "ciasom");
+            var address3 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity3.Id, "E8 5RT");
+
+            SocialCareContext.Addresses.AddRange(new List<Address> { address1, address2, address3 });
             SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, firstname: "ciasom", postcode: "E8 1DY").ToList();
 
             listOfPersons.Count.Should().Be(1);
-            listOfPersons.First().MosaicId.Should().Be(databaseEntity.Id.ToString());
+            listOfPersons.First().MosaicId.Should().Be(databaseEntity1.Id.ToString());
             listOfPersons.First()
                 .AddressList
-                .Should().ContainEquivalentOf(address.ToDomain());
+                .Should().ContainEquivalentOf(address1.ToDomain());
         }
 
         [TestCase("E81DY")]
@@ -359,7 +366,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, postcode: "E8 1DY");
 
             listOfPersons.Count.Should().Be(1);
-
             listOfPersons.First().MosaicId.Should().Be(databaseEntity.Id.ToString());
             listOfPersons.First().AddressList
                 .Should().ContainEquivalentOf(address.ToDomain());
@@ -371,81 +377,67 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         [TestCase("Hackney")]
         public void GetAllResidentsWithAddressQueryParameter_ReturnsMatchingResident(string addressQuery)
         {
-            var databaseEntity = AddPersonRecordToDatabase();
             var databaseEntity1 = AddPersonRecordToDatabase();
+            var databaseEntity2 = AddPersonRecordToDatabase();
 
-            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id, address: "1 My Street, Hackney, London");
+            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, address: "1 My Street, Hackney, London");
             SocialCareContext.Addresses.Add(address);
             SocialCareContext.SaveChanges();
 
-            var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity1.Id, address: "5 Another Street, Lambeth, London");
+            var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity2.Id, address: "5 Another Street, Lambeth, London");
             SocialCareContext.Addresses.Add(address1);
             SocialCareContext.SaveChanges();
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 20, address: addressQuery).ToList();
             listOfPersons.Count.Should().Be(1);
             listOfPersons
-                .First(p => p.MosaicId.Equals(databaseEntity.Id.ToString()))
+                .First(p => p.MosaicId.Equals(databaseEntity1.Id.ToString()))
                 .AddressList
                 .Should().ContainEquivalentOf(address.ToDomain());
         }
 
 
         [Test]
-        public void GetAllResidentsOnlyReturnsTheLimit_ReturnsMatchingResidenst()
+        public void GetAllResidentsOnlyReturnsTheLimit_ReturnsMatchingResidents()
         {
-            var databaseEntity = AddPersonRecordToDatabase(id: 1);
-            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity1 = AddPersonRecordToDatabase(id: 2);
-            var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity2 = AddPersonRecordToDatabase(id: 3);
-            var address2 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity3 = AddPersonRecordToDatabase(id: 4);
-            var address3 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity4 = AddPersonRecordToDatabase(id: 5);
-            var address4 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            SocialCareContext.Addresses.AddRange(new List<Address> { address, address1, address2, address3, address4 });
-            SocialCareContext.SaveChanges();
+            var databaseEntity1 = AddPersonRecordToDatabase(id: 1);
+            var databaseEntity2 = AddPersonRecordToDatabase(id: 2);
+            var databaseEntity3 = AddPersonRecordToDatabase(id: 3);
+            var databaseEntity4 = AddPersonRecordToDatabase(id: 4);
+            var databaseEntity5 = AddPersonRecordToDatabase(id: 5);
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 0, limit: 3).ToList();
             listOfPersons.Count.Should().Be(3);
             listOfPersons
                 .Select(p => p.MosaicId)
-                .Should().BeEquivalentTo(new List<string> { "1", "2", "3" });
+                .Should().BeEquivalentTo(new List<string>
+                {
+                    databaseEntity1.Id.ToString(),
+                    databaseEntity2.Id.ToString(),
+                    databaseEntity3.Id.ToString()
+                });
         }
 
 
         [Test]
-        public void GetAllResidentsOnlyReturnsTheCursorAndTheLimit_ReturnsMatchingResidenst()
+        public void GetAllResidentsOnlyReturnsTheCursorAndTheLimit_ReturnsMatchingResidents()
         {
-            var databaseEntity = AddPersonRecordToDatabase(id: 1);
-            var address = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity1 = AddPersonRecordToDatabase(id: 2);
-            var address1 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity2 = AddPersonRecordToDatabase(id: 3);
-            var address2 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity3 = AddPersonRecordToDatabase(id: 4);
-            var address3 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            var databaseEntity4 = AddPersonRecordToDatabase(id: 5);
-            var address4 = TestHelper.CreateDatabaseAddressForPersonId(databaseEntity.Id);
-
-            SocialCareContext.Addresses.AddRange(new List<Address> { address, address1, address2, address3, address4 });
-            SocialCareContext.SaveChanges();
+            var databaseEntity1 = AddPersonRecordToDatabase(id: 1);
+            var databaseEntity2 = AddPersonRecordToDatabase(id: 2);
+            var databaseEntity3 = AddPersonRecordToDatabase(id: 3);
+            var databaseEntity4 = AddPersonRecordToDatabase(id: 4);
+            var databaseEntity5 = AddPersonRecordToDatabase(id: 5);
 
             var listOfPersons = _classUnderTest.GetAllResidents(cursor: 2, limit: 3).ToList();
             listOfPersons.Count.Should().Be(3);
             listOfPersons
                 .Select(p => p.MosaicId)
-                .Should().BeEquivalentTo(new List<string> { "3", "4", "5" });
+                .Should().BeEquivalentTo(new List<string>
+                {
+                    databaseEntity3.Id.ToString(),
+                    databaseEntity4.Id.ToString(),
+                    databaseEntity5.Id.ToString()
+                });
         }
 
         [Test]
@@ -470,7 +462,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
         private Person AddPersonRecordToDatabase(string firstname = null, string lastname = null, int? id = null)
         {
-            var databaseEntity = TestHelper.CreateDatabasePersonEntity(firstname, lastname, id);
+            var databaseEntity = TestHelper.CreateDatabasePersonEntity(id, firstname, lastname);
             SocialCareContext.Persons.Add(databaseEntity);
             SocialCareContext.SaveChanges();
             return databaseEntity;
