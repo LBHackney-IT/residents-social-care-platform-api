@@ -38,7 +38,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Infrastructure
         [Test]
         public void CanCreateADatabaseRecordForAVisit()
         {
-            var visit = TestHelper.CreateDatabaseVisit();
+            var visit = TestHelper.CreateDatabaseVisit().Item1;
 
             SocialCareContext.Add(visit);
             SocialCareContext.SaveChanges();

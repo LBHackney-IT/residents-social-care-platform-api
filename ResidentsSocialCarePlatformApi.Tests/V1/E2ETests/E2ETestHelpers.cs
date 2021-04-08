@@ -141,7 +141,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
         public static Visit AddVisitToDatabase(SocialCareContext socialCareContext)
         {
-            var visitInformation = TestHelper.CreateDatabaseVisit();
+            var visitInformation = TestHelper.CreateDatabaseVisit().Item1;
             socialCareContext.Visits.Add(visitInformation);
             socialCareContext.SaveChanges();
 

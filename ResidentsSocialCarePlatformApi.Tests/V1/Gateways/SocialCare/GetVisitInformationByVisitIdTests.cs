@@ -1,9 +1,11 @@
+using System;
 using FluentAssertions;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
+#nullable enable
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 {
     [NonParallelizable]
@@ -11,7 +13,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
     public class GetVisitInformationByVisitIdTests : DatabaseTests
 
     {
-        private SocialCareGateway _classUnderTest;
+        private SocialCareGateway _classUnderTest = null!;
 
         [SetUp]
         public void Setup()
@@ -34,47 +36,56 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereAreMultipleVisits_ReturnsVisitsWithMatchingId()
         {
-            const long visitIdOne = 123L;
-            const long visitIdTwo = 456L;
+            var visit = AddVisitToDatabase().Item1;
+            AddVisitToDatabase();
 
-            var visitOne = AddVisitToDatabase(visitIdOne);
-            var visitTwo = AddVisitToDatabase(visitIdTwo);
+            var response = _classUnderTest.GetVisitInformationByVisitId(visit.VisitId);
 
-            var response = _classUnderTest.GetVisitInformationByVisitId(visitOne.VisitId);
+            if (response == null)
+            {
+                throw new ArgumentNullException();
+            }
 
-            response.VisitId.Should().Be(visitIdOne);
+            response.VisitId.Should().Be(visit.VisitId);
         }
 
         [Test]
         public void WhenThereIsAMatchingVisit_ReturnsVisitDetails()
         {
-            const long realVisitId = 123L;
-            var visitInformation = AddVisitToDatabase(realVisitId);
+            var (visit, worker) = AddVisitToDatabase();
 
-            var response = _classUnderTest.GetVisitInformationByVisitId(visitInformation.VisitId);
+            var response = _classUnderTest.GetVisitInformationByVisitId(visit.VisitId);
 
-            response.VisitId.Should().Be(visitInformation.VisitId);
-            response.VisitType.Should().Be(visitInformation.VisitType);
-            response.PlannedDateTime.Should().Be(visitInformation.PlannedDateTime);
-            response.ActualDateTime.Should().Be(visitInformation.ActualDateTime);
-            response.ReasonNotPlanned.Should().Be(visitInformation.ReasonNotPlanned);
-            response.ReasonVisitNotMade.Should().Be(visitInformation.ReasonVisitNotMade);
-            response.SeenAloneFlag.Should().Be(visitInformation.SeenAloneFlag);
-            response.CompletedFlag.Should().Be(visitInformation.CompletedFlag);
-            response.CpRegistrationId.Should().Be(visitInformation.CpRegistrationId);
-            response.CpVisitScheduleStepId.Should().Be(visitInformation.CpVisitScheduleStepId);
-            response.CpVisitScheduleDays.Should().Be(visitInformation.CpVisitScheduleDays);
-            response.CpVisitOnTime.Should().Be(visitInformation.CpVisitOnTime);
+            if (response == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            response.VisitId.Should().Be(visit.VisitId);
+            response.VisitType.Should().Be(visit.VisitType);
+            response.PlannedDateTime.Should().Be(visit.PlannedDateTime);
+            response.ActualDateTime.Should().Be(visit.ActualDateTime);
+            response.ReasonNotPlanned.Should().Be(visit.ReasonNotPlanned);
+            response.ReasonVisitNotMade.Should().Be(visit.ReasonVisitNotMade);
+            response.SeenAloneFlag.Should().Be(visit.SeenAloneFlag);
+            response.CompletedFlag.Should().Be(visit.CompletedFlag);
+            response.CpRegistrationId.Should().Be(visit.CpRegistrationId);
+            response.CpVisitScheduleStepId.Should().Be(visit.CpVisitScheduleStepId);
+            response.CpVisitScheduleDays.Should().Be(visit.CpVisitScheduleDays);
+            response.CpVisitOnTime.Should().Be(visit.CpVisitOnTime);
+            response.CreatedByEmail.Should().Be(worker.EmailAddress);
+            response.CreatedByName.Should().Be($"{worker.FirstNames} {worker.LastNames}");
         }
 
-        private Visit AddVisitToDatabase(long id)
+        private (Visit, Worker) AddVisitToDatabase(long? visitId = null, long? workerId = null)
         {
-            var visit = TestHelper.CreateDatabaseVisit(visitId: id);
+            var (visit, worker) = TestHelper.CreateDatabaseVisit(visitId, workerId: workerId);
 
             SocialCareContext.Visits.Add(visit);
+            SocialCareContext.Workers.Add(worker);
             SocialCareContext.SaveChanges();
 
-            return visit;
+            return (visit, worker);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
@@ -24,7 +25,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         {
             const long realPersonId = 123L;
             const long fakePersonId = 456L;
-            AddVisitWithAPerson(personId: realPersonId);
+            AddVisitToDatabase(personId: realPersonId);
 
             var response = _classUnderTest.GetVisitInformationByPersonId(fakePersonId);
 
@@ -34,10 +35,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingVisit()
         {
-            const long realPersonId = 123L;
-            var visit = AddVisitWithAPerson();
+            var visit = AddVisitToDatabase().Item1;
 
-            var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
+            var response = _classUnderTest.GetVisitInformationByPersonId(visit.PersonId);
 
             response.ToList().Count.Should().Be(1);
             response.FirstOrDefault().VisitId.Should().Be(visit.VisitId);
@@ -50,8 +50,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             const long visitIdOne = 1L;
             const long visitIdTwo = 2L;
 
-            AddVisitWithAPerson(visitIdOne, realPersonId);
-            AddVisitWithAPerson(visitIdTwo, realPersonId);
+            AddVisitToDatabase(visitIdOne, personId: realPersonId);
+            AddVisitToDatabase(visitIdTwo, personId: realPersonId);
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
@@ -66,8 +66,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             const long visitIdOne = 1L;
             const long visitIdTwo = 2L;
 
-            AddVisitWithAPerson(visitIdOne, realPersonId);
-            AddVisitWithAPerson(visitIdTwo, otherPersonId);
+            AddVisitToDatabase(visitIdOne, personId: realPersonId);
+            AddVisitToDatabase(visitIdTwo, personId: otherPersonId);
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
@@ -77,9 +77,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereIsAMatchingRecord_ReturnsDetailsFromVisit()
         {
-            var visit = AddVisitWithAPerson();
+            var (visit, worker) = AddVisitToDatabase();
 
             var response = _classUnderTest.GetVisitInformationByPersonId(visit.PersonId).First();
+
+            if (response == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             response.VisitId.Should().Be(visit.VisitId);
             response.VisitType.Should().Be(visit.VisitType);
@@ -92,16 +97,19 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             response.CpVisitScheduleStepId.Should().Be(visit.CpVisitScheduleStepId);
             response.CpVisitScheduleDays.Should().Be(visit.CpVisitScheduleDays);
             response.CpVisitOnTime.Should().Be(visit.CpVisitOnTime);
+            response.CreatedByEmail.Should().Be(worker.EmailAddress);
+            response.CreatedByName.Should().Be($"{worker.FirstNames} {worker.LastNames}");
         }
 
-        private Visit AddVisitWithAPerson(long id = 123, long personId = 123)
+        private (Visit, Worker) AddVisitToDatabase(long? visitId = null, long? workerId = null, long? personId = null)
         {
-            var visit = TestHelper.CreateDatabaseVisit(visitId: id, personId: personId);
+            var (visit, worker) = TestHelper.CreateDatabaseVisit(visitId, personId, workerId: workerId);
 
             SocialCareContext.Visits.Add(visit);
+            SocialCareContext.Workers.Add(worker);
             SocialCareContext.SaveChanges();
 
-            return visit;
+            return (visit, worker);
         }
     }
 }

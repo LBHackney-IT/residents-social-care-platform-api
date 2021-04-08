@@ -248,14 +248,26 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         }
 
 
-        private string GetWorkerName(string actionDoneById)
+        private string? GetWorkerName(string? actionDoneById = null, long? workerId = null)
         {
+            if (workerId != null)
+            {
+                var workerById =  _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId));
+                return workerById != null ? $"{workerById.FirstNames} {workerById.LastNames}" : null;
+            }
+
             var worker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById));
             return worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
         }
 
-        private string GetWorkerEmailAddress(string actionDoneById)
+        private string? GetWorkerEmailAddress(string? actionDoneById = null, long? workerId = null)
         {
+            if (workerId != null)
+            {
+                return _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId))
+                    ?.EmailAddress;
+            }
+
             return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))
                 ?.EmailAddress;
         }
@@ -288,8 +300,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
             var visitDomain =  visit.ToDomain();
 
-            visitDomain.CreatedByEmail = GetWorkerEmailAddress(visit.WorkerId?.ToString() ?? "");
-            visitDomain.CreatedByName = GetWorkerName(visit.WorkerId?.ToString() ?? "");
+            visitDomain.CreatedByEmail = GetWorkerEmailAddress(workerId: visit.WorkerId);
+            visitDomain.CreatedByName = GetWorkerName(workerId: visit.WorkerId);
 
             return visitDomain;
         }
