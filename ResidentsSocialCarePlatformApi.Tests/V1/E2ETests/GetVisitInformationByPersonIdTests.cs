@@ -5,6 +5,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
+using ResidentsSocialCarePlatformApi.V1.Factories;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 {
@@ -25,7 +26,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             var stringContent = await content.ReadAsStringAsync().ConfigureAwait(true);
             var convertedResponse = JsonConvert.DeserializeObject<List<VisitInformation>>(stringContent);
 
-            convertedResponse.Should().BeEquivalentTo(new List<VisitInformation> { visitInformation });
+            convertedResponse.Should().BeEquivalentTo(new List<VisitInformation> { visitInformation.ToDomain().ToResponse() });
         }
 
         [Test]

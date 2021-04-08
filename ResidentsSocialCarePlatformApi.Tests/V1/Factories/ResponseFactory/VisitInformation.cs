@@ -24,7 +24,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                 new VisitInformationDomain
                 {
                     VisitId = 000L,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = plannedDateTime,
                     ActualDateTime = actualDateTime,
@@ -32,8 +31,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = "Y",
                     CompletedFlag = "Y",
-                    OrgId = 000L,
-                    WorkerId = 000L,
                     CpRegistrationId = 000L,
                     CpVisitScheduleStepId = 000L,
                     CpVisitScheduleDays = 000L,
@@ -42,7 +39,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                 new VisitInformationDomain
                 {
                     VisitId = 000L,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = null,
                     ActualDateTime = null,
@@ -50,8 +46,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonVisitNotMade = null,
                     SeenAloneFlag = null,
                     CompletedFlag = null,
-                    OrgId = null,
-                    WorkerId = null,
                     CpRegistrationId = null,
                     CpVisitScheduleStepId = null,
                     CpVisitScheduleDays = null,
@@ -60,7 +54,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                 new VisitInformationDomain
                 {
                     VisitId = 000L,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = plannedDateTime,
                     ActualDateTime = actualDateTime,
@@ -68,8 +61,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = "N",
                     CompletedFlag = "N",
-                    OrgId = 000L,
-                    WorkerId = 000L,
                     CpRegistrationId = 000L,
                     CpVisitScheduleStepId = 000L,
                     CpVisitScheduleDays = 000L,
@@ -82,7 +73,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                 new VisitInformationResponse
                 {
                     VisitId = 000L,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = plannedDateTimeFormatted,
                     ActualDateTime = actualDateTimeFormatted,
@@ -90,8 +80,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = true,
                     CompletedFlag = true,
-                    OrgId = 000L,
-                    WorkerId = 000L,
                     CpRegistrationId = 000L,
                     CpVisitScheduleStepId = 000L,
                     CpVisitScheduleDays = 000L,
@@ -100,7 +88,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                 new VisitInformationResponse
                 {
                     VisitId = 000L,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = null,
                     ActualDateTime = null,
@@ -108,8 +95,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonVisitNotMade = null,
                     SeenAloneFlag = false,
                     CompletedFlag = false,
-                    OrgId = null,
-                    WorkerId = null,
                     CpRegistrationId = null,
                     CpVisitScheduleStepId = null,
                     CpVisitScheduleDays = null,
@@ -118,7 +103,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                 new VisitInformationResponse
                 {
                     VisitId = 000L,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = plannedDateTimeFormatted,
                     ActualDateTime = actualDateTimeFormatted,
@@ -126,8 +110,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = false,
                     CompletedFlag = false,
-                    OrgId = 000L,
-                    WorkerId = 000L,
                     CpRegistrationId = 000L,
                     CpVisitScheduleStepId = 000L,
                     CpVisitScheduleDays = 000L,

@@ -130,7 +130,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
                 new VisitInformation
                 {
                     VisitId = visitId,
-                    PersonId = 000L,
                     VisitType = "VisitType",
                     PlannedDateTime = formattedDateTime,
                     ActualDateTime = formattedDateTime,
@@ -138,8 +137,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = true,
                     CompletedFlag = true,
-                    OrgId = 000L,
-                    WorkerId = 000L,
                     CpRegistrationId = 000L,
                     CpVisitScheduleStepId = 000L,
                     CpVisitScheduleDays = 000L,

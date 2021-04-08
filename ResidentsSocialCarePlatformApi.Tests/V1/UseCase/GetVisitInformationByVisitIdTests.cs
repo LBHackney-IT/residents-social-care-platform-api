@@ -5,6 +5,7 @@ using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
 
 #nullable enable
