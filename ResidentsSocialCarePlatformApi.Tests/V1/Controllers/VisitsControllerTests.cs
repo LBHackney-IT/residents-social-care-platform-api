@@ -1,10 +1,12 @@
+using System;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Controllers;
-using ResidentsSocialCarePlatformApi.V1.Infrastructure;
+using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
@@ -26,29 +28,19 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         [Test]
         public void GetVisitInformation_WhenThereIsAMatchingVisitId_ReturnsVisitInformation()
         {
-            const string formattedDateTime = "2021-03-01T15:30:00";
-            const long visitId = 12345L;
-            var visitInformation = new VisitInformation
-            {
-                VisitId = visitId,
-                VisitType = "VisitType",
-                PlannedDateTime = formattedDateTime,
-                ActualDateTime = formattedDateTime,
-                ReasonNotPlanned = "ReasonNotPlanned",
-                ReasonVisitNotMade = "ReasonVisitNotMade",
-                SeenAloneFlag = true,
-                CompletedFlag = true,
-                CpRegistrationId = 000L,
-                CpVisitScheduleStepId = 000L,
-                CpVisitScheduleDays = 000L,
-                CpVisitOnTime = true
-            };
-            _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visitId)).Returns(visitInformation);
+            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
 
-            var response = _classUnderTest.GetVisit(visitId) as OkObjectResult;
+            _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visit.VisitId)).Returns(visit);
+
+            var response = _classUnderTest.GetVisit(visit.VisitId) as OkObjectResult;
+
+            if (response == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(visitInformation);
+            response.Value.Should().BeEquivalentTo(visit);
         }
 
         [Test]
@@ -59,6 +51,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visitId)).Returns(visitInformation);
 
             var response = _classUnderTest.GetVisit(visitId) as NotFoundResult;
+
+            if (response == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             response.StatusCode.Should().Be(404);
         }

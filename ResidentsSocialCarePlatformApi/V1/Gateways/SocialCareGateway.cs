@@ -252,11 +252,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             if (workerId != null)
             {
-                var workerById =  _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId));
+                var workerById =  _socialCareContext.Workers.FirstOrDefault(w => w.Id.Equals(workerId));
                 return workerById != null ? $"{workerById.FirstNames} {workerById.LastNames}" : null;
             }
 
-            var worker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById));
+            var worker = _socialCareContext.Workers.FirstOrDefault(w => w.SystemUserId.Equals(actionDoneById));
             return worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
         }
 
@@ -264,8 +264,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             if (workerId != null)
             {
-                return _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId))
-                    ?.EmailAddress;
+                return _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId))?.EmailAddress;
             }
 
             return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))

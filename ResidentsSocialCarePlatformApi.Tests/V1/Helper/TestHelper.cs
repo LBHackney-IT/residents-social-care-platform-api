@@ -90,14 +90,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
 
         public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string systemUserId = "CGYORFI")
         {
-            var faker = new Fixture();
-
-            return faker.Build<Worker>()
-                .With(worker => worker.FirstNames, firstNames)
-                .With(worker => worker.LastNames, lastNames)
-                .With(worker => worker.EmailAddress, emailAddress)
-                .With(worker => worker.SystemUserId, systemUserId)
-                .Create();
+            return new Faker<Worker>()
+                .RuleFor(worker => worker.Id, f => f.UniqueIndex)
+                .RuleFor(worker => worker.FirstNames, firstNames)
+                .RuleFor(worker => worker.LastNames, lastNames)
+                .RuleFor(worker => worker.EmailAddress, emailAddress)
+                .RuleFor(worker => worker.SystemUserId, systemUserId);
         }
 
         public static (Visit, Worker) CreateDatabaseVisit(
