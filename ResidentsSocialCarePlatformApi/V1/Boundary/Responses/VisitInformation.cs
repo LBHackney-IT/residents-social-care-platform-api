@@ -11,9 +11,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 
         public string? ActualDateTime { get; set; }
 
-        public string CreatedByName { get; set; }
+        public string? CreatedByName { get; set; }
 
-        public string CreatedByEmail { get; set; }
+        public string? CreatedByEmail { get; set; }
 
         public string? ReasonNotPlanned { get; set; }
 
