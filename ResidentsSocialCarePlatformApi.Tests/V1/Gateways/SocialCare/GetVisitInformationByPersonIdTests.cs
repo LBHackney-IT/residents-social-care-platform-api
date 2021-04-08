@@ -39,7 +39,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
-            response.Count.Should().Be(1);
+            response.ToList().Count.Should().Be(1);
             response.FirstOrDefault().VisitId.Should().Be(visit.VisitId);
         }
 
@@ -55,7 +55,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
-            response.Count.Should().Be(2);
+            response.ToList().Count.Should().Be(2);
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 
             var response = _classUnderTest.GetVisitInformationByPersonId(realPersonId);
 
-            response.Count.Should().Be(1);
+            response.ToList().Count.Should().Be(1);
         }
 
         [Test]
@@ -82,15 +82,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var response = _classUnderTest.GetVisitInformationByPersonId(visit.PersonId).First();
 
             response.VisitId.Should().Be(visit.VisitId);
-            response.PersonId.Should().Be(visit.PersonId);
             response.VisitType.Should().Be(visit.VisitType);
             response.PlannedDateTime.Should().Be(visit.PlannedDateTime);
             response.ActualDateTime.Should().Be(visit.ActualDateTime);
             response.ReasonVisitNotMade.Should().Be(visit.ReasonVisitNotMade);
             response.SeenAloneFlag.Should().Be(visit.SeenAloneFlag);
             response.CompletedFlag.Should().Be(visit.CompletedFlag);
-            response.OrgId.Should().Be(visit.OrgId);
-            response.WorkerId.Should().Be(visit.WorkerId);
             response.CpRegistrationId.Should().Be(visit.CpRegistrationId);
             response.CpVisitScheduleStepId.Should().Be(visit.CpVisitScheduleStepId);
             response.CpVisitScheduleDays.Should().Be(visit.CpVisitScheduleDays);

@@ -54,7 +54,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var response = _classUnderTest.GetVisitInformationByVisitId(visitInformation.VisitId);
 
             response.VisitId.Should().Be(visitInformation.VisitId);
-            response.PersonId.Should().Be(visitInformation.PersonId);
             response.VisitType.Should().Be(visitInformation.VisitType);
             response.PlannedDateTime.Should().Be(visitInformation.PlannedDateTime);
             response.ActualDateTime.Should().Be(visitInformation.ActualDateTime);
@@ -62,8 +61,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             response.ReasonVisitNotMade.Should().Be(visitInformation.ReasonVisitNotMade);
             response.SeenAloneFlag.Should().Be(visitInformation.SeenAloneFlag);
             response.CompletedFlag.Should().Be(visitInformation.CompletedFlag);
-            response.OrgId.Should().Be(visitInformation.OrgId);
-            response.WorkerId.Should().Be(visitInformation.WorkerId);
             response.CpRegistrationId.Should().Be(visitInformation.CpRegistrationId);
             response.CpVisitScheduleStepId.Should().Be(visitInformation.CpVisitScheduleStepId);
             response.CpVisitScheduleDays.Should().Be(visitInformation.CpVisitScheduleDays);
