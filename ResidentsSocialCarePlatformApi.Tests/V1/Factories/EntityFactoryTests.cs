@@ -32,7 +32,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 FirstName = personRecord.FirstName,
                 LastName = personRecord.LastName,
                 NhsNumber = personRecord.NhsNumber.ToString(),
-                DateOfBirth = personRecord.DateOfBirth?.ToString("O"),
+                DateOfBirth = personRecord.DateOfBirth?.ToString("s"),
                 AgeContext = personRecord.AgeContext,
                 Nationality = personRecord.Nationality,
                 Gender = personRecord.Gender,

@@ -96,9 +96,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             response.FirstOrDefault().CaseNoteContent.Should().BeNullOrEmpty();
         }
 
-        private Person AddPersonToDatabase(string firstname = null, string lastname = null, int? id = null)
+        private Person AddPersonToDatabase()
         {
-            var databaseEntity = TestHelper.CreateDatabasePersonEntity(firstname, lastname, id);
+            var databaseEntity = TestHelper.CreateDatabasePersonEntity();
             SocialCareContext.Persons.Add(databaseEntity);
             SocialCareContext.SaveChanges();
             return databaseEntity;

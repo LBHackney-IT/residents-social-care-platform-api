@@ -12,7 +12,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
     {
         public static ResidentInformation AddPersonWithRelatedEntitiesToDb(SocialCareContext context, int? id = null, string firstname = null, string lastname = null, string postcode = null, string addressLines = null)
         {
-            var person = TestHelper.CreateDatabasePersonEntity(firstname, lastname, id);
+            var person = TestHelper.CreateDatabasePersonEntity(id, firstname, lastname);
             var addedPerson = context.Persons.Add(person);
             context.SaveChanges();
 
@@ -37,7 +37,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                     {
                         new Phone {PhoneNumber = phone.Number, PhoneType = phone.Type}
                     },
-                DateOfBirth = person.DateOfBirth?.ToString("O"),
+                DateOfBirth = person.DateOfBirth?.ToString("s"),
                 AgeContext = person.AgeContext,
                 AddressList = new List<Address>
                 {
@@ -49,10 +49,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
         public static Person AddPersonToDatabase(SocialCareContext context)
         {
-            var faker = new Fixture();
-            var personId = faker.Create<CaseNote>().PersonId;
-
-            var person = TestHelper.CreateDatabasePersonEntity(id: personId);
+            var person = TestHelper.CreateDatabasePersonEntity();
             context.Persons.Add(person);
             context.SaveChanges();
 
