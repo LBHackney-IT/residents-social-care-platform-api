@@ -252,7 +252,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             if (workerId != null)
             {
-                var workerById =  _socialCareContext.Workers.FirstOrDefault(w => w.Id.Equals(workerId));
+                var workerById = _socialCareContext.Workers.FirstOrDefault(w => w.Id.Equals(workerId));
                 return workerById != null ? $"{workerById.FirstNames} {workerById.LastNames}" : null;
             }
 
@@ -297,7 +297,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 return null;
             }
 
-            var visitDomain =  visit.ToDomain();
+            var visitDomain = visit.ToDomain();
 
             visitDomain.CreatedByEmail = GetWorkerEmailAddress(workerId: visit.WorkerId);
             visitDomain.CreatedByName = GetWorkerName(workerId: visit.WorkerId);
