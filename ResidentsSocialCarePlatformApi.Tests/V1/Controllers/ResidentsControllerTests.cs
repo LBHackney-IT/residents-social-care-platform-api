@@ -8,6 +8,8 @@ using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Controllers;
 using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
 using NUnit.Framework;
+using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
+using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.ResidentInformation;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
@@ -122,31 +124,21 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         [Test]
         public void GetVisitInformation_WhenThereIsAMatchingVisitId_ReturnsListOfVisitInformationWith200Status()
         {
-            var formattedDateTime = new DateTime(2020, 4, 1, 20, 30, 00).ToString("s");
             const long visitId = 12345L;
 
             var visitInformation = new List<VisitInformation>
             {
-                new VisitInformation
-                {
-                    VisitId = visitId,
-                    VisitType = "VisitType",
-                    PlannedDateTime = formattedDateTime,
-                    ActualDateTime = formattedDateTime,
-                    ReasonNotPlanned = "ReasonNotPlanned",
-                    ReasonVisitNotMade = "ReasonVisitNotMade",
-                    SeenAloneFlag = true,
-                    CompletedFlag = true,
-                    CpRegistrationId = 000L,
-                    CpVisitScheduleStepId = 000L,
-                    CpVisitScheduleDays = 000L,
-                    CpVisitOnTime = true
-                }
+                TestHelper.CreateDatabaseVisit(visitId).Item1.ToDomain().ToResponse()
             };
 
             _mockGetVisitInformationByPersonIdUseCase.Setup(x => x.Execute(visitId)).Returns(visitInformation);
 
             var response = _classUnderTest.GetVisitInformation(visitId) as OkObjectResult;
+
+            if (response == null)
+            {
+                throw new ArgumentNullException();
+            }
 
             response.StatusCode.Should().Be(200);
             response.Value.Should().BeEquivalentTo(visitInformation);

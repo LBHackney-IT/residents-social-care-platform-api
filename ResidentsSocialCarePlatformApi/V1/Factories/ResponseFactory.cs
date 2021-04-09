@@ -96,6 +96,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             return new Boundary.Responses.VisitInformation
             {
                 VisitId = visit.VisitId,
+                PersonId = visit.PersonId,
                 VisitType = visit.VisitType,
                 PlannedDateTime = visit.PlannedDateTime?.ToString("s"),
                 ActualDateTime = visit.ActualDateTime?.ToString("s"),

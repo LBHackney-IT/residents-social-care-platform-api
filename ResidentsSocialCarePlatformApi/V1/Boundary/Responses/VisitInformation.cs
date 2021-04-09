@@ -5,6 +5,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
     {
         public long VisitId { get; set; }
 
+        public long PersonId { get; set; }
+
         public string VisitType { get; set; } = null!;
 
         public string? PlannedDateTime { get; set; }

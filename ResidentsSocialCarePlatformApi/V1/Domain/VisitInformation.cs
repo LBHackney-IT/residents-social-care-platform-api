@@ -7,6 +7,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
     {
         public long VisitId { get; set; }
 
+        public long PersonId { get; set; }
+
         public string VisitType { get; set; } = null!;
 
         public DateTime? PlannedDateTime { get; set; }

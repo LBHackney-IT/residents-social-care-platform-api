@@ -75,6 +75,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             return new VisitInformation
             {
                 VisitId = visit.VisitId,
+                PersonId = visit.PersonId,
                 VisitType = visit.VisitType,
                 PlannedDateTime = visit.PlannedDateTime,
                 ActualDateTime = visit.ActualDateTime,

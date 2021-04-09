@@ -62,6 +62,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             }
 
             response.VisitId.Should().Be(visit.VisitId);
+            response.PersonId.Should().Be(visit.PersonId);
             response.VisitType.Should().Be(visit.VisitType);
             response.PlannedDateTime.Should().Be(visit.PlannedDateTime);
             response.ActualDateTime.Should().Be(visit.ActualDateTime);
