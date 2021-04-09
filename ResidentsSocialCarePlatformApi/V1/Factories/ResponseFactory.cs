@@ -107,7 +107,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CpRegistrationId = visit.CpRegistrationId,
                 CpVisitScheduleStepId = visit.CpVisitScheduleStepId,
                 CpVisitScheduleDays = visit.CpVisitScheduleDays,
-                CpVisitOnTime = !string.IsNullOrEmpty(visit.CpVisitOnTime) && visit.CpVisitOnTime == "Y",
+                CpVisitOnTime = !string.IsNullOrEmpty(visit.CpVisitOnTime) && visit.CpVisitOnTime.Equals("Y"),
                 CreatedByName = visit.CreatedByName,
                 CreatedByEmail = visit.CreatedByEmail
             };
