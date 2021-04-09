@@ -15,7 +15,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task WhenThereIsAVisitWithMatchingPersonId_Returns200AndVisitInformation()
         {
-            var visitInformation = E2ETestHelpers.AddVisitToDatabase(SocialCareContext);
+            var worker = E2ETestHelpers.AddWorkerToDatabase(SocialCareContext);
+            var visitInformation = E2ETestHelpers.AddVisitToDatabase(SocialCareContext, worker.Id).ToDomain().ToResponse();
+            visitInformation.CreatedByEmail = worker.EmailAddress;
+            visitInformation.CreatedByName = $"{worker.FirstNames} {worker.LastNames}";
             var uri = new Uri($"api/v1/residents/{visitInformation.PersonId}/visits", UriKind.Relative);
 
             var response = Client.GetAsync(uri);
@@ -26,7 +29,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             var stringContent = await content.ReadAsStringAsync().ConfigureAwait(true);
             var convertedResponse = JsonConvert.DeserializeObject<List<VisitInformation>>(stringContent);
 
-            convertedResponse.Should().BeEquivalentTo(new List<VisitInformation> { visitInformation.ToDomain().ToResponse() });
+            convertedResponse.Should().BeEquivalentTo(new List<VisitInformation> { visitInformation});
         }
 
         [Test]
