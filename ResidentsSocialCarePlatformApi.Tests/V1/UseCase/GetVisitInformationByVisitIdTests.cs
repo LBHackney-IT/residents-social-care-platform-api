@@ -1,7 +1,7 @@
-using AutoFixture;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
+using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
@@ -14,7 +14,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     {
         private Mock<ISocialCareGateway> _mockSocialCareGateway = null!;
         private GetVisitInformationByVisitId _classUnderTest = null!;
-        private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
@@ -36,13 +35,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         }
 
         [Test]
-        public void WhenThereIsAMatchingVisit_ReturnsCaseNoteInformation()
+        public void WhenThereIsAMatchingVisit_ReturnsVisit()
         {
-            var visit = _fixture.Create<VisitInformation>();
-            const long fakeVisitId = 123L;
-            _mockSocialCareGateway.Setup(x => x.GetVisitInformationByVisitId(fakeVisitId)).Returns(visit);
+            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain();
+            _mockSocialCareGateway.Setup(x => x.GetVisitInformationByVisitId(visit.VisitId)).Returns(visit);
 
-            var response = _classUnderTest.Execute(123);
+            var response = _classUnderTest.Execute(visit.VisitId);
 
             response.Should().NotBeNull();
             response.Should().BeEquivalentTo(visit.ToResponse());

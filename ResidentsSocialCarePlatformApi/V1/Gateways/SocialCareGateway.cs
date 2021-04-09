@@ -128,19 +128,20 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return caseNoteInformation;
         }
 
-        public List<VisitInformation> GetVisitInformationByPersonId(long personId)
+        public IEnumerable<VisitInformation?> GetVisitInformationByPersonId(long personId)
         {
-            return _socialCareContext.Visits
+            var visits = _socialCareContext.Visits
                 .Where(visit => visit.PersonId == personId)
-                .Select(visit => visit.ToDomain())
                 .ToList();
+
+            return visits.Select(AddRelatedInformationToVisit);
         }
 
         public VisitInformation? GetVisitInformationByVisitId(long visitId)
         {
             var visitInformation = _socialCareContext.Visits.FirstOrDefault(visit => visit.VisitId == visitId);
 
-            return visitInformation?.ToDomain();
+            return AddRelatedInformationToVisit(visitInformation);
         }
 
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
@@ -247,14 +248,25 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         }
 
 
-        private string GetWorkerName(string actionDoneById)
+        private string? GetWorkerName(string? actionDoneById = null, long? workerId = null)
         {
-            var worker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById));
+            if (workerId != null)
+            {
+                var workerById = _socialCareContext.Workers.FirstOrDefault(w => w.Id.Equals(workerId));
+                return workerById != null ? $"{workerById.FirstNames} {workerById.LastNames}" : null;
+            }
+
+            var worker = _socialCareContext.Workers.FirstOrDefault(w => w.SystemUserId.Equals(actionDoneById));
             return worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
         }
 
-        private string GetWorkerEmailAddress(string actionDoneById)
+        private string? GetWorkerEmailAddress(string? actionDoneById = null, long? workerId = null)
         {
+            if (workerId != null)
+            {
+                return _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId))?.EmailAddress;
+            }
+
             return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))
                 ?.EmailAddress;
         }
@@ -277,5 +289,21 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
             return caseNoteInformation;
         }
+
+        private VisitInformation? AddRelatedInformationToVisit(Visit? visit)
+        {
+            if (visit == null)
+            {
+                return null;
+            }
+
+            var visitDomain = visit.ToDomain();
+
+            visitDomain.CreatedByEmail = GetWorkerEmailAddress(workerId: visit.WorkerId);
+            visitDomain.CreatedByName = GetWorkerName(workerId: visit.WorkerId);
+
+            return visitDomain;
+        }
+
     }
 }

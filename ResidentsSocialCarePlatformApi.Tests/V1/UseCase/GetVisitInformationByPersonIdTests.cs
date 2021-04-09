@@ -7,6 +7,7 @@ using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
@@ -44,6 +45,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         public void ReturnsListOfVisitInformation()
         {
             var visitInformation = _fixture.CreateMany<VisitInformation>().ToList();
+            var visitInformationResponse = from visit in visitInformation select visit.ToResponse();
             const long fakePersonId = 34567L;
 
             _mockSocialCareGateway.Setup(x => x.GetVisitInformationByPersonId(fakePersonId))
@@ -52,7 +54,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             var response = _classUnderTest.Execute(34567);
 
             response.Should().NotBeNull();
-            response.Should().BeEquivalentTo(visitInformation.ToResponse());
+            response.Should().BeEquivalentTo(visitInformationResponse);
         }
     }
 }

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ResidentsSocialCarePlatformApi.V1.Domain;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
 namespace ResidentsSocialCarePlatformApi.V1.Gateways
 {
@@ -15,8 +17,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId);
 
-        List<Domain.VisitInformation> GetVisitInformationByPersonId(long personId);
+        IEnumerable<VisitInformation> GetVisitInformationByPersonId(long personId);
 
-        Domain.VisitInformation GetVisitInformationByVisitId(long visitId);
+        VisitInformation GetVisitInformationByVisitId(long visitId);
     }
 }

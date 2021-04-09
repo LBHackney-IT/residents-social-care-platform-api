@@ -13,6 +13,10 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 
         public string? ActualDateTime { get; set; }
 
+        public string? CreatedByName { get; set; }
+
+        public string? CreatedByEmail { get; set; }
+
         public string? ReasonNotPlanned { get; set; }
 
         public string? ReasonVisitNotMade { get; set; }
@@ -20,10 +24,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
         public bool SeenAloneFlag { get; set; }
 
         public bool CompletedFlag { get; set; }
-
-        public long? OrgId { get; set; }
-
-        public long? WorkerId { get; set; }
 
         public long? CpRegistrationId { get; set; }
 

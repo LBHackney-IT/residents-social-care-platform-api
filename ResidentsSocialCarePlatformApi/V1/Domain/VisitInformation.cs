@@ -15,6 +15,10 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
 
         public DateTime? ActualDateTime { get; set; }
 
+        public string? CreatedByName { get; set; }
+
+        public string? CreatedByEmail { get; set; }
+
         public string? ReasonNotPlanned { get; set; }
 
         public string? ReasonVisitNotMade { get; set; }
@@ -22,10 +26,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
         public string? SeenAloneFlag { get; set; }
 
         public string? CompletedFlag { get; set; }
-
-        public long? OrgId { get; set; }
-
-        public long? WorkerId { get; set; }
 
         public long? CpRegistrationId { get; set; }
 

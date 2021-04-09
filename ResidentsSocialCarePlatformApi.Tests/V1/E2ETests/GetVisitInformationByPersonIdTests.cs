@@ -5,6 +5,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
+using ResidentsSocialCarePlatformApi.V1.Factories;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 {
@@ -14,7 +15,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task WhenThereIsAVisitWithMatchingPersonId_Returns200AndVisitInformation()
         {
-            var visitInformation = E2ETestHelpers.AddVisitToDatabase(SocialCareContext);
+            var worker = E2ETestHelpers.AddWorkerToDatabase(SocialCareContext);
+            var visitInformation = E2ETestHelpers.AddVisitToDatabase(SocialCareContext, worker.Id).ToDomain().ToResponse();
+            visitInformation.CreatedByEmail = worker.EmailAddress;
+            visitInformation.CreatedByName = $"{worker.FirstNames} {worker.LastNames}";
             var uri = new Uri($"api/v1/residents/{visitInformation.PersonId}/visits", UriKind.Relative);
 
             var response = Client.GetAsync(uri);

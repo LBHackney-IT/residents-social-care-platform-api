@@ -90,28 +90,42 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
 
         public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string systemUserId = "CGYORFI")
         {
-            var faker = new Fixture();
-
-            return faker.Build<Worker>()
-                .With(worker => worker.FirstNames, firstNames)
-                .With(worker => worker.LastNames, lastNames)
-                .With(worker => worker.EmailAddress, emailAddress)
-                .With(worker => worker.SystemUserId, systemUserId)
-                .Create();
+            return new Faker<Worker>()
+                .RuleFor(worker => worker.Id, f => f.UniqueIndex)
+                .RuleFor(worker => worker.FirstNames, firstNames)
+                .RuleFor(worker => worker.LastNames, lastNames)
+                .RuleFor(worker => worker.EmailAddress, emailAddress)
+                .RuleFor(worker => worker.SystemUserId, systemUserId);
         }
 
-        public static Visit CreateDatabaseVisit(long visitId = 0, long personId = 0, string visitType = "testVisitType",
-            long orgId = 0, long workerId = 0)
+        public static (Visit, Worker) CreateDatabaseVisit(
+            long? visitId = null,
+            long? personId = null,
+            long? orgId = null,
+            long? workerId = null,
+            long? cpVisitScheduleStepId = null,
+            long? cpRegistrationId = null)
         {
-            var faker = new Fixture();
+            Worker worker = CreateDatabaseWorker();
 
-            return faker.Build<Visit>()
-                .With(visit => visit.VisitId, visitId)
-                .With(visit => visit.PersonId, personId)
-                .With(visit => visit.VisitType, visitType)
-                .With(visit => visit.OrgId, orgId)
-                .With(visit => visit.WorkerId, workerId)
-                .Create();
+            Visit visit = new Faker<Visit>()
+                .RuleFor(v => v.VisitId, f => visitId ?? f.UniqueIndex)
+                .RuleFor(v => v.PersonId, f => personId ?? f.UniqueIndex)
+                .RuleFor(v => v.VisitType, f => f.Random.String2(1, 20))
+                .RuleFor(v => v.PlannedDateTime, f => f.Date.Past(1))
+                .RuleFor(v => v.ActualDateTime, f => f.Date.Past(1))
+                .RuleFor(v => v.ReasonNotPlanned, f => f.Random.String2(1, 16))
+                .RuleFor(v => v.ReasonVisitNotMade, f => f.Random.String2(1, 16))
+                .RuleFor(v => v.SeenAloneFlag, f => f.Random.String2(1, "YN"))
+                .RuleFor(v => v.CompletedFlag, f => f.Random.String2(1, "YN"))
+                .RuleFor(v => v.OrgId, f => orgId ?? f.UniqueIndex)
+                .RuleFor(v => v.WorkerId, f => workerId ?? worker.Id)
+                .RuleFor(v => v.CpRegistrationId, f => cpRegistrationId ?? f.UniqueIndex)
+                .RuleFor(v => v.CpVisitScheduleStepId, f => cpVisitScheduleStepId ?? f.UniqueIndex)
+                .RuleFor(v => v.CpVisitScheduleDays, f => f.Random.Number(999))
+                .RuleFor(v => v.CpVisitOnTime, f => f.Random.String2(1, "YN"));
+
+            return (visit, worker);
         }
 
         public static Organisation CreateDatabaseOrganisation(

@@ -139,13 +139,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             };
         }
 
-        public static VisitInformation AddVisitToDatabase(SocialCareContext socialCareContext)
+        public static Visit AddVisitToDatabase(SocialCareContext socialCareContext, long? workerId = null)
         {
-            var visitInformation = TestHelper.CreateDatabaseVisit();
+            var visitInformation = TestHelper.CreateDatabaseVisit(workerId: workerId).Item1;
             socialCareContext.Visits.Add(visitInformation);
             socialCareContext.SaveChanges();
 
-            return visitInformation.ToDomain().ToResponse();
+            return visitInformation;
+        }
+
+        public static Worker AddWorkerToDatabase(SocialCareContext socialCareContext)
+        {
+            var worker = TestHelper.CreateDatabaseWorker();
+            socialCareContext.Workers.Add(worker);
+            socialCareContext.SaveChanges();
+
+            return worker;
         }
     }
 
