@@ -112,5 +112,24 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CreatedByEmail = visit.CreatedByEmail
             };
         }
+
+        public static ResidentHistoricRecordVisit ToResponse(this Boundary.Responses.VisitInformation visit)
+        {
+            return new ResidentHistoricRecordVisit
+            {
+                MosaicId = visit.PersonId,
+                RecordType = RecordType.Visit
+
+            };
+        }
+
+        public static ResidentHistoricRecordCaseNote ToResponse(this Boundary.Responses.CaseNoteInformation visit)
+        {
+            return new ResidentHistoricRecordCaseNote
+            {
+                MosaicId = long.Parse(visit.MosaicId),
+                RecordType = RecordType.CaseNote
+            };
+        }
     }
 }
