@@ -1,7 +1,8 @@
+#nullable enable
 namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 {
     public class ResidentHistoricRecordCaseNote : ResidentHistoricRecord
     {
-        private CaseNoteInformation CaseNote { get; set; }
+        public CaseNoteInformation CaseNote { get; set; } = null!;
     }
 }

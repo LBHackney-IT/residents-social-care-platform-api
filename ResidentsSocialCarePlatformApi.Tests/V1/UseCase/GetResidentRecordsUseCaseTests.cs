@@ -53,7 +53,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             var response = _classUnderTest.Execute(fakePersonId);
 
             response.Count.Should().Be(visits.Count);
-            response.Should().BeEquivalentTo(visit.ToResponse());
+            response.Should().BeEquivalentTo(visit.ToSharedResponse(fakePersonId));
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             var response = _classUnderTest.Execute(fakePersonId);
 
             response.Count.Should().Be(caseNotes.CaseNotes.Count);
-            response.Should().BeEquivalentTo(caseNote.ToResponse());
+            response.Should().BeEquivalentTo(caseNote.ToSharedResponse(fakePersonId));
         }
 
         [Test]
@@ -86,8 +86,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             var response = _classUnderTest.Execute(fakePersonId);
 
             response.Count.Should().Be(caseNotes.CaseNotes.Count + visits.Count);
-            response[0].Should().BeEquivalentTo(visit.ToResponse());
-            response[1].Should().BeEquivalentTo(caseNote.ToResponse());
+            response[0].Should().BeEquivalentTo(visit.ToSharedResponse(fakePersonId));
+            response[1].Should().BeEquivalentTo(caseNote.ToSharedResponse(fakePersonId));
         }
     }
 }

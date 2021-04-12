@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
+using ResidentsSocialCarePlatformApi.V1.UseCase;
 
 namespace ResidentsSocialCarePlatformApi.V1.Factories
 {
@@ -113,22 +114,43 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             };
         }
 
-        public static ResidentHistoricRecordVisit ToResponse(this Boundary.Responses.VisitInformation visit)
+        public static ResidentHistoricRecordVisit ToSharedResponse(this Boundary.Responses.VisitInformation visit, long personId)
         {
             return new ResidentHistoricRecordVisit
             {
-                MosaicId = visit.PersonId,
-                RecordType = RecordType.Visit
-
+                RecordId = visit.VisitId,
+                FormName = "",
+                PersonId = personId,
+                FirstName = "",
+                LastName = "",
+                DateOfBirth = "",
+                OfficerEmail = visit.CreatedByEmail,
+                CaseFormUrl = "",
+                CaseFormTimeStamp = "",
+                DateOfEvent = visit.ActualDateTime ?? visit.PlannedDateTime,
+                CaseNoteTitle = "",
+                RecordType = RecordType.Visit,
+                Visit = visit
             };
         }
 
-        public static ResidentHistoricRecordCaseNote ToResponse(this Boundary.Responses.CaseNoteInformation visit)
+        public static ResidentHistoricRecordCaseNote ToSharedResponse(this Boundary.Responses.CaseNoteInformation caseNote, long personId)
         {
             return new ResidentHistoricRecordCaseNote
             {
-                MosaicId = long.Parse(visit.MosaicId),
-                RecordType = RecordType.CaseNote
+                RecordId = caseNote.CaseNoteId,
+                FormName = "",
+                PersonId = personId,
+                FirstName = "",
+                LastName = "",
+                DateOfBirth = "",
+                OfficerEmail = caseNote.CreatedByEmail,
+                CaseFormUrl = "",
+                CaseFormTimeStamp = "",
+                DateOfEvent = caseNote.CompletedDate,
+                CaseNoteTitle = "",
+                RecordType = RecordType.CaseNote,
+                CaseNote = caseNote
             };
         }
     }

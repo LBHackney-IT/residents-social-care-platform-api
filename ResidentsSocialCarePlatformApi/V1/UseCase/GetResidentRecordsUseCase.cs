@@ -24,8 +24,8 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
             var visits = _getVisitInformationByPersonId.Execute(personId);
             var caseNotes = _getAllCaseNotesUseCase.Execute(personId).CaseNotes;
 
-            var visitRecords = (from visit in visits select visit.ToResponse()).ToList();
-            var caseNoteRecords = (from caseNote in caseNotes select caseNote.ToResponse()).ToList();
+            var visitRecords = (from visit in visits select visit.ToSharedResponse(personId)).ToList();
+            var caseNoteRecords = (from caseNote in caseNotes select caseNote.ToSharedResponse(personId)).ToList();
 
             var residentHistoricRecords = new List<ResidentHistoricRecord>();
 
