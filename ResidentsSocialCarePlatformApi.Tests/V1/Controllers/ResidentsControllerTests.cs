@@ -183,7 +183,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         {
             const long fakerPersonId = 123L;
             var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var residentRecords = new List<ResidentHistoricRecord> {visit};
+            var residentRecords = new List<ResidentHistoricRecord> { visit };
             _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
 
             var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;
@@ -202,7 +202,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         {
             const long fakerPersonId = 123L;
             var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var residentRecords = new List<ResidentHistoricRecord> {caseNote};
+            var residentRecords = new List<ResidentHistoricRecord> { caseNote };
             _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
 
             var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;
@@ -222,7 +222,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             const long fakerPersonId = 123L;
             var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
             var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var residentRecords = new List<ResidentHistoricRecord> {visit, caseNote};
+            var residentRecords = new List<ResidentHistoricRecord> { visit, caseNote };
             _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
 
             var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;

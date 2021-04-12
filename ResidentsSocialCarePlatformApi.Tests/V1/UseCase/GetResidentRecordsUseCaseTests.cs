@@ -31,7 +31,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         {
             const long fakePersonId = 123L;
             var visits = new List<VisitInformation>();
-            var caseNotes = new CaseNoteInformationList {CaseNotes = new List<CaseNoteInformation>()};
+            var caseNotes = new CaseNoteInformationList { CaseNotes = new List<CaseNoteInformation>() };
             _mockGetVisitInformationByPersonId.Setup(x => x.Execute(fakePersonId)).Returns(visits);
             _mockGetAllCaseNotesUseCase.Setup(x => x.Execute(fakePersonId)).Returns(caseNotes);
 
@@ -45,8 +45,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         {
             const long fakePersonId = 123L;
             var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
-            var visits = new List<VisitInformation>{visit};
-            var caseNotes = new CaseNoteInformationList {CaseNotes = new List<CaseNoteInformation>()};
+            var visits = new List<VisitInformation> { visit };
+            var caseNotes = new CaseNoteInformationList { CaseNotes = new List<CaseNoteInformation>() };
             _mockGetVisitInformationByPersonId.Setup(x => x.Execute(fakePersonId)).Returns(visits);
             _mockGetAllCaseNotesUseCase.Setup(x => x.Execute(fakePersonId)).Returns(caseNotes);
 
@@ -62,7 +62,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             const long fakePersonId = 123L;
             var visits = new List<VisitInformation>();
             var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse();
-            var caseNotes = new CaseNoteInformationList {CaseNotes = new List<CaseNoteInformation>{caseNote}};
+            var caseNotes = new CaseNoteInformationList { CaseNotes = new List<CaseNoteInformation> { caseNote } };
             _mockGetVisitInformationByPersonId.Setup(x => x.Execute(fakePersonId)).Returns(visits);
             _mockGetAllCaseNotesUseCase.Setup(x => x.Execute(fakePersonId)).Returns(caseNotes);
 
@@ -77,9 +77,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         {
             const long fakePersonId = 123L;
             var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
-            var visits = new List<VisitInformation>{visit};
+            var visits = new List<VisitInformation> { visit };
             var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse();
-            var caseNotes = new CaseNoteInformationList {CaseNotes = new List<CaseNoteInformation>{caseNote}};
+            var caseNotes = new CaseNoteInformationList { CaseNotes = new List<CaseNoteInformation> { caseNote } };
             _mockGetVisitInformationByPersonId.Setup(x => x.Execute(fakePersonId)).Returns(visits);
             _mockGetAllCaseNotesUseCase.Setup(x => x.Execute(fakePersonId)).Returns(caseNotes);
 
