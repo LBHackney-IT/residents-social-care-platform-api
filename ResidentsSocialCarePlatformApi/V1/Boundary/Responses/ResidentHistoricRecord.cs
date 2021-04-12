@@ -27,7 +27,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
 
         public RecordType RecordType { get; set; }
 
-        public bool isHistoric { get; set; } = true;
+        public bool IsHistoric { get; set; } = true;
     }
 
     public enum RecordType
