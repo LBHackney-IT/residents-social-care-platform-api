@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
+using ResidentsSocialCarePlatformApi.V1.UseCase;
 
 namespace ResidentsSocialCarePlatformApi.V1.Factories
 {
@@ -110,6 +111,46 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CpVisitOnTime = !string.IsNullOrEmpty(visit.CpVisitOnTime) && visit.CpVisitOnTime.Equals("Y"),
                 CreatedByName = visit.CreatedByName,
                 CreatedByEmail = visit.CreatedByEmail
+            };
+        }
+
+        public static ResidentHistoricRecordVisit ToSharedResponse(this Boundary.Responses.VisitInformation visit, long personId)
+        {
+            return new ResidentHistoricRecordVisit
+            {
+                RecordId = visit.VisitId,
+                FormName = "",
+                PersonId = personId,
+                FirstName = "",
+                LastName = "",
+                DateOfBirth = "",
+                OfficerEmail = visit.CreatedByEmail,
+                CaseFormUrl = "",
+                CaseFormTimeStamp = "",
+                DateOfEvent = visit.ActualDateTime ?? visit.PlannedDateTime,
+                CaseNoteTitle = "",
+                RecordType = RecordType.Visit,
+                Visit = visit
+            };
+        }
+
+        public static ResidentHistoricRecordCaseNote ToSharedResponse(this Boundary.Responses.CaseNoteInformation caseNote, long personId)
+        {
+            return new ResidentHistoricRecordCaseNote
+            {
+                RecordId = caseNote.CaseNoteId,
+                FormName = "",
+                PersonId = personId,
+                FirstName = "",
+                LastName = "",
+                DateOfBirth = "",
+                OfficerEmail = caseNote.CreatedByEmail,
+                CaseFormUrl = "",
+                CaseFormTimeStamp = "",
+                DateOfEvent = caseNote.CompletedDate,
+                CaseNoteTitle = "",
+                RecordType = RecordType.CaseNote,
+                CaseNote = caseNote
             };
         }
     }

@@ -14,22 +14,25 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
     [ApiVersion("1.0")]
     public class ResidentsController : BaseController
     {
-        private IGetAllResidentsUseCase _getAllResidentsUseCase;
-        private IGetEntityByIdUseCase _getEntityByIdUseCase;
-        private IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
+        private readonly IGetAllResidentsUseCase _getAllResidentsUseCase;
+        private readonly IGetEntityByIdUseCase _getEntityByIdUseCase;
+        private readonly IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
         private readonly IGetVisitInformationByPersonId _getVisitInformationByPersonId;
+        private readonly IGetResidentRecordsUseCase _getResidentRecordsUseCase;
 
         public ResidentsController(
             IGetAllResidentsUseCase getAllResidentsUseCase,
             IGetEntityByIdUseCase getEntityByIdUseCase,
             IGetAllCaseNotesUseCase getAllCaseNotesUseCase,
-            IGetVisitInformationByPersonId getVisitInformationByPersonId
+            IGetVisitInformationByPersonId getVisitInformationByPersonId,
+            IGetResidentRecordsUseCase getResidentRecordsUseCase
             )
         {
             _getAllResidentsUseCase = getAllResidentsUseCase;
             _getEntityByIdUseCase = getEntityByIdUseCase;
             _getAllCaseNotesUseCase = getAllCaseNotesUseCase;
             _getVisitInformationByPersonId = getVisitInformationByPersonId;
+            _getResidentRecordsUseCase = getResidentRecordsUseCase;
         }
 
         /// <summary>
@@ -72,10 +75,21 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         }
 
         /// /// <summary>
+        /// Returns list of historic records for a Person ID
+        /// </summary>
+        /// <response code="200">Success. Returns a list of record information for a resident</response>
+        [ProducesResponseType(typeof(CaseNoteInformationList), StatusCodes.Status200OK)]
+        [HttpGet]
+        [Route("{personId}/records")]
+        public IActionResult GetResidentRecords(long personId)
+        {
+            return Ok(_getResidentRecordsUseCase.Execute(personId));
+        }
+
+        /// /// <summary>
         /// Returns list of cases notes for a Person/Mosaic ID
         /// </summary>
         /// <response code="200">Success. Returns a list of matching case note information</response>
-        // TO DO: Error Handling & responses????
         [ProducesResponseType(typeof(CaseNoteInformationList), StatusCodes.Status200OK)]
         [HttpGet]
         [Route("{personId}/case-notes")]
