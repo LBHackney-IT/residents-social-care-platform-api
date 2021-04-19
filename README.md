@@ -6,8 +6,6 @@ Mosaic.
 
 It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details).
 
-![Platform API Architecture](docs/architecture.png)
-
 ## Contents
 
 - [Getting started](#getting-started)
@@ -15,6 +13,7 @@ It is a part of the Social Care system (see [Social Care System Architecture](ht
   - [Running the application](#running-the-application)
   - [Running the tests](#running-the-tests)
 - [Documentation](#documentation)
+  - [C4 Component Diagram](#c4-component-diagram)
 - [Active contributors](#active-contributors)
 - [License](#license)
 
@@ -89,26 +88,6 @@ $ make start-test-db
 ```
 
 This will allow you to run the tests as normal in your IDE.
-
-### Updating the architecture diagram
-
-The [architecture diagram](./docs/architecture.png) is generated using [Diagrams by mingrammer](https://diagrams.mingrammer.com/) which allows you to create
-diagrams by writing Python code.
-
-1. Install diagrams
-```bash
-$ pip install diagrams
-```
-2. Update [architecture.py](./docs/architecture.py) with your changes (see [Diagrams' documentation](https://diagrams.mingrammer.com/docs/guides/diagram))
-3. Change directory into `/docs` so the new image replaces the current one
-```bash
-$ cd docs
-```
-4. Run the script to generate the diagram
-```bash
-$ python architecture.py
-```
-5. Commit the updated image and Python script
 
 ## Migrations
 
@@ -196,6 +175,14 @@ N.B: Do not delete the public schema, if you do, you will need to recreate it us
 ## Documentation
 
 See [Docs](./docs/README.md).
+
+Higher level Architecture diagrams can be found in the [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/) repository.
+
+The process and tooling for diagram creation is found [here](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md).
+
+### C4 Component Diagram
+
+![C4 Component Diagram](docs/component-diagram.svg)
 
 ## Active contributors
 
