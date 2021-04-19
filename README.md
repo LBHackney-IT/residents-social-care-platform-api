@@ -4,7 +4,9 @@ The Residents Social Care Platform API allows for services to retrieve
 social care data of residents i.e. information formally managed by
 Mosaic.
 
-It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details).
+It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details and for the [process of tooling for diagram creation](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md)).
+
+![C4 Component Diagram](docs/component-diagram.svg)
 
 ## Contents
 
@@ -13,7 +15,6 @@ It is a part of the Social Care system (see [Social Care System Architecture](ht
   - [Running the application](#running-the-application)
   - [Running the tests](#running-the-tests)
 - [Documentation](#documentation)
-  - [C4 Component Diagram](#c4-component-diagram)
 - [Active contributors](#active-contributors)
 - [License](#license)
 
@@ -175,14 +176,6 @@ N.B: Do not delete the public schema, if you do, you will need to recreate it us
 ## Documentation
 
 See [Docs](./docs/README.md).
-
-Higher level Architecture diagrams can be found in the [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/) repository.
-
-The process and tooling for diagram creation is found [here](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md).
-
-### C4 Component Diagram
-
-![C4 Component Diagram](docs/component-diagram.svg)
 
 ## Active contributors
 
