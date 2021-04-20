@@ -4,9 +4,9 @@ The Residents Social Care Platform API allows for services to retrieve
 social care data of residents i.e. information formally managed by
 Mosaic.
 
-It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details).
+It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details and for the [process of tooling for diagram creation](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md)).
 
-![Platform API Architecture](docs/architecture.png)
+![C4 Component Diagram](docs/component-diagram.svg)
 
 ## Contents
 
@@ -89,26 +89,6 @@ $ make start-test-db
 ```
 
 This will allow you to run the tests as normal in your IDE.
-
-### Updating the architecture diagram
-
-The [architecture diagram](./docs/architecture.png) is generated using [Diagrams by mingrammer](https://diagrams.mingrammer.com/) which allows you to create
-diagrams by writing Python code.
-
-1. Install diagrams
-```bash
-$ pip install diagrams
-```
-2. Update [architecture.py](./docs/architecture.py) with your changes (see [Diagrams' documentation](https://diagrams.mingrammer.com/docs/guides/diagram))
-3. Change directory into `/docs` so the new image replaces the current one
-```bash
-$ cd docs
-```
-4. Run the script to generate the diagram
-```bash
-$ python architecture.py
-```
-5. Commit the updated image and Python script
 
 ## Migrations
 

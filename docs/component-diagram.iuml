@@ -1,0 +1,38 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Component.puml
+
+' Colours don't work for some reason
+' !include https://raw.githubusercontent.com/LBHackney-IT/cv-19-res-support-v3/development/docs/diagrams/c4_shared.puml
+
+'LAYOUT_AS_SKETCH()
+
+left to right direction
+
+title Component diagram for Residents Social Care Platform API
+
+Container_Ext(resident_social_care_platform_api, "Social Care Case Viewer Service API",  "Lambda, C#", "Provides backend API for the Social Care Front End")
+
+Container_Boundary(api, "Residents Social Care Platform API") {
+    Component(api_gateway, "API Gateway", "API Gateway", "Routing and auth via API keys")
+    Component(api_lambda, "Service API Lambda", "Lambda", "Runs C# .NET application")
+
+    Component(historic_case_notes, "Historic Case Notes", "GET", "Returns historic case notes")
+    Component(historic_visits, "Historic Visits", "GET", "Returns historic visits")
+
+    ContainerDb(postgres, "PostgreSQL", "RDS PostgreSQL", "Stores historic case notes and visits")
+
+    Rel(resident_social_care_platform_api, api_gateway, "Uses", "JSON/HTTPS")
+
+    Rel(api_gateway, api_lambda, "Uses", "HTTPS")
+
+    Rel(api_lambda, historic_case_notes, "Uses", "JSON/HTTPS")
+    Rel(historic_case_notes, postgres, "Uses", "Entity Framework/SSL")
+
+    Rel(api_lambda, historic_visits, "Uses", "JSON/HTTPS")
+    Rel(historic_visits, postgres, "Uses", "Entity Framework/SSL")
+}
+
+SHOW_DYNAMIC_LEGEND()
+@enduml
