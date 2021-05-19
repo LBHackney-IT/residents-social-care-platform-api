@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -9,9 +10,10 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    partial class SocialCareContextModelSnapshot : ModelSnapshot
+    [Migration("20210519104226_AddPersonalRelationshipTypesTable")]
+    partial class AddPersonalRelationshipTypesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -488,34 +490,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                     b.HasKey("PersonalRelationshipId");
 
                     b.ToTable("dm_personal_relationships", "dbo");
-                });
-
-            modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.PersonalRelationshipsView", b =>
-                {
-                    b.Property<long>("PersonalRelationshipId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("personal_relationship_id")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<string>("Category")
-                        .HasColumnType("text")
-                        .HasColumnName("category");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<long>("OtherPersonId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("other_person_id");
-
-                    b.Property<long>("PersonId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("person_id");
-
-                    b.HasKey("PersonalRelationshipId");
-
-                    b.ToView("vw_personal_relationships", "dbo");
                 });
 
             modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.TelephoneNumber", b =>
