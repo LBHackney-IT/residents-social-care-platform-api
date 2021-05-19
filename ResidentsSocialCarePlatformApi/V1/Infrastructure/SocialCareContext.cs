@@ -22,6 +22,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         public DbSet<PersonalRelationships> PersonalRelationships { get; set; }
 
+        public DbSet<PersonalRelationshipTypes> PersonalRelationshipTypes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // composite primary key for TelephoneNumber table
