@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 {
     [Table("dm_personal_relationships", Schema = "dbo")]
-    public class PersonalRelationships
+    public class PersonalRelationship
     {
         [Column("personal_relationship_id")]
         [MaxLength(9)]
