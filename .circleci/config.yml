@@ -78,16 +78,30 @@ jobs:
           name: Run formatter check
           command: ./dotnet-format-local/dotnet-format --check
   build-and-test:
-    executor: docker-python
+    executor: docker-dotnet
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: build
-          command: docker-compose build residents-social-care-platform-api-test
+            name: Install Docker Compose
+            command: |
+              curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+              chmod +x ~/docker-compose
+              mv ~/docker-compose /usr/local/bin/docker-compose
+      - run:
+          name: Install dotnet ef core
+          command: dotnet tool install dotnet-ef --tool-path ./dotnet-ef-local/
+      - run:
+          name: Start test database
+          command: |
+            set -x
+            docker-compose up -d test-database
+      - run:
+          name: Run migrations against test database
+          command: CONNECTION_STRING="Host=127.0.0.1;Port=6543;Username=postgres;Password=mypassword;Database=socialcare" dotnet ef database update -p ResidentsSocialCarePlatformApi
       - run:
           name: Run tests
-          command: docker-compose run residents-social-care-platform-api-test
+          command: docker-compose build residents-social-care-platform-api-test && docker-compose up residents-social-care-platform-api-test
   assume-role-production:
     executor: docker-python
     steps:
