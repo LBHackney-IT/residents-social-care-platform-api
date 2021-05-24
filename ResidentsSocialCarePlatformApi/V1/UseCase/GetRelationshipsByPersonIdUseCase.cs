@@ -16,12 +16,13 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 
         public Relationships Execute(long personId)
         {
-            var relationships = _socialCareGateway.GetPersonalRelationships(personId);
+            var personalRelationships = _socialCareGateway.GetPersonalRelationships(personId);
+
 
             return new Relationships()
             {
                 PersonId = personId,
-                PersonalRelationships = new Domain.PersonalRelationships()
+                PersonalRelationships = personalRelationships
             };
         }
     }

@@ -22,7 +22,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         }
 
         [Test]
-        public void WhenThereIsNoMatchingCaseNote_ReturnsNull()
+        public void WhenThereIsNoPersonalRelationships_ReturnsEmptyList()
         {
             PersonalRelationships noMatchingRelationship = new PersonalRelationships();
             _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(noMatchingRelationship);
@@ -35,6 +35,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             response.PersonalRelationships.Siblings.Should().BeEmpty();
             response.PersonalRelationships.Children.Should().BeEmpty();
             response.PersonalRelationships.Other.Should().BeEmpty();
+        }
+
+        [Test]
+        public void WhenThereArePersonalRelationships_ReturnsListOfIDs()
+        {
+            PersonalRelationships matchingRelationhips = _fixture.Create<PersonalRelationships>();
+            _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(matchingRelationhips);
+
+            var response = _classUnderTest.Execute(123);
+
+            response.PersonId.Equals(123);
+
+            response.PersonalRelationships.Parents.Should().NotBeEmpty();
+            response.PersonalRelationships.Siblings.Should().NotBeEmpty();
+            response.PersonalRelationships.Children.Should().NotBeEmpty();
+            response.PersonalRelationships.Other.Should().NotBeEmpty();
         }
     }
 }
