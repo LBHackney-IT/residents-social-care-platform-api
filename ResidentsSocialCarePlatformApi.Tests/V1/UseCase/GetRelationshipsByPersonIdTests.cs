@@ -5,6 +5,7 @@ using FluentAssertions;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
+using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
 {
@@ -51,6 +52,23 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
             response.PersonalRelationships.Siblings.Should().NotBeEmpty();
             response.PersonalRelationships.Children.Should().NotBeEmpty();
             response.PersonalRelationships.Other.Should().NotBeEmpty();
+        }
+
+        [Test]
+        public void WhenThereAreSomePersonalRelationships_ReturnsListOfIDs()
+        {
+            var matchingRelationships = TestHelper.CreateRandomPersonalRelationship();
+
+            _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(matchingRelationships);
+
+            var response = _classUnderTest.Execute(123);
+
+            response.PersonId.Equals(123);
+
+            response.PersonalRelationships.Parents.Should().Equal(matchingRelationships.Parents);
+            response.PersonalRelationships.Siblings.Should().Equal(matchingRelationships.Siblings);
+            response.PersonalRelationships.Children.Should().Equal(matchingRelationships.Children);
+            response.PersonalRelationships.Other.Should().Equal(matchingRelationships.Other);
         }
     }
 }
