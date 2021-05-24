@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 {
-    public class PersonalRelationshipsView
+    public class PersonalRelationshipView
     {
         [Column("personal_relationship_id")]
         public long PersonalRelationshipId { get; set; }
