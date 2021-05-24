@@ -20,5 +20,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         IEnumerable<VisitInformation> GetVisitInformationByPersonId(long personId);
 
         VisitInformation GetVisitInformationByVisitId(long visitId);
+
+        Domain.PersonalRelationships GetPersonalRelationships(long personId);
     }
 }
