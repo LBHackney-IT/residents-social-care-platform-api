@@ -20,6 +20,7 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
 using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Amazon.XRay.Recorder.Handlers.AwsSdk;
 
 namespace ResidentsSocialCarePlatformApi
 {
@@ -28,6 +29,7 @@ namespace ResidentsSocialCarePlatformApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            AWSSDKHandler.RegisterXRayForAllServices();
         }
 
         public IConfiguration Configuration { get; }
@@ -120,6 +122,7 @@ namespace ResidentsSocialCarePlatformApi
             services.AddDbContext<SocialCareContext>(options => options
                 .UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                .AddXRayInterceptor(true)
             );
         }
 
@@ -151,6 +154,8 @@ namespace ResidentsSocialCarePlatformApi
             {
                 app.UseHsts();
             }
+
+            app.UseXRay("residents-social-care-platform-api");
 
             //Get All ApiVersions,
             var api = app.ApplicationServices.GetService<IApiVersionDescriptionProvider>();
