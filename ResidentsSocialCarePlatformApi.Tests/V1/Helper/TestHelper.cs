@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoFixture;
 using Bogus;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using static System.Int32;
 using Address = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
 using Person = ResidentsSocialCarePlatformApi.V1.Infrastructure.Person;
+using ResidentsSocialCarePlatformApi.V1.Domain;
 
 #nullable enable
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
@@ -166,6 +169,16 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(personalRelationship => personalRelationship.IsMother, f => f.Random.String2(1, "YN"))
                 .RuleFor(personalRelationship => personalRelationship.ParentalReponsibility, f => f.Random.String2(1, "YN"))
                 .RuleFor(personalRelationship => personalRelationship.IsInformalCarer, f => f.Random.String2(1, "YN"));
+        }
+
+        public static PersonalRelationships CreateRandomPersonalRelationship()
+        {
+            return new Faker<PersonalRelationships>()
+                .RuleFor(personalRelationship => personalRelationship.Parents, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
+                .RuleFor(personalRelationship => personalRelationship.Children, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
+                .RuleFor(personalRelationship => personalRelationship.Siblings, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
+                .RuleFor(personalRelationship => personalRelationship.Other, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList());
+
         }
     }
 }
