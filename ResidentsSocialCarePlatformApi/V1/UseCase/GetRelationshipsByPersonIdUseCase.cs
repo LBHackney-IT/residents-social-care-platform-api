@@ -9,15 +9,14 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
     {
         ISocialCareGateway _socialCareGateway;
 
-        public GetRelationshipsByPersonIdUseCase(ISocialCareGateway socialCareGateways)
+        public GetRelationshipsByPersonIdUseCase(ISocialCareGateway socialCareGateway)
         {
-            this._socialCareGateway = socialCareGateways;
+            _socialCareGateway = socialCareGateway;
         }
 
         public Relationships Execute(long personId)
         {
             var personalRelationships = _socialCareGateway.GetPersonalRelationships(personId);
-
 
             return new Relationships()
             {

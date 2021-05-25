@@ -23,10 +23,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         }
 
         [Test]
-        public void WhenThereIsNoPersonalRelationships_ReturnsEmptyList()
+        public void WhenThereAreNoPersonalRelationships_ReturnsEmptyLists()
         {
-            PersonalRelationships noMatchingRelationship = new PersonalRelationships();
-            _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(noMatchingRelationship);
+            PersonalRelationships noMatchingRelationships = new PersonalRelationships();
+            _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(noMatchingRelationships);
 
             var response = _classUnderTest.Execute(123);
 
@@ -41,8 +41,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void WhenThereArePersonalRelationships_ReturnsListOfIDs()
         {
-            PersonalRelationships matchingRelationhips = _fixture.Create<PersonalRelationships>();
-            _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(matchingRelationhips);
+            PersonalRelationships matchingRelationships = _fixture.Create<PersonalRelationships>();
+            _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(matchingRelationships);
 
             var response = _classUnderTest.Execute(123);
 
@@ -58,7 +58,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         public void WhenThereAreSomePersonalRelationships_ReturnsListOfIDs()
         {
             var matchingRelationships = TestHelper.CreateRandomPersonalRelationship();
-
             _mockSocialCareGateway.Setup(x => x.GetPersonalRelationships(123)).Returns(matchingRelationships);
 
             var response = _classUnderTest.Execute(123);
