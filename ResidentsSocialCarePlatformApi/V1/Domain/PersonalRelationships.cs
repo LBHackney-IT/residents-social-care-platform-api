@@ -12,11 +12,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Domain
             Other = new List<long>();
         }
 
-        public List<long> Parents { get; set; } 
+        public List<long> Parents { get; set; }
 
         public List<long> Siblings { get; set; }
 
-        public List<long> Children { get; set; } 
+        public List<long> Children { get; set; }
 
         public List<long> Other { get; set; }
     }
