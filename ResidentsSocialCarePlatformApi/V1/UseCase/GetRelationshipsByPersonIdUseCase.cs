@@ -1,4 +1,4 @@
-using System;
+using ResidentsSocialCarePlatformApi.V1.Boundary.Requests;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
@@ -14,13 +14,13 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
             _socialCareGateway = socialCareGateway;
         }
 
-        public Relationships Execute(long personId)
+        public Relationships Execute(GetRelationshipsRequest request)
         {
-            var personalRelationships = _socialCareGateway.GetPersonalRelationships(personId);
+            var personalRelationships = _socialCareGateway.GetPersonalRelationships(request.PersonId);
 
             return new Relationships()
             {
-                PersonId = personId,
+                PersonId = request.PersonId,
                 PersonalRelationships = personalRelationships
             };
         }
