@@ -32,8 +32,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
 
             var response = _classUnderTest.Execute(request);
 
-            response.PersonId.Equals(request.PersonId);
-
+            response.PersonId.Should().Be(request.PersonId);
             response.PersonalRelationships.Parents.Should().BeEmpty();
             response.PersonalRelationships.Siblings.Should().BeEmpty();
             response.PersonalRelationships.Children.Should().BeEmpty();
@@ -49,8 +48,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
 
             var response = _classUnderTest.Execute(request);
 
-            response.PersonId.Equals(request.PersonId);
-
+            response.PersonId.Should().Be(request.PersonId);
             response.PersonalRelationships.Parents.Should().NotBeEmpty();
             response.PersonalRelationships.Siblings.Should().NotBeEmpty();
             response.PersonalRelationships.Children.Should().NotBeEmpty();
@@ -66,8 +64,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
 
             var response = _classUnderTest.Execute(request);
 
-            response.PersonId.Equals(request.PersonId);
-
+            response.PersonId.Should().Be(request.PersonId);
             response.PersonalRelationships.Parents.Should().Equal(matchingRelationships.Parents);
             response.PersonalRelationships.Siblings.Should().Equal(matchingRelationships.Siblings);
             response.PersonalRelationships.Children.Should().Equal(matchingRelationships.Children);
