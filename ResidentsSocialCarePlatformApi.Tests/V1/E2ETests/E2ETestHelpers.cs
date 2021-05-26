@@ -156,6 +156,34 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
             return worker;
         }
-    }
 
+        public static (Person, Person, Person) AddPersonalRelationshipsToDatabase(SocialCareContext socialCareContext, string familyCategory = "Child's Parents")
+        {
+            var person = TestHelper.CreateDatabasePersonEntity(id: 1);
+            var otherPerson1 = TestHelper.CreateDatabasePersonEntity(id: 2);
+            var otherPerson2 = TestHelper.CreateDatabasePersonEntity(id: 3);
+            var personalRelationshipType = TestHelper.CreatePersonalRelationshipType(familyCategory: familyCategory);
+            var personalRelationship1 = TestHelper.CreatePersonalRelationship(
+                personId: person.Id,
+                personalRelTypeId: personalRelationshipType.PersonalRelationshipTypeId,
+                otherPersonId: otherPerson1.Id
+            );
+            var personalRelationship2 = TestHelper.CreatePersonalRelationship(
+                personId: person.Id,
+                personalRelTypeId: personalRelationshipType.PersonalRelationshipTypeId,
+                otherPersonId: otherPerson2.Id
+            );
+
+            socialCareContext.Persons.Add(person);
+            socialCareContext.Persons.Add(otherPerson1);
+            socialCareContext.Persons.Add(otherPerson2);
+            socialCareContext.PersonalRelationshipTypes.Add(personalRelationshipType);
+            socialCareContext.PersonalRelationships.Add(personalRelationship1);
+            socialCareContext.PersonalRelationships.Add(personalRelationship2);
+
+            socialCareContext.SaveChanges();
+
+            return (person, otherPerson1, otherPerson2);
+        }
+    }
 }
