@@ -178,7 +178,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(personalRelationship => personalRelationship.Children, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
                 .RuleFor(personalRelationship => personalRelationship.Siblings, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
                 .RuleFor(personalRelationship => personalRelationship.Other, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList());
-
         }
     }
 }

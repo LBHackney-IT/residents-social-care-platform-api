@@ -23,6 +23,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         private Mock<IGetAllCaseNotesUseCase> _mockGetAllCaseNotesUseCase;
         private Mock<IGetVisitInformationByPersonId> _mockGetVisitInformationByPersonIdUseCase;
         private Mock<IGetResidentRecordsUseCase> _mockGetResidentRecordsUseCase;
+        private Mock<IGetRelationshipsByPersonIdUseCase> _mockGetRelationIGetRelationshipsByPersonIdUseCase;
 
         [SetUp]
         public void SetUp()
@@ -32,13 +33,15 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             _mockGetAllCaseNotesUseCase = new Mock<IGetAllCaseNotesUseCase>();
             _mockGetVisitInformationByPersonIdUseCase = new Mock<IGetVisitInformationByPersonId>();
             _mockGetResidentRecordsUseCase = new Mock<IGetResidentRecordsUseCase>();
+            _mockGetRelationIGetRelationshipsByPersonIdUseCase = new Mock<IGetRelationshipsByPersonIdUseCase>();
 
             _classUnderTest = new ResidentsController(
                 _mockGetAllResidentsUseCase.Object,
                 _mockGetEntityByIdUseCase.Object,
                 _mockGetAllCaseNotesUseCase.Object,
                 _mockGetVisitInformationByPersonIdUseCase.Object,
-                _mockGetResidentRecordsUseCase.Object);
+                _mockGetResidentRecordsUseCase.Object,
+                _mockGetRelationIGetRelationshipsByPersonIdUseCase.Object);
         }
 
         [Test]
@@ -234,6 +237,30 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 
             response.StatusCode.Should().Be(200);
             response.Value.Should().BeEquivalentTo(residentRecords);
+        }
+
+        [Test]
+        public void GetRelationships_WhenThereInvalidPersonIdIsProvided_Returns400()
+        {
+            var getRelationshipsRequest = new GetRelationshipsRequest() { PersonId = 0 };
+
+            var response = _classUnderTest.GetRelationships(getRelationshipsRequest) as BadRequestObjectResult;
+
+            response.StatusCode.Should().Be(400);
+            response.Value.Should().Be("Person ID must be greater than 0");
+        }
+
+        [Test]
+        public void GetRelationships_WhenThereIsAPersonId_ReturnRelationship()
+        {
+            var getRelationshipsRequest = new GetRelationshipsRequest() { PersonId = 123456789 };
+            var relationships = new Relationships();
+            _mockGetRelationIGetRelationshipsByPersonIdUseCase.Setup(x => x.Execute(It.IsAny<GetRelationshipsRequest>())).Returns(relationships);
+
+            var response = _classUnderTest.GetRelationships(getRelationshipsRequest) as OkObjectResult;
+
+            response.StatusCode.Should().Be(200);
+            response.Value.Should().BeEquivalentTo(relationships);
         }
     }
 }
