@@ -1,20 +1,27 @@
+[![LBHackney-IT](https://circleci.com/gh/LBHackney-IT/residents-social-care-platform-api.svg?style=svg)](https://circleci.com/gh/LBHackney-IT/residents-social-care-platform-api)
+
 # Residents Social Care Platform API
 
 The Residents Social Care Platform API allows for services to retrieve
 social care data of residents i.e. information formally managed by
-Mosaic.
-
-It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details and for the [process of tooling for diagram creation](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md)).
+Mosaic. It's part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details).
 
 ![C4 Component Diagram](docs/component-diagram.svg)
 
-## Contents
+## Table of contents
 
 - [Getting started](#getting-started)
 - [Usage](#usage)
   - [Running the application](#running-the-application)
   - [Running the tests](#running-the-tests)
 - [Documentation](#documentation)
+  - [Architecture](#architecture)
+  - [API design](#api-design)
+  - [Database](#database)
+    - [Migrations](#migrations)
+  - [Deployment](#deployment)
+  - [Infrastructure](#infrastructure)
+  - [Related repositories](#related-repositories)
 - [Active contributors](#active-contributors)
 - [License](#license)
 
@@ -90,49 +97,7 @@ $ make start-test-db
 
 This will allow you to run the tests as normal in your IDE.
 
-## Migrations
-
-### Adding a migration
-
-We are using EF Core Code first migrations to manage the schema for the test database.
-To make changes to the test database structure follow these steps.
-
-1. You need have the [dotnet ef cli tool](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet) installed.
-   To install run:
-
-```sh
-$ dotnet tool install --global dotnet-ef
-```
-
-2. Make the necessary changes to the database model i.e `SocialCareContext` and/or any of the DbSet's listed in the file.
-
-3. In your terminal, navigate to the root folder of the repo and run:
-
-```sh
-$ dotnet ef migrations add -o ./V1/Infrastructure/Migrations -p ResidentsSocialCarePlatformApi NameOfThisMigration
-```
-
-`NameOfThisMigration` should be replaced with your migration name e.g. AddColumnNameToPeopleTable.
-This will create a Migrations folder in the Infrastructure (if it doesn't exist)
-and creates a migration for the changes you've made for the database model.
-
-4. Go to the folder /ResidentContactApi/V1/Infrastructure/Migrations and you should see two new files for the migration.
-   In the one which doesn't end in `.Designer` you can check through the migration script to make sure the migration file has the changes you expect.
-
-### Editing a Generated Migration
-
-If the migration file looks wrong or you have missed something, you can do either of the following:
-
-1. While the test database is running in the background, run:
-   ```sh
-   $ CONNECTION_STRING="Host=127.0.0.1;Database=socialcare;Username=postgres;Password=mypassword;" dotnet ef migrations remove -p ResidentsSocialCarePlatformApi
-   ```
-
-2. Or delete the migration files and revert the changes to `SocialCareContextModelSnapshot.cs`. Make the necessary changes to the context, then create the migration files again.
-
-Note: Any changes made to a `DbSet` or within `SocialCareContext` should have an associated migration generated for it.
-
-### Applying a Migration
+### Running migrations
 
 While running the test database locally (i.e you are able to run tests from within your IDE), run any new migrations with:
 
@@ -143,39 +108,57 @@ $ make migrate-test-db
 This will run migrations on the `socialcare` database on your local machine.
 (Your IDE connects to the `socialcare` database hosted on your localhost to run tests and not to the docker container).
 
-### Troubleshooting Migrations
-
-If you encounter errors about tables already existing after running the `migrate-test-db` make command,
-you can try using [psql](https://www.postgresql.org/docs/current/app-psql.html)
-to delete all the existing tables in `dbo` schema and the `__EFMigrationsHistory` table from the `socialcare` database hosted on your localhost.
-
-1. In your terminal, connect to the localhost instance of socialcare using psql:
-```sh
-$ psql -h 127.0.0.1 -p 5432 -d socialcare -U postgres
-```
-
-2. Delete all the tables in the socialcare `dbo` schema:
-```sh
-DROP SCHEMA IF EXISTS dbo CASCADE;
-```
-N.B: When running the migrations, it will check if the `dbo` schema exists first and create it if doesn't, so no need to recreate it here.
-
-
-3. Delete the EF Migrations History table:
-```sh
-DROP TABLE __EFMigrationsHistory CASCADE;
-```
-
-N.B: Do not delete the public schema, if you do, you will need to recreate it using `CREATE SCHEMA`.
-
-4. Exit the psql. You can use `\q`
-
-5. Run the `make migrate-test-db` command again.
-   This should run the migrations on the database, create a new `__EFMigrationsHistory` table and save the new migration history there.
-
 ## Documentation
 
-See [Docs](./docs/README.md).
+### Architecture
+
+As this platform API is a part of the Social Care System, higher level documentation lives in a separate repository called [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/).
+
+To find out more about the process and tooling for our diagrams, see [Process documentation in Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md).
+
+### API design
+
+We use [SwaggerHub](https://swagger.io/tools/swaggerhub/) to document the API design, of which we have a version [hosted by SwaggerHub](https://app.swaggerhub.com/apis-docs/Hackney/residents-social-care-platform-api/1.0.0). This is used for designing endpoints as a contract before we create a new feature.
+
+### Database
+
+The platform API has one PostgreSQL database (as seen in the [C4 component diagram](./docs/component-diagram.svg)). It's managed using Terraform in the [Infrastructure repository](https://github.com/LBHackney-IT/infrastructure/tree/master/projects/mosaic).
+
+A lot of the structure of the database has been determined by a database backup of Mosaic as this API supports the Social Care System by providing historic data to the [Social Care Case Viewer API](https://github.com/LBHackney-IT/social-care-case-viewer-api). This has been done by restoring Mosaic's backup and using AWS's Data Migration Service to migrate tables across to the platform API's database.
+
+### Deployment
+
+At the moment, we only have a production enviroment (Mosaic-Production AWS account) with a single deployment branch: `main`. This means pull request merges into `main` it triggers a deployment for Production.
+
+We use [CircleCI](https://circleci.com) to handle deployment, see [CircleCI config](./.circleci/config.yml).
+
+#### Migrations
+
+For our database when developing locally and testing, we have migrations set up (see `/ResidentsSocialCarePlatformApi/V1/Infrastructure/Migrations`) which uses [EF Core Code](https://docs.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli), see our documentation on:
+
+- [Adding a migration](./docs/adding-a-migration.md)
+- [Editing a migration](./docs/editing-a-migration.md)
+- [Troubleshooting migrations](./docs/troubleshooting-migrations.md)
+
+### Deployment
+
+At the moment, we only have a production enviroment (Mosaic-Production AWS account) with a single deployment branch: `main`. This means pull request merges into `main` trigger deployments for Production.
+
+We use [CircleCI](https://circleci.com) to handle deployment, see [CircleCI config](./.circleci/config.yml).
+
+### Infrastructure
+
+Resources such as the database are managed using [Terraform]([terr](https://www.terraform.io)) in [Infrastructure repository](https://github.com/LBHackney-IT/infrastructure/blob/master/projects/mosaic). Other resources such as the Lambda are managed by using the [Serverless framework](https://www.serverless.com) in [serverless.yml](ResidentsSocialCarePlatformApi/serverless.yml) within this repository.
+
+### Related repositories
+
+| Name | Purpose |
+|-|-|
+| [LBH Social Care Frontend](https://github.com/LBHackney-IT/lbh-social-care-frontend) | Provides the UI/UX of the Social Care System. |
+| [Social Care Case Viewer API](https://github.com/LBHackney-IT/social-care-case-viewer-api) | Provides [service API](http://playbook.hackney.gov.uk/API-Playbook/platform_api_vs_service_api#a-service-apis) capabilities to the Social Care System. |
+| [Mosaic Resident Information API](https://github.com/LBHackney-IT/mosaic-resident-information-api) | Provides [platform API](http://playbook.hackney.gov.uk/API-Playbook/platform_api_vs_service_api#b-platform-apis) capabilities by providing information about residents from Mosaic to the Social Care System. |
+| [Infrastructure](https://github.com/LBHackney-IT/infrastructure) | Provides a single place for AWS infrastructure defined using [Terraform](https://www.terraform.io) as [infrastructure as code](https://en.wikipedia.org/wiki/Infrastructure_as_code) as part of Hackney's new AWS account strategy. NB: Due to its recent introduction, the Social Care System has infrastructure across multiple places. |
+| [API Playbook](http://playbook.hackney.gov.uk/API-Playbook/) | Provides guidance to the standards of APIs within Hackney. |
 
 ## Active contributors
 
