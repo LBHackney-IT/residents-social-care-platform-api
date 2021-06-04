@@ -2,9 +2,7 @@
 
 The Residents Social Care Platform API allows for services to retrieve
 social care data of residents i.e. information formally managed by
-Mosaic.
-
-It is a part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details and for the [process of tooling for diagram creation](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md)).
+Mosaic. It's part of the Social Care system (see [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/tree/main) for more details).
 
 ![C4 Component Diagram](docs/component-diagram.svg)
 
@@ -15,8 +13,13 @@ It is a part of the Social Care system (see [Social Care System Architecture](ht
   - [Running the application](#running-the-application)
   - [Running the tests](#running-the-tests)
 - [Documentation](#documentation)
-  - [Database](#migrations)
+  - [Architecture](#architecture)
+  - [API design](#api-design)
+  - [Database](#database)
     - [Migrations](#migrations)
+  - [Deployment](#deployment)
+  - [Infrastructure](#infrastructure)
+  - [Related repositories](#related-repositories)
 - [Active contributors](#active-contributors)
 - [License](#license)
 
@@ -105,7 +108,27 @@ This will run migrations on the `socialcare` database on your local machine.
 
 ## Documentation
 
+### Architecture
+
+As this platform API is a part of the Social Care System, higher level documentation lives in a separate repository called [Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/).
+
+To find out more about the process and tooling for our diagrams, see [Process documentation in Social Care System Architecture](https://github.com/LBHackney-IT/social-care-architecture/blob/main/process.md).
+
+### API design
+
+We use [SwaggerHub](https://swagger.io/tools/swaggerhub/) to document the API design, of which we have a version [hosted by SwaggerHub](https://app.swaggerhub.com/apis-docs/Hackney/residents-social-care-platform-api/1.0.0). This is used for designing endpoints as a contract before we create a new feature.
+
 ### Database
+
+The platform API has one PostgreSQL database (as seen in the [C4 component diagram](./docs/component-diagram.svg)). It's managed using Terraform in the [Infrastructure repository](https://github.com/LBHackney-IT/infrastructure/tree/master/projects/mosaic).
+
+A lot of the structure of the database has been determined by a database backup of Mosaic as this API supports the Social Care System by providing historic data to the [Social Care Case Viewer API](https://github.com/LBHackney-IT/social-care-case-viewer-api). This has been done by restoring Mosaic's backup and using AWS's Data Migration Service to migrate tables across to the platform API's database.
+
+### Deployment
+
+At the moment, we only have a production enviroment (Mosaic-Production AWS account) with a single deployment branch: `main`. This means pull request merges into `main` it triggers a deployment for Production.
+
+We use [CircleCI](https://circleci.com) to handle deployment, see [CircleCI config](./.circleci/config.yml).
 
 #### Migrations
 
@@ -114,6 +137,26 @@ For our database when developing locally and testing, we have migrations set up 
 - [Adding a migration](./docs/adding-a-migration.md)
 - [Editing a migration](./docs/editing-a-migration.md)
 - [Troubleshooting migrations](./docs/troubleshooting-migrations.md)
+
+### Deployment
+
+At the moment, we only have a production enviroment (Mosaic-Production AWS account) with a single deployment branch: `main`. This means pull request merges into `main` trigger deployments for Production.
+
+We use [CircleCI](https://circleci.com) to handle deployment, see [CircleCI config](./.circleci/config.yml).
+
+### Infrastructure
+
+Resources such as the database are managed using [Terraform]([terr](https://www.terraform.io)) in [Infrastructure repository](https://github.com/LBHackney-IT/infrastructure/blob/master/projects/mosaic). Other resources such as the Lambda are managed by using the [Serverless framework](https://www.serverless.com) in [serverless.yml](ResidentsSocialCarePlatformApi/serverless.yml) within this repository.
+
+### Related repositories
+
+| Name | Purpose |
+|-|-|
+| [LBH Social Care Frontend](https://github.com/LBHackney-IT/lbh-social-care-frontend) | Provides the UI/UX of the Social Care System. |
+| [Social Care Case Viewer API](https://github.com/LBHackney-IT/social-care-case-viewer-api) | Provides [service API](http://playbook.hackney.gov.uk/API-Playbook/platform_api_vs_service_api#a-service-apis) capabilities to the Social Care System. |
+| [Mosaic Resident Information API](https://github.com/LBHackney-IT/mosaic-resident-information-api) | Provides [platform API](http://playbook.hackney.gov.uk/API-Playbook/platform_api_vs_service_api#b-platform-apis) capabilities by providing information about residents from Mosaic to the Social Care System. |
+| [Infrastructure](https://github.com/LBHackney-IT/infrastructure) | Provides a single place for AWS infrastructure defined using [Terraform](https://www.terraform.io) as [infrastructure as code](https://en.wikipedia.org/wiki/Infrastructure_as_code) as part of Hackney's new AWS account strategy. NB: Due to its recent introduction, the Social Care System has infrastructure across multiple places. |
+| [API Playbook](http://playbook.hackney.gov.uk/API-Playbook/) | Provides guidance to the standards of APIs within Hackney. |
 
 ## Active contributors
 
