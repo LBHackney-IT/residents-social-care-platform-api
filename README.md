@@ -1,3 +1,5 @@
+[![LBHackney-IT](https://circleci.com/gh/LBHackney-IT/residents-social-care-platform-api.svg?style=svg)](https://circleci.com/gh/LBHackney-IT/residents-social-care-platform-api)
+
 # Residents Social Care Platform API
 
 The Residents Social Care Platform API allows for services to retrieve
