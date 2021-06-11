@@ -18,7 +18,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         private readonly IGetEntityByIdUseCase _getEntityByIdUseCase;
         private readonly IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
         private readonly IGetVisitInformationByPersonId _getVisitInformationByPersonId;
-        private readonly IGetResidentRecordsUseCase _getResidentRecordsUseCase;
         private readonly IGetRelationshipsByPersonIdUseCase _getRelationIGetRelationshipsByPersonIdUseCase;
 
         public ResidentsController(
@@ -26,7 +25,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             IGetEntityByIdUseCase getEntityByIdUseCase,
             IGetAllCaseNotesUseCase getAllCaseNotesUseCase,
             IGetVisitInformationByPersonId getVisitInformationByPersonId,
-            IGetResidentRecordsUseCase getResidentRecordsUseCase,
             IGetRelationshipsByPersonIdUseCase getRelationIGetRelationshipsByPersonIdUseCase
             )
         {
@@ -34,7 +32,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             _getEntityByIdUseCase = getEntityByIdUseCase;
             _getAllCaseNotesUseCase = getAllCaseNotesUseCase;
             _getVisitInformationByPersonId = getVisitInformationByPersonId;
-            _getResidentRecordsUseCase = getResidentRecordsUseCase;
             _getRelationIGetRelationshipsByPersonIdUseCase = getRelationIGetRelationshipsByPersonIdUseCase;
         }
 
@@ -75,18 +72,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             {
                 return NotFound();
             }
-        }
-
-        /// /// <summary>
-        /// Returns list of historic records for a Person ID
-        /// </summary>
-        /// <response code="200">Success. Returns a list of record information for a resident</response>
-        [ProducesResponseType(typeof(CaseNoteInformationList), StatusCodes.Status200OK)]
-        [HttpGet]
-        [Route("{personId}/records")]
-        public IActionResult GetResidentRecords(long personId)
-        {
-            return Ok(_getResidentRecordsUseCase.Execute(personId));
         }
 
         /// /// <summary>

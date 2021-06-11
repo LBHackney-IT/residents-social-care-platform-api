@@ -22,7 +22,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         private Mock<IGetEntityByIdUseCase> _mockGetEntityByIdUseCase;
         private Mock<IGetAllCaseNotesUseCase> _mockGetAllCaseNotesUseCase;
         private Mock<IGetVisitInformationByPersonId> _mockGetVisitInformationByPersonIdUseCase;
-        private Mock<IGetResidentRecordsUseCase> _mockGetResidentRecordsUseCase;
         private Mock<IGetRelationshipsByPersonIdUseCase> _mockGetRelationIGetRelationshipsByPersonIdUseCase;
 
         [SetUp]
@@ -32,7 +31,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             _mockGetEntityByIdUseCase = new Mock<IGetEntityByIdUseCase>();
             _mockGetAllCaseNotesUseCase = new Mock<IGetAllCaseNotesUseCase>();
             _mockGetVisitInformationByPersonIdUseCase = new Mock<IGetVisitInformationByPersonId>();
-            _mockGetResidentRecordsUseCase = new Mock<IGetResidentRecordsUseCase>();
             _mockGetRelationIGetRelationshipsByPersonIdUseCase = new Mock<IGetRelationshipsByPersonIdUseCase>();
 
             _classUnderTest = new ResidentsController(
@@ -40,7 +38,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
                 _mockGetEntityByIdUseCase.Object,
                 _mockGetAllCaseNotesUseCase.Object,
                 _mockGetVisitInformationByPersonIdUseCase.Object,
-                _mockGetResidentRecordsUseCase.Object,
                 _mockGetRelationIGetRelationshipsByPersonIdUseCase.Object);
         }
 
@@ -161,82 +158,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             var response = _classUnderTest.GetVisitInformation(visitId) as NotFoundResult;
 
             response.StatusCode.Should().Be(404);
-        }
-
-        [Test]
-        public void GetResidentRecords_WhenThereIsNoMatchingVisitsOrCaseNotes_ReturnEmptyList()
-        {
-            const long fakerPersonId = 123L;
-            var residentRecords = new List<ResidentHistoricRecord>();
-            _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
-
-            var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;
-
-            if (response == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(new List<ResidentHistoricRecord>());
-        }
-
-        [Test]
-        public void GetResidentRecords_WhenThereAreVisits_ReturnListWithVisitData()
-        {
-            const long fakerPersonId = 123L;
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var residentRecords = new List<ResidentHistoricRecord> { visit };
-            _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
-
-            var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;
-
-            if (response == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(residentRecords);
-        }
-
-        [Test]
-        public void GetResidentRecords_WhenThereAreCaseNotes_ReturnListWithCaseNoteData()
-        {
-            const long fakerPersonId = 123L;
-            var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var residentRecords = new List<ResidentHistoricRecord> { caseNote };
-            _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
-
-            var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;
-
-            if (response == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(residentRecords);
-        }
-
-        [Test]
-        public void GetResidentRecords_WhenThereAreVisitsAndCaseNotes_ReturnListWithVisitAndCaseNoteData()
-        {
-            const long fakerPersonId = 123L;
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse().ToSharedResponse(fakerPersonId);
-            var residentRecords = new List<ResidentHistoricRecord> { visit, caseNote };
-            _mockGetResidentRecordsUseCase.Setup(x => x.Execute(fakerPersonId)).Returns(residentRecords);
-
-            var response = _classUnderTest.GetResidentRecords(fakerPersonId) as OkObjectResult;
-
-            if (response == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(residentRecords);
         }
 
         [Test]
