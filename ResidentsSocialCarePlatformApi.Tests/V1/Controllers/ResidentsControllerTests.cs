@@ -22,7 +22,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         private Mock<IGetEntityByIdUseCase> _mockGetEntityByIdUseCase;
         private Mock<IGetAllCaseNotesUseCase> _mockGetAllCaseNotesUseCase;
         private Mock<IGetVisitInformationByPersonId> _mockGetVisitInformationByPersonIdUseCase;
-        private Mock<IGetResidentRecordsUseCase> _mockGetResidentRecordsUseCase;
         private Mock<IGetRelationshipsByPersonIdUseCase> _mockGetRelationIGetRelationshipsByPersonIdUseCase;
 
         [SetUp]
@@ -32,7 +31,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             _mockGetEntityByIdUseCase = new Mock<IGetEntityByIdUseCase>();
             _mockGetAllCaseNotesUseCase = new Mock<IGetAllCaseNotesUseCase>();
             _mockGetVisitInformationByPersonIdUseCase = new Mock<IGetVisitInformationByPersonId>();
-            _mockGetResidentRecordsUseCase = new Mock<IGetResidentRecordsUseCase>();
             _mockGetRelationIGetRelationshipsByPersonIdUseCase = new Mock<IGetRelationshipsByPersonIdUseCase>();
 
             _classUnderTest = new ResidentsController(
@@ -40,7 +38,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
                 _mockGetEntityByIdUseCase.Object,
                 _mockGetAllCaseNotesUseCase.Object,
                 _mockGetVisitInformationByPersonIdUseCase.Object,
-                _mockGetResidentRecordsUseCase.Object,
                 _mockGetRelationIGetRelationshipsByPersonIdUseCase.Object);
         }
 
