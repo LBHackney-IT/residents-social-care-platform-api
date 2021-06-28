@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -9,9 +10,10 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    partial class SocialCareContextModelSnapshot : ModelSnapshot
+    [Migration("20210628113757_RemovePersonalRelationshipTable")]
+    partial class RemovePersonalRelationshipTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,6 +399,40 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("dm_persons", "dbo");
+                });
+
+            modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.PersonalRelationshipType", b =>
+                {
+                    b.Property<long>("PersonalRelationshipTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(9)
+                        .HasColumnType("bigint")
+                        .HasColumnName("personal_rel_type_id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("FamilyCategory")
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)")
+                        .HasColumnName("family_category");
+
+                    b.Property<string>("IsFosterAndAdoptSibling")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
+                        .HasColumnName("is_foster_and_adopt_sibling");
+
+                    b.Property<string>("IsInformalCarer")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
+                        .HasColumnName("is_informal_carer");
+
+                    b.HasKey("PersonalRelationshipTypeId");
+
+                    b.ToTable("dm_personal_rel_types", "dbo");
                 });
 
             modelBuilder.Entity("ResidentsSocialCarePlatformApi.V1.Infrastructure.TelephoneNumber", b =>

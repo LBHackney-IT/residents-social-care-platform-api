@@ -115,7 +115,6 @@ namespace ResidentsSocialCarePlatformApi
             ConfigureDbContext(services);
             RegisterGateways(services);
             RegisterUseCases(services);
-            RegisterValidators(services);
         }
 
         private static void ConfigureDbContext(IServiceCollection services)
@@ -142,13 +141,7 @@ namespace ResidentsSocialCarePlatformApi
             services.AddScoped<IGetCaseNoteInformationByIdUseCase, GetCaseNoteInformationByIdUseCase>();
             services.AddScoped<IGetVisitInformationByPersonId, GetVisitInformationByPersonId>();
             services.AddScoped<IGetVisitInformationByVisitId, GetVisitInformationByVisitId>();
-            services.AddScoped<IGetRelationshipsByPersonIdUseCase, GetRelationshipsByPersonIdUseCase>();
             services.AddScoped<IValidatePostcode, ValidatePostcode>();
-        }
-
-        private static void RegisterValidators(IServiceCollection services)
-        {
-            services.AddTransient<IValidator<GetRelationshipsRequest>, GetRelationshipsRequestValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
