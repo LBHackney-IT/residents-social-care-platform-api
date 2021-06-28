@@ -18,21 +18,18 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         private readonly IGetEntityByIdUseCase _getEntityByIdUseCase;
         private readonly IGetAllCaseNotesUseCase _getAllCaseNotesUseCase;
         private readonly IGetVisitInformationByPersonId _getVisitInformationByPersonId;
-        private readonly IGetRelationshipsByPersonIdUseCase _getRelationIGetRelationshipsByPersonIdUseCase;
 
         public ResidentsController(
             IGetAllResidentsUseCase getAllResidentsUseCase,
             IGetEntityByIdUseCase getEntityByIdUseCase,
             IGetAllCaseNotesUseCase getAllCaseNotesUseCase,
-            IGetVisitInformationByPersonId getVisitInformationByPersonId,
-            IGetRelationshipsByPersonIdUseCase getRelationIGetRelationshipsByPersonIdUseCase
+            IGetVisitInformationByPersonId getVisitInformationByPersonId
             )
         {
             _getAllResidentsUseCase = getAllResidentsUseCase;
             _getEntityByIdUseCase = getEntityByIdUseCase;
             _getAllCaseNotesUseCase = getAllCaseNotesUseCase;
             _getVisitInformationByPersonId = getVisitInformationByPersonId;
-            _getRelationIGetRelationshipsByPersonIdUseCase = getRelationIGetRelationshipsByPersonIdUseCase;
         }
 
         /// <summary>
@@ -101,29 +98,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
             if (visitInformation.Count == 0) return NotFound();
 
             return Ok(visitInformation);
-        }
-
-        /// /// <summary>
-        /// Get relationships for a person
-        /// </summary>
-        /// <response code="200">Success. Returns relationships for a person</response>
-        /// <response code="400">Invalid person ID</response>
-        [ProducesResponseType(typeof(Boundary.Responses.Relationships), StatusCodes.Status200OK)]
-        [HttpGet]
-        [Route("{personId}/relationships")]
-        public IActionResult GetRelationships([FromQuery] GetRelationshipsRequest request)
-        {
-            var validator = new GetRelationshipsRequestValidator();
-            var validationResults = validator.Validate(request);
-
-            if (!validationResults.IsValid)
-            {
-                return BadRequest(validationResults.ToString());
-            }
-
-            var relationships = _getRelationIGetRelationshipsByPersonIdUseCase.Execute(request);
-
-            return Ok(relationships);
         }
     }
 }

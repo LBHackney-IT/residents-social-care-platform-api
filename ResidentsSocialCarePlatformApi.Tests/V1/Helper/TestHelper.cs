@@ -145,39 +145,5 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .With(organisation => organisation.ResponsibleAuthority, responsibleAuthority)
                 .Create();
         }
-
-        public static PersonalRelationshipType CreatePersonalRelationshipType(string? familyCategory = null)
-        {
-            return new Faker<PersonalRelationshipType>()
-                .RuleFor(personalRelationshipsType => personalRelationshipsType.PersonalRelationshipTypeId, f => f.UniqueIndex)
-                .RuleFor(personalRelationshipsType => personalRelationshipsType.Description, f => f.Random.String2(1, 80))
-                .RuleFor(personalRelationshipsType => personalRelationshipsType.FamilyCategory, f => familyCategory ?? f.Random.String2(1, 255))
-                .RuleFor(personalRelationshipsType => personalRelationshipsType.IsInformalCarer, f => f.Random.String2(1, "YN"))
-                .RuleFor(personalRelationshipsType => personalRelationshipsType.IsFosterAndAdoptSibling, f => f.Random.String2(1, "YN"));
-        }
-
-        public static PersonalRelationship CreatePersonalRelationship(long? personId = null, long? personalRelTypeId = null, long? otherPersonId = null)
-        {
-            return new Faker<PersonalRelationship>()
-                .RuleFor(personalRelationship => personalRelationship.PersonalRelationshipId, f => f.UniqueIndex)
-                .RuleFor(personalRelationship => personalRelationship.PersonId, f => personId ?? f.UniqueIndex)
-                .RuleFor(personalRelationship => personalRelationship.PersonalRelTypeId, f => personalRelTypeId ?? f.UniqueIndex)
-                .RuleFor(personalRelationship => personalRelationship.OtherPersonId, f => otherPersonId ?? f.UniqueIndex)
-                .RuleFor(personalRelationship => personalRelationship.StartDate, f => f.Date.Past(3))
-                .RuleFor(personalRelationship => personalRelationship.EndDate, f => f.Date.Past(1))
-                .RuleFor(personalRelationship => personalRelationship.FamilyCategory, f => f.Random.String2(1, 255))
-                .RuleFor(personalRelationship => personalRelationship.IsMother, f => f.Random.String2(1, "YN"))
-                .RuleFor(personalRelationship => personalRelationship.ParentalReponsibility, f => f.Random.String2(1, "YN"))
-                .RuleFor(personalRelationship => personalRelationship.IsInformalCarer, f => f.Random.String2(1, "YN"));
-        }
-
-        public static PersonalRelationships CreateRandomPersonalRelationship()
-        {
-            return new Faker<PersonalRelationships>()
-                .RuleFor(personalRelationship => personalRelationship.Parents, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
-                .RuleFor(personalRelationship => personalRelationship.Children, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
-                .RuleFor(personalRelationship => personalRelationship.Siblings, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList())
-                .RuleFor(personalRelationship => personalRelationship.Other, f => Enumerable.Range(0, f.Random.Int(0, 5)).Select(x => f.PickRandom(new List<long>() { f.UniqueIndex, f.UniqueIndex, f.UniqueIndex })).ToList());
-        }
     }
 }

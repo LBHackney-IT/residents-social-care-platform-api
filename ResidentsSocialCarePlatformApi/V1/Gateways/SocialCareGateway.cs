@@ -144,29 +144,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return AddRelatedInformationToVisit(visitInformation);
         }
 
-        public Domain.PersonalRelationships GetPersonalRelationships(long personId)
-        {
-            var personalRelationships = _socialCareContext.PersonalRelationshipsView
-                                            .Where(personalRelationship => personalRelationship.PersonId == personId)
-                                            .ToList();
-
-            return new Domain.PersonalRelationships()
-            {
-                Parents = FilterPersonalRelationships(personalRelationships, "parents"),
-                Siblings = FilterPersonalRelationships(personalRelationships, "siblings"),
-                Children = FilterPersonalRelationships(personalRelationships, "children"),
-                Other = FilterPersonalRelationships(personalRelationships, "other")
-            };
-        }
-
-        private List<long> FilterPersonalRelationships(List<PersonalRelationshipView> personalRelationships, string category)
-        {
-            return personalRelationships
-                        .Where(personalRelationship => personalRelationship.Category == category)
-                        .Select(personalRelationship => personalRelationship.OtherPersonId)
-                        .ToList();
-        }
-
         private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);
