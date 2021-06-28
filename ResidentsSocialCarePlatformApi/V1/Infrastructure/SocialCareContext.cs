@@ -20,12 +20,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         public DbSet<Organisation> Organisations { get; set; }
 
-        public DbSet<PersonalRelationship> PersonalRelationships { get; set; }
-
-        public DbSet<PersonalRelationshipType> PersonalRelationshipTypes { get; set; }
-
-        public DbSet<PersonalRelationshipView> PersonalRelationshipsView { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // composite primary key for TelephoneNumber table
@@ -35,10 +29,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
                     telephoneNumber.Id,
                     telephoneNumber.PersonId
                 });
-
-            modelBuilder.Entity<PersonalRelationshipView>()
-                .ToView(name: "vw_personal_relationships", schema: "dbo")
-                .HasKey(p => p.PersonalRelationshipId);
         }
     }
 }
