@@ -9,7 +9,7 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {
     public class GetVisitInformationByPersonId : IGetVisitInformationByPersonId
     {
-        private ISocialCareGateway _socialCareGateway;
+        private readonly ISocialCareGateway _socialCareGateway;
 
         public GetVisitInformationByPersonId(ISocialCareGateway socialCareGateway)
         {

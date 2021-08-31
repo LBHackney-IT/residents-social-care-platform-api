@@ -74,12 +74,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         public DateTime? CopiedDate { get; set; }
 
         //nav props
+        [ForeignKey("system_user_id")]
         public Worker CreatedByWorker { get; set; }
-
-        public Worker LastUpdatedWorker { get; set; }
-
-        public Worker CopiedByWorker { get; set; }
-
-        public NoteType NewNoteType { get; set; }
     }
 }

@@ -56,22 +56,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 MosaicId = caseNote.PersonId.ToString(),
                 CaseNoteId = caseNote.Id,
                 CaseNoteTitle = caseNote.Title,
-                CreatedOn = caseNote.CreatedOn,
-                PersonVisitId = caseNote.PersonVisitId,
                 CaseNoteContent = caseNote.Note,
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                EffectiveDate = caseNote.EffectiveDate,
-                LastUpdatedOn = caseNote.LastUpdatedOn,
-                CompletedDate = caseNote.CompletedDate,
-                TimeoutDate = caseNote.TimeoutDate,
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate,
-                CreatedByEmail = caseNote.createdByWorker.EmailAddress,
-                CreatedByName = $"{caseNote.createdByWorker.FirstNames} {caseNote.createdByWorker.LastNames}",
-                LastUpdatedEmail = caseNote.lastUpdatedWorker.EmailAddress,
-                LastUpdatedName = $"{caseNote.lastUpdatedWorker.FirstNames} {caseNote.lastUpdatedWorker.LastNames}",
-                CopiedByEmail = caseNote.copiedByWorker.EmailAddress,
-                CopiedByName = $"{caseNote.copiedByWorker.FirstNames} {caseNote.copiedByWorker.LastNames}"
+                CreatedByEmail = caseNote.CreatedByWorker.EmailAddress,
+                CreatedByName = $"{caseNote.CreatedByWorker.FirstNames} {caseNote.CreatedByWorker.LastNames}",
+                CreatedOn = caseNote.CreatedOn,
+                NoteType = caseNote.NoteType
             };
         }
 
