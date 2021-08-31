@@ -33,9 +33,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             var nonExistentCaseNoteId = "1234";
             var uri = new Uri($"api/v1/case-notes/{nonExistentCaseNoteId}", UriKind.Relative);
 
-            var response = Client.GetAsync(uri);
+            var response = await Client.GetAsync(uri);
 
-            response.Result.StatusCode.Should().Be(404);
+            response.StatusCode.Should().Be(404);
         }
     }
 }
