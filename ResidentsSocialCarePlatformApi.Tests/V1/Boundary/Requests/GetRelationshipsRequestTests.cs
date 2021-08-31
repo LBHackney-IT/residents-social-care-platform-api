@@ -1,20 +1,17 @@
-using Bogus;
 using FluentAssertions;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Requests;
 
-namespace ResidentsSocialCarePlatformApi.Tests.V1.Boundary.Request
+namespace ResidentsSocialCarePlatformApi.Tests.V1.Boundary.Requests
 {
     [TestFixture]
     public class GetRelationshipsRequestTests
     {
         private GetRelationshipsRequestValidator _classUnderTest;
-        private Faker _faker;
 
         [SetUp]
         public void SetUp()
         {
-            _faker = new Faker();
             _classUnderTest = new GetRelationshipsRequestValidator();
         }
 

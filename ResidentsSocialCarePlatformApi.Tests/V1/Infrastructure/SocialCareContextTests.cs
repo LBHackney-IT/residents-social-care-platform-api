@@ -25,9 +25,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Infrastructure
         public void CanCreateADatabaseRecordForACaseNote()
         {
             var person = TestHelper.CreateDatabasePersonEntity();
-
-
-
             var caseNote = TestHelper.CreateDatabaseCaseNote(person.Id);
 
             SocialCareContext.Add(caseNote);

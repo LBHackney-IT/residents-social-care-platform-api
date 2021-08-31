@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
@@ -16,7 +14,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     {
         private Mock<ISocialCareGateway> _mockSocialCareGateway;
         private GetCaseNoteInformationByIdUseCase _classUnderTest;
-        private Fixture _fixture = new Fixture();
+        private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
@@ -28,8 +26,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void WhenThereIsNoMatchingCaseNote_ReturnsNull()
         {
-            CaseNoteInformation noMatchingCaseNote = null;
-            _mockSocialCareGateway.Setup(x => x.GetCaseNoteInformationById(123)).Returns(noMatchingCaseNote);
+            _mockSocialCareGateway.Setup(x => x.GetCaseNoteInformationById(123));
 
             var response = _classUnderTest.Execute(123);
 

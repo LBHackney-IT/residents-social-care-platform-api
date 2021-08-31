@@ -32,7 +32,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(person => person.Nationality, f => f.Random.String2(1, 20));
         }
 
-        public static Address CreateDatabaseAddressForPersonId(long personId, string postcode = null, string address = null)
+        public static Address CreateDatabaseAddressForPersonId(long personId, string? postcode = null, string? address = null)
         {
             var faker = new Fixture();
 
@@ -67,12 +67,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
         }
 
         public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
-            string copiedBy = "CGYORFI", string createdBy = "CGYORFI", string updatedBy = "CGYORFI", Worker? createdWorker = null,
-            Worker? updatedWorker = null, Worker? copiedWorker = null)
+            string copiedBy = "CGYORFI", string createdBy = "CGYORFI", string updatedBy = "CGYORFI", Worker? createdWorker = null)
         {
             var faker = new Fixture();
 
-            createdWorker ??= TestHelper.CreateDatabaseWorker();
+            createdWorker ??= CreateDatabaseWorker();
 
             return faker.Build<CaseNote>()
                 .With(caseNote => caseNote.Id, id)
@@ -90,8 +89,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
             var faker = new Fixture();
 
             return faker.Build<NoteType>()
-                .With(noteType => noteType.Type, noteType)
-                .With(noteType => noteType.Description, description)
+                .With(n => n.Type, noteType)
+                .With(n => n.Description, description)
                 .Create();
         }
 
@@ -119,8 +118,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(v => v.VisitId, f => visitId ?? f.UniqueIndex)
                 .RuleFor(v => v.PersonId, f => personId ?? f.UniqueIndex)
                 .RuleFor(v => v.VisitType, f => f.Random.String2(1, 20))
-                .RuleFor(v => v.PlannedDateTime, f => f.Date.Past(1))
-                .RuleFor(v => v.ActualDateTime, f => f.Date.Past(1))
+                .RuleFor(v => v.PlannedDateTime, f => f.Date.Past())
+                .RuleFor(v => v.ActualDateTime, f => f.Date.Past())
                 .RuleFor(v => v.ReasonNotPlanned, f => f.Random.String2(1, 16))
                 .RuleFor(v => v.ReasonVisitNotMade, f => f.Random.String2(1, 16))
                 .RuleFor(v => v.SeenAloneFlag, f => f.Random.String2(1, "YN"))
@@ -169,7 +168,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(personalRelationship => personalRelationship.PersonalRelTypeId, f => personalRelTypeId ?? f.UniqueIndex)
                 .RuleFor(personalRelationship => personalRelationship.OtherPersonId, f => otherPersonId ?? f.UniqueIndex)
                 .RuleFor(personalRelationship => personalRelationship.StartDate, f => f.Date.Past(3))
-                .RuleFor(personalRelationship => personalRelationship.EndDate, f => f.Date.Past(1))
+                .RuleFor(personalRelationship => personalRelationship.EndDate, f => f.Date.Past())
                 .RuleFor(personalRelationship => personalRelationship.FamilyCategory, f => f.Random.String2(1, 255))
                 .RuleFor(personalRelationship => personalRelationship.IsMother, f => f.Random.String2(1, "YN"))
                 .RuleFor(personalRelationship => personalRelationship.ParentalReponsibility, f => f.Random.String2(1, "YN"))
