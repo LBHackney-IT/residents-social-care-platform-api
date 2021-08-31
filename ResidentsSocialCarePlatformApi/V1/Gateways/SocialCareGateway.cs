@@ -87,9 +87,15 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         public List<CaseNoteInformation> GetAllCaseNotes(long personId)
         {
-            var caseNotes = _socialCareContext.CaseNotes.Where(note => note.PersonId == personId).ToList();
+            var caseNotes = _socialCareContext.CaseNotes
+            .Where(note => note.PersonId == personId)
+            .Include(x => x.CreatedByWorker)
+            .Include(x => x.LastUpdatedWorker)
+            .Include(x => x.CopiedByWorker)
+            .Include(x => x.NewNoteType)
+            .ToList();
 
-            return caseNotes.Select(AddRelatedInformationToCaseNote).ToList();
+            return caseNotes.Select(x => x.ToDomain()).ToList();
         }
 
         public Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId)
