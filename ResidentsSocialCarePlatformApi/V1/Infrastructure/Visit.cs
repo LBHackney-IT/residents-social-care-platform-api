@@ -68,5 +68,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("cp_visit_on_time")]
         [StringLength(1)]
         public string? CpVisitOnTime { get; set; }
+
+        //nav props
+        public Worker Worker { get; set; }
     }
 }

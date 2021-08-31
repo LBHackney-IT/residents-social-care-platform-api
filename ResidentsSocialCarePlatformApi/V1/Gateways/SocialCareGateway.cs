@@ -132,16 +132,20 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             var visits = _socialCareContext.Visits
                 .Where(visit => visit.PersonId == personId)
+                .Include(x => x.Worker)
                 .ToList();
 
-            return visits.Select(AddRelatedInformationToVisit);
+            return visits.Select(x => x.ToDomain());
         }
 
         public VisitInformation? GetVisitInformationByVisitId(long visitId)
         {
-            var visitInformation = _socialCareContext.Visits.FirstOrDefault(visit => visit.VisitId == visitId);
+            var visitInformation = _socialCareContext
+                .Visits
+                .Include(x => x.Worker)
+                .FirstOrDefault(visit => visit.VisitId == visitId);
 
-            return AddRelatedInformationToVisit(visitInformation);
+            return visitInformation?.ToDomain();
         }
 
         public Domain.PersonalRelationships GetPersonalRelationships(long personId)
@@ -312,21 +316,5 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
             return caseNoteInformation;
         }
-
-        private VisitInformation? AddRelatedInformationToVisit(Visit? visit)
-        {
-            if (visit == null)
-            {
-                return null;
-            }
-
-            var visitDomain = visit.ToDomain();
-
-            visitDomain.CreatedByEmail = GetWorkerEmailAddress(workerId: visit.WorkerId);
-            visitDomain.CreatedByName = GetWorkerName(workerId: visit.WorkerId);
-
-            return visitDomain;
-        }
-
     }
 }

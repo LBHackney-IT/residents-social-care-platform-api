@@ -1,4 +1,6 @@
 using System;
+using ResidentsSocialCarePlatformApi.V1.Infrastructure;
+
 #nullable enable
 
 namespace ResidentsSocialCarePlatformApi.V1.Domain

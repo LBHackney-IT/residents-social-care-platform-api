@@ -28,7 +28,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         [Test]
         public void GetVisitInformation_WhenThereIsAMatchingVisitId_ReturnsVisitInformation()
         {
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
+            var visit = TestHelper.CreateDatabaseVisit().ToDomain().ToResponse();
 
             _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visit.VisitId)).Returns(visit);
 
@@ -46,9 +46,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         [Test]
         public void GetVisitInformation_WhenThereIsNoAMatchingVisitId_ReturnsNotFound()
         {
-            VisitInformation visitInformation = null;
             const long visitId = 12345L;
-            _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visitId)).Returns(visitInformation);
+            _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visitId));
 
             var response = _classUnderTest.GetVisit(visitId) as NotFoundResult;
 

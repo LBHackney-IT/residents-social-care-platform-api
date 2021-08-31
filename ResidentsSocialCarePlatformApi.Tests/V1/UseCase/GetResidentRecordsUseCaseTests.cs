@@ -44,7 +44,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         public void WhenThereIsVisits_ReturnListWithVisits()
         {
             const long fakePersonId = 123L;
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
+            var visit = TestHelper.CreateDatabaseVisit().ToDomain().ToResponse();
             var visits = new List<VisitInformation> { visit };
             var caseNotes = new CaseNoteInformationList { CaseNotes = new List<CaseNoteInformation>() };
             _mockGetVisitInformationByPersonId.Setup(x => x.Execute(fakePersonId)).Returns(visits);
@@ -76,7 +76,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         public void WhenThereIsCaseNotesAndVisits_ReturnListWithBoth()
         {
             const long fakePersonId = 123L;
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
+            var visit = TestHelper.CreateDatabaseVisit().ToDomain().ToResponse();
             var visits = new List<VisitInformation> { visit };
             var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse();
             var caseNotes = new CaseNoteInformationList { CaseNotes = new List<CaseNoteInformation> { caseNote } };

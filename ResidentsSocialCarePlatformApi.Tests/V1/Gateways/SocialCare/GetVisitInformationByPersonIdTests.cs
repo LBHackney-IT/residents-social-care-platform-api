@@ -35,7 +35,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereIsOneMatch_ReturnsAListContainingTheMatchingVisit()
         {
-            var visit = AddVisitToDatabase().Item1;
+            var visit = AddVisitToDatabase();
 
             var response = _classUnderTest.GetVisitInformationByPersonId(visit.PersonId);
 
@@ -77,7 +77,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereIsAMatchingRecord_ReturnsDetailsFromVisit()
         {
-            var (visit, worker) = AddVisitToDatabase();
+            var visit = AddVisitToDatabase();
 
             var response = _classUnderTest.GetVisitInformationByPersonId(visit.PersonId).First();
 
@@ -97,19 +97,19 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             response.CpVisitScheduleStepId.Should().Be(visit.CpVisitScheduleStepId);
             response.CpVisitScheduleDays.Should().Be(visit.CpVisitScheduleDays);
             response.CpVisitOnTime.Should().Be(visit.CpVisitOnTime);
-            response.CreatedByEmail.Should().Be(worker.EmailAddress);
-            response.CreatedByName.Should().Be($"{worker.FirstNames} {worker.LastNames}");
+            response.CreatedByEmail.Should().Be(visit.Worker.EmailAddress);
+            response.CreatedByName.Should().Be($"{visit.Worker.FirstNames} {visit.Worker.LastNames}");
         }
 
-        private (Visit, Worker) AddVisitToDatabase(long? visitId = null, long? workerId = null, long? personId = null)
+        private Visit AddVisitToDatabase(long? visitId = null, long? workerId = null, long? personId = null)
         {
-            var (visit, worker) = TestHelper.CreateDatabaseVisit(visitId, personId, workerId: workerId);
+            var visit= TestHelper.CreateDatabaseVisit(visitId, personId, workerId: workerId);
 
             SocialCareContext.Visits.Add(visit);
-            SocialCareContext.Workers.Add(worker);
+            SocialCareContext.Workers.Add(visit.Worker);
             SocialCareContext.SaveChanges();
 
-            return (visit, worker);
+            return visit;
         }
     }
 }

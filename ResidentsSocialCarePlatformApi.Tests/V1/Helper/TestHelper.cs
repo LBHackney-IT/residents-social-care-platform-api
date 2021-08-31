@@ -101,7 +101,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(worker => worker.SystemUserId, systemUserId);
         }
 
-        public static (Visit, Worker) CreateDatabaseVisit(
+        public static Visit CreateDatabaseVisit(
             long? visitId = null,
             long? personId = null,
             long? orgId = null,
@@ -126,9 +126,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(v => v.CpRegistrationId, f => cpRegistrationId ?? f.UniqueIndex)
                 .RuleFor(v => v.CpVisitScheduleStepId, f => cpVisitScheduleStepId ?? f.UniqueIndex)
                 .RuleFor(v => v.CpVisitScheduleDays, f => f.Random.Number(999))
-                .RuleFor(v => v.CpVisitOnTime, f => f.Random.String2(1, "YN"));
+                .RuleFor(v => v.CpVisitOnTime, f => f.Random.String2(1, "YN"))
+                .RuleFor(v => v.Worker, worker);
 
-            return (visit, worker);
+            return visit;
         }
 
         public static Organisation CreateDatabaseOrganisation(
