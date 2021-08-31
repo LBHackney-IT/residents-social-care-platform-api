@@ -103,7 +103,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 
         private Visit AddVisitToDatabase(long? visitId = null, long? workerId = null, long? personId = null)
         {
-            var visit= TestHelper.CreateDatabaseVisit(visitId, personId, workerId: workerId);
+            var visit = TestHelper.CreateDatabaseVisit(visitId, personId, workerId: workerId);
 
             SocialCareContext.Visits.Add(visit);
             SocialCareContext.Workers.Add(visit.Worker);
