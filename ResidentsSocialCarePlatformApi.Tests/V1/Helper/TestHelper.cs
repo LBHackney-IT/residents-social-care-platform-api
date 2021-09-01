@@ -4,7 +4,6 @@ using System.Linq;
 using AutoFixture;
 using Bogus;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
-using static System.Int32;
 using Address = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
 using Person = ResidentsSocialCarePlatformApi.V1.Infrastructure.Person;
 using ResidentsSocialCarePlatformApi.V1.Domain;
@@ -23,7 +22,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(person => person.LastName, f => lastname ?? f.Name.LastName())
                 .RuleFor(person => person.FullName, f => f.Name.FullName())
                 .RuleFor(person => person.DateOfBirth, f => f.Date.Past(50, DateTime.Now).Date)
-                .RuleFor(person => person.NhsNumber, f => f.Random.Number(MaxValue))
+                .RuleFor(person => person.NhsNumber, f => f.Random.Number(int.MaxValue))
                 .RuleFor(person => person.Gender, f => f.Person.Gender.ToString()[0].ToString())
                 .RuleFor(person => person.EmailAddress, f => f.Person.Email)
                 .RuleFor(person => person.Restricted, f => f.Random.String2(1, "YN"))
@@ -67,21 +66,17 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
         }
 
         public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
-            string copiedBy = "CGYORFI", string createdBy = "CGYORFI", string updatedBy = "CGYORFI", Worker? createdWorker = null)
+            string copiedBy = "CGYORFI", string updatedBy = "CGYORFI", Worker? createdWorker = null)
         {
-            var faker = new Fixture();
-
             createdWorker ??= CreateDatabaseWorker();
 
-            return faker.Build<CaseNote>()
-                .With(caseNote => caseNote.Id, id)
-                .With(caseNote => caseNote.PersonId, personId)
-                .With(caseNote => caseNote.NoteType, noteType)
-                .With(caseNote => caseNote.CreatedBy, createdBy)
-                .With(caseNote => caseNote.LastUpdatedBy, updatedBy)
-                .With(caseNote => caseNote.CopiedBy, copiedBy)
-                .With(caseNote => caseNote.CreatedByWorker, createdWorker)
-                .Create();
+            return new Faker<CaseNote>()
+                .RuleFor(caseNote => caseNote.Id, id)
+                .RuleFor(caseNote => caseNote.PersonId, personId)
+                .RuleFor(caseNote => caseNote.NoteType, noteType)
+                .RuleFor(caseNote => caseNote.LastUpdatedBy, updatedBy)
+                .RuleFor(caseNote => caseNote.CopiedBy, copiedBy)
+                .RuleFor(caseNote => caseNote.CreatedByWorker, createdWorker);
         }
 
         public static NoteType CreateDatabaseNoteType(string noteType = "CASSUMASC", string description = "Case Summary (ASC)")
