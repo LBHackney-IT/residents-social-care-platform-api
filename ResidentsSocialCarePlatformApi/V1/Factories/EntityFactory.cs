@@ -66,12 +66,12 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 TimeoutDate = caseNote.TimeoutDate,
                 CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
                 CopiedDate = caseNote.CopiedDate,
-                CreatedByEmail = caseNote.createdByWorker.EmailAddress,
-                CreatedByName = $"{caseNote.createdByWorker.FirstNames} {caseNote.createdByWorker.LastNames}",
-                LastUpdatedEmail = caseNote.lastUpdatedWorker.EmailAddress,
-                LastUpdatedName = $"{caseNote.lastUpdatedWorker.FirstNames} {caseNote.lastUpdatedWorker.LastNames}",
-                CopiedByEmail = caseNote.copiedByWorker.EmailAddress,
-                CopiedByName = $"{caseNote.copiedByWorker.FirstNames} {caseNote.copiedByWorker.LastNames}"
+                CreatedByEmail = caseNote.CreatedByWorker.EmailAddress,
+                CreatedByName = $"{caseNote.CreatedByWorker.FirstNames} {caseNote.CreatedByWorker.LastNames}",
+                LastUpdatedEmail = caseNote.LastUpdatedWorker.EmailAddress,
+                LastUpdatedName = $"{caseNote.LastUpdatedWorker.FirstNames} {caseNote.LastUpdatedWorker.LastNames}",
+                CopiedByEmail = caseNote.CopiedByWorker.EmailAddress,
+                CopiedByName = $"{caseNote.CopiedByWorker.FirstNames} {caseNote.CopiedByWorker.LastNames}"
             };
         }
 
