@@ -7,7 +7,6 @@ using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
-using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
@@ -29,12 +28,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void IfNoMatchingRecords_ReturnsAnEmptyResponse()
         {
-            var noRecords = new List<VisitInformation>();
             const long fakePersonId = 34567L;
 
             _mockSocialCareGateway
                 .Setup(x => x.GetVisitInformationByPersonId(fakePersonId))
-                .Returns(noRecords);
+                .Returns(new List<VisitInformation>());
 
             var response = _classUnderTest.Execute(fakePersonId);
 

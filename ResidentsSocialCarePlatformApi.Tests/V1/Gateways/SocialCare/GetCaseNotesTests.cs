@@ -36,7 +36,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var response = _classUnderTest.GetAllCaseNotes(person.Id);
 
             response.Count.Should().Be(1);
-            response.FirstOrDefault().CaseNoteId.Should().Be(caseNote.Id);
+            response.FirstOrDefault()?.CaseNoteId.Should().Be(caseNote.Id);
         }
 
         [Test]
@@ -63,21 +63,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
                 CaseNoteId = caseNote.Id,
                 NoteType = noteType.Description,
                 CaseNoteTitle = caseNote.Title,
-                EffectiveDate = caseNote.EffectiveDate,
                 CreatedOn = caseNote.CreatedOn,
                 CreatedByName = $"{caseWorker.FirstNames} {caseWorker.LastNames}",
-                CreatedByEmail = caseWorker.EmailAddress,
-                LastUpdatedOn = caseNote.LastUpdatedOn,
-                LastUpdatedName = $"{caseWorker.FirstNames} {caseWorker.LastNames}",
-                LastUpdatedEmail = caseWorker.EmailAddress,
-                CompletedDate = caseNote.CompletedDate,
-                TimeoutDate = caseNote.TimeoutDate,
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate,
-                CopiedByName = $"{caseWorker.FirstNames} {caseWorker.LastNames}",
-                CopiedByEmail = caseWorker.EmailAddress,
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                PersonVisitId = caseNote.PersonVisitId
+                CreatedByEmail = caseWorker.EmailAddress
             };
 
             var response = _classUnderTest.GetAllCaseNotes(person.Id);
@@ -93,7 +81,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 
             var response = _classUnderTest.GetAllCaseNotes(person.Id);
 
-            response.FirstOrDefault().CaseNoteContent.Should().BeNullOrEmpty();
+            response.FirstOrDefault()?.CaseNoteContent.Should().BeNullOrEmpty();
         }
 
         private Person AddPersonToDatabase()
@@ -120,7 +108,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var worker = TestHelper.CreateDatabaseWorker(workerFirstNames, workerLastNames, workerEmailAddress, workerSystemUserId);
             SocialCareContext.Workers.Add(worker);
 
-            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type, workerSystemUserId, workerSystemUserId, workerSystemUserId);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type, worker);
             SocialCareContext.CaseNotes.Add(caseNote);
 
             SocialCareContext.SaveChanges();

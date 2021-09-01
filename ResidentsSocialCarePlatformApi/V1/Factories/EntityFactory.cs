@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using DbAddress = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
@@ -8,9 +6,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
 {
     public static class EntityFactory
     {
-        public static Domain.ResidentInformation ToDomain(this Person databaseEntity)
+        public static ResidentInformation ToDomain(this Person databaseEntity)
         {
-            return new Domain.ResidentInformation
+            return new ResidentInformation
             {
                 MosaicId = databaseEntity.Id.ToString(),
                 FirstName = databaseEntity.FirstName,
@@ -22,10 +20,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 Gender = databaseEntity.Gender,
                 Restricted = databaseEntity.Restricted
             };
-        }
-        public static List<Domain.ResidentInformation> ToDomain(this IEnumerable<Person> people)
-        {
-            return people.Select(p => p.ToDomain()).ToList();
         }
 
         public static PhoneNumber ToDomain(this TelephoneNumber number)
@@ -56,28 +50,16 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 MosaicId = caseNote.PersonId.ToString(),
                 CaseNoteId = caseNote.Id,
                 CaseNoteTitle = caseNote.Title,
-                CreatedOn = caseNote.CreatedOn,
-                PersonVisitId = caseNote.PersonVisitId,
                 CaseNoteContent = caseNote.Note,
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                EffectiveDate = caseNote.EffectiveDate,
-                LastUpdatedOn = caseNote.LastUpdatedOn,
-                CompletedDate = caseNote.CompletedDate,
-                TimeoutDate = caseNote.TimeoutDate,
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate,
-                CreatedByEmail = caseNote.CreatedByWorker.EmailAddress,
-                CreatedByName = $"{caseNote.CreatedByWorker.FirstNames} {caseNote.CreatedByWorker.LastNames}",
-                LastUpdatedEmail = caseNote.LastUpdatedWorker.EmailAddress,
-                LastUpdatedName = $"{caseNote.LastUpdatedWorker.FirstNames} {caseNote.LastUpdatedWorker.LastNames}",
-                CopiedByEmail = caseNote.CopiedByWorker.EmailAddress,
-                CopiedByName = $"{caseNote.CopiedByWorker.FirstNames} {caseNote.CopiedByWorker.LastNames}"
+                CreatedByEmail = caseNote.Worker.EmailAddress,
+                CreatedByName = $"{caseNote.Worker.FirstNames} {caseNote.Worker.LastNames}",
+                CreatedOn = caseNote.CreatedOn,
+                NoteType = caseNote.NoteType
             };
         }
 
         public static VisitInformation ToDomain(this Visit visit)
         {
-
             return new VisitInformation
             {
                 VisitId = visit.VisitId,

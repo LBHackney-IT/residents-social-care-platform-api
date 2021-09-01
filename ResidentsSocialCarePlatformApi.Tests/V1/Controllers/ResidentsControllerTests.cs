@@ -59,8 +59,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             var response = _classUnderTest.ViewRecord(12345) as OkObjectResult;
 
             response.Should().NotBeNull();
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(residentInfo);
+            response?.StatusCode.Should().Be(200);
+            response?.Value.Should().BeEquivalentTo(residentInfo);
         }
 
         [Test]
@@ -92,8 +92,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             var response = _classUnderTest.ListContacts(rqp, 3, 2) as OkObjectResult;
 
             response.Should().NotBeNull();
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(residentInformationList);
+            response?.StatusCode.Should().Be(200);
+            response?.Value.Should().BeEquivalentTo(residentInformationList);
         }
 
         [Test]
@@ -106,11 +106,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
                 new CaseNoteInformation
                 {
                     MosaicId = "00000",
-                    CaseNoteId = 2222,
+                    CaseNoteId = "2222",
                     CaseNoteTitle = "THIS CASE NOTE HAS A TITLE",
-                    EffectiveDate = fakeTime.ToString("s"),
-                    CreatedOn = fakeTime.ToString("s"),
-                    LastUpdatedOn = fakeTime.ToString("s")
+                    CreatedOn = fakeTime.ToString("s")
                 }
             };
 
@@ -123,8 +121,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
             var response = _classUnderTest.ListCaseNotes(00000) as OkObjectResult;
 
             response.Should().NotBeNull();
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(caseNoteInformationList);
+            response?.StatusCode.Should().Be(200);
+            response?.Value.Should().BeEquivalentTo(caseNoteInformationList);
         }
 
         [Test]
@@ -160,7 +158,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 
             var response = _classUnderTest.GetVisitInformation(visitId) as NotFoundResult;
 
-            response.StatusCode.Should().Be(404);
+            response?.StatusCode.Should().Be(404);
         }
 
         [Test]
@@ -246,8 +244,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 
             var response = _classUnderTest.GetRelationships(getRelationshipsRequest) as BadRequestObjectResult;
 
-            response.StatusCode.Should().Be(400);
-            response.Value.Should().Be("Person ID must be greater than 0");
+            response?.StatusCode.Should().Be(400);
+            response?.Value.Should().Be("Person ID must be greater than 0");
         }
 
         [Test]
@@ -259,8 +257,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 
             var response = _classUnderTest.GetRelationships(getRelationshipsRequest) as OkObjectResult;
 
-            response.StatusCode.Should().Be(200);
-            response.Value.Should().BeEquivalentTo(relationships);
+            response?.StatusCode.Should().Be(200);
+            response?.Value.Should().BeEquivalentTo(relationships);
         }
     }
 }

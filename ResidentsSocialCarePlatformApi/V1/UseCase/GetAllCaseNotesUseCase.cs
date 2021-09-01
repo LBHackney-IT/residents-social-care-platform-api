@@ -7,7 +7,7 @@ namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {
     public class GetAllCaseNotesUseCase : IGetAllCaseNotesUseCase
     {
-        private ISocialCareGateway _socialCareGateway;
+        private readonly ISocialCareGateway _socialCareGateway;
 
         public GetAllCaseNotesUseCase(ISocialCareGateway socialCareGateway)
         {

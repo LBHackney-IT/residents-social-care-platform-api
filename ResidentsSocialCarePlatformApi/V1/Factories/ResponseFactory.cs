@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
-using ResidentsSocialCarePlatformApi.V1.UseCase;
 
 namespace ResidentsSocialCarePlatformApi.V1.Factories
 {
@@ -37,25 +36,13 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             return new Boundary.Responses.CaseNoteInformation
             {
                 MosaicId = caseNote.MosaicId,
-                CaseNoteId = caseNote.CaseNoteId,
+                CaseNoteId = caseNote.CaseNoteId.ToString(),
                 CaseNoteTitle = caseNote.CaseNoteTitle,
-                EffectiveDate = caseNote.EffectiveDate?.ToString("s"),
                 CreatedOn = caseNote.CreatedOn?.ToString("s"),
-                LastUpdatedOn = caseNote.LastUpdatedOn?.ToString("s"),
-                PersonVisitId = caseNote.PersonVisitId,
                 NoteType = caseNote.NoteType,
                 CreatedByName = caseNote.CreatedByName,
                 CreatedByEmail = caseNote.CreatedByEmail,
-                LastUpdatedName = caseNote.LastUpdatedName,
-                LastUpdatedEmail = caseNote.LastUpdatedEmail,
-                CaseNoteContent = caseNote.CaseNoteContent,
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                CompletedDate = caseNote.CompletedDate?.ToString("s"),
-                TimeoutDate = caseNote.TimeoutDate?.ToString("s"),
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate?.ToString("s"),
-                CopiedByName = caseNote.CopiedByName,
-                CopiedByEmail = caseNote.CopiedByEmail
+                CaseNoteContent = caseNote.CaseNoteContent
             };
         }
 
@@ -138,7 +125,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
         {
             return new ResidentHistoricRecordCaseNote
             {
-                RecordId = caseNote.CaseNoteId,
                 FormName = "",
                 PersonId = personId,
                 FirstName = "",
@@ -147,7 +133,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 OfficerEmail = caseNote.CreatedByEmail,
                 CaseFormUrl = "",
                 CaseFormTimeStamp = "",
-                DateOfEvent = caseNote.CompletedDate,
                 CaseNoteTitle = "",
                 RecordType = RecordType.CaseNote,
                 CaseNote = caseNote
