@@ -74,6 +74,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         public DateTime? CopiedDate { get; set; }
 
         //nav props
-        public Worker CreatedByWorker { get; set; }
+        public Worker Worker { get; set; }
     }
 }

@@ -102,7 +102,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var noteType = TestHelper.CreateDatabaseNoteType();
             var worker = TestHelper.CreateDatabaseWorker(systemUserId: "existingUser");
             var updatedByWorker = TestHelper.CreateDatabaseWorker();
-            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdBy: "nonExistingUser");
+            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type);
             SocialCareContext.NoteTypes.Add(noteType);
             SocialCareContext.Workers.Add(worker);
             SocialCareContext.Workers.Add(updatedByWorker);
@@ -119,7 +119,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         {
             var noteType = TestHelper.CreateDatabaseNoteType(caseNoteType, caseNoteTypeDescription);
             var worker = TestHelper.CreateDatabaseWorker(workerFirstNames, workerLastNames, workerEmailAddress, workerSystemUserId);
-            var caseNote = TestHelper.CreateDatabaseCaseNote(id, personId, noteType.Type, copiedBy, worker.SystemUserId, worker.SystemUserId);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(id, personId, noteType.Type, worker);
 
             SocialCareContext.NoteTypes.Add(noteType);
             SocialCareContext.Workers.Add(worker);

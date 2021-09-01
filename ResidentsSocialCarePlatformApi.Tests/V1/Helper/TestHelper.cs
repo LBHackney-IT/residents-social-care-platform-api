@@ -66,7 +66,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
         }
 
         public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
-            string copiedBy = "CGYORFI", string updatedBy = "CGYORFI", Worker? createdWorker = null)
+            Worker? createdWorker = null)
         {
             createdWorker ??= CreateDatabaseWorker();
 
@@ -74,9 +74,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(caseNote => caseNote.Id, id)
                 .RuleFor(caseNote => caseNote.PersonId, personId)
                 .RuleFor(caseNote => caseNote.NoteType, noteType)
-                .RuleFor(caseNote => caseNote.LastUpdatedBy, updatedBy)
-                .RuleFor(caseNote => caseNote.CopiedBy, copiedBy)
-                .RuleFor(caseNote => caseNote.CreatedByWorker, createdWorker);
+                .RuleFor(caseNote => caseNote.CreatedBy, createdWorker.SystemUserId)
+                .RuleFor(caseNote => caseNote.Worker, createdWorker);
         }
 
         public static NoteType CreateDatabaseNoteType(string noteType = "CASSUMASC", string description = "Case Summary (ASC)")

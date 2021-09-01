@@ -89,7 +89,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             var caseNotes = _socialCareContext.CaseNotes
             .Where(note => note.PersonId == personId)
-            .Include(x => x.CreatedByWorker)
+            .Include(x => x.Worker)
             .ToList();
 
             return caseNotes.Select(x => x.ToDomain()).ToList();

@@ -72,7 +72,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             context.Workers.Add(savedWorker);
 
             var caseNoteId = faker.Create<CaseNote>().Id;
-            var savedCaseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, savedNoteType.Type, savedWorker.SystemUserId, savedWorker.SystemUserId, savedWorker.SystemUserId);
+            var savedCaseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, savedNoteType.Type, savedWorker);
 
 
             context.CaseNotes.Add(savedCaseNote);
@@ -94,7 +94,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         {
             var noteType = TestHelper.CreateDatabaseNoteType();
             var worker = TestHelper.CreateDatabaseWorker(firstNames: "Bow", lastNames: "Archer");
-            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdBy: worker.SystemUserId, updatedBy: worker.SystemUserId, copiedBy: worker.SystemUserId);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdWorker: worker);
 
             socialCareContext.NoteTypes.Add(noteType);
             socialCareContext.Workers.Add(worker);
