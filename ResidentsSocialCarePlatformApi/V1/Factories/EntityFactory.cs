@@ -54,7 +54,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CreatedByEmail = caseNote.Worker.EmailAddress,
                 CreatedByName = $"{caseNote.Worker.FirstNames} {caseNote.Worker.LastNames}",
                 CreatedOn = caseNote.CreatedOn,
-                NoteType = caseNote.NoteType
+                NoteType = caseNote.NoteTypeDescription?.Description
             };
         }
 
