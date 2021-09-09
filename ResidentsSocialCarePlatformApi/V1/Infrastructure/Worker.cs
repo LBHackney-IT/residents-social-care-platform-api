@@ -34,5 +34,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("context_code")]
         [MaxLength(1)]
         public string ContextCode { get; set; }
+
+        // nav props
+        public CaseNote CaseNote { get; set; }
     }
 }
