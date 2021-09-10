@@ -58,23 +58,13 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
         public static CaseNoteInformation AddCaseNoteForASpecificPersonToDb(SocialCareContext context, long personId)
         {
-            var faker = new Fixture();
-
-            var noteTypeCode = faker.Create<NoteType>().Type;
-            var noteTypeDescription = faker.Create<NoteType>().Description;
-            var savedNoteType = TestHelper.CreateDatabaseNoteType(noteTypeCode, noteTypeDescription);
+            var savedNoteType = TestHelper.CreateDatabaseNoteType();
             context.NoteTypes.Add(savedNoteType);
 
-            var workerFirstName = faker.Create<Worker>().FirstNames;
-            var workerLastName = faker.Create<Worker>().LastNames;
-            var workerEmailAddress = faker.Create<Worker>().EmailAddress;
-            var workerSystemUserId = faker.Create<string>().Substring(0, 10);
-            var savedWorker = TestHelper.CreateDatabaseWorker(workerFirstName, workerLastName, workerEmailAddress, workerSystemUserId);
+            var savedWorker = TestHelper.CreateDatabaseWorker();
             context.Workers.Add(savedWorker);
 
-            var caseNoteId = faker.Create<CaseNote>().Id;
-            var savedCaseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, savedNoteType.Type, savedWorker.SystemUserId, savedWorker.SystemUserId, savedWorker.SystemUserId);
-
+            var savedCaseNote = TestHelper.CreateDatabaseCaseNote(personId: personId, noteType: savedNoteType.Type, createdWorker: savedWorker);
 
             context.CaseNotes.Add(savedCaseNote);
             context.SaveChanges();
@@ -87,17 +77,17 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 CaseNoteTitle = savedCaseNote.Title,
                 EffectiveDate = savedCaseNote.EffectiveDate?.ToString("s"),
                 CreatedOn = savedCaseNote.CreatedOn?.ToString("s"),
-                CreatedByName = $"{workerFirstName} {workerLastName}",
-                CreatedByEmail = workerEmailAddress,
+                CreatedByName = $"{savedWorker.FirstNames} {savedWorker.LastNames}",
+                CreatedByEmail = savedWorker.EmailAddress,
                 LastUpdatedOn = savedCaseNote.LastUpdatedOn?.ToString("s"),
-                LastUpdatedName = $"{workerFirstName} {workerLastName}",
-                LastUpdatedEmail = workerEmailAddress,
+                LastUpdatedName = $"{savedWorker.FirstNames} {savedWorker.LastNames}",
+                LastUpdatedEmail = savedWorker.EmailAddress,
                 CompletedDate = savedCaseNote.CompletedDate?.ToString("s"),
                 TimeoutDate = savedCaseNote.TimeoutDate?.ToString("s"),
                 CopyOfCaseNoteId = savedCaseNote.CopyOfCaseNoteId,
                 CopiedDate = savedCaseNote.CopiedDate?.ToString("s"),
-                CopiedByName = $"{workerFirstName} {workerLastName}",
-                CopiedByEmail = workerEmailAddress,
+                CopiedByName = $"{savedWorker.FirstNames} {savedWorker.LastNames}",
+                CopiedByEmail = savedWorker.EmailAddress,
                 RootCaseNoteId = savedCaseNote.RootCaseNoteId,
                 PersonVisitId = savedCaseNote.PersonVisitId
             };

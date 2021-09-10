@@ -122,7 +122,7 @@ namespace ResidentsSocialCarePlatformApi
             services.AddDbContext<SocialCareContext>(options => options
                 .UseNpgsql(connectionString)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                .AddXRayInterceptor(true)
+                // .AddXRayInterceptor(true)
             );
         }
 

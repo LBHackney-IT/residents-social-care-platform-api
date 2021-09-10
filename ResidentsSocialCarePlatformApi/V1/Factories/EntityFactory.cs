@@ -65,7 +65,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CompletedDate = caseNote.CompletedDate,
                 TimeoutDate = caseNote.TimeoutDate,
                 CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate
+                CopiedDate = caseNote.CopiedDate,
+                CreatedByEmail = caseNote.CreatedByWorker.EmailAddress,
+                CreatedByName = $"{caseNote.CreatedByWorker.FirstNames} {caseNote.CreatedByWorker.LastNames}"
             };
         }
 

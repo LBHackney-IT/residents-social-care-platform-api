@@ -67,38 +67,36 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
         }
 
         public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
-            string copiedBy = "CGYORFI", string createdBy = "CGYORFI", string updatedBy = "CGYORFI")
+            string copiedBy = "CGYORFI", string createdBy = "CGYORFI", string updatedBy = "CGYORFI", Worker? createdWorker = null, Worker? updatedWorker = null, Worker? copiedWorker = null)
         {
-            var faker = new Fixture();
+            createdWorker ??= CreateDatabaseWorker();
+            updatedWorker ??= CreateDatabaseWorker();
+            copiedWorker ??= CreateDatabaseWorker();
 
-            return faker.Build<CaseNote>()
-                .With(caseNote => caseNote.Id, id)
-                .With(caseNote => caseNote.PersonId, personId)
-                .With(caseNote => caseNote.NoteType, noteType)
-                .With(caseNote => caseNote.CreatedBy, createdBy)
-                .With(caseNote => caseNote.LastUpdatedBy, updatedBy)
-                .With(caseNote => caseNote.CopiedBy, copiedBy)
-                .Create();
+            return new Faker<CaseNote>()
+                .RuleFor(caseNote => caseNote.Id, id)
+                .RuleFor(caseNote => caseNote.PersonId, personId)
+                .RuleFor(caseNote => caseNote.NoteType, noteType)
+                .RuleFor(caseNote => caseNote.CreatedBy, createdWorker.SystemUserId)
+                .RuleFor(caseNote => caseNote.LastUpdatedBy, updatedWorker.SystemUserId)
+                .RuleFor(caseNote => caseNote.CopiedBy, copiedWorker.SystemUserId);
         }
 
-        public static NoteType CreateDatabaseNoteType(string noteType = "CASSUMASC", string description = "Case Summary (ASC)")
+        public static NoteType CreateDatabaseNoteType(string? noteType = null, string description = "Case Summary (ASC)")
         {
-            var faker = new Fixture();
-
-            return faker.Build<NoteType>()
-                .With(noteType => noteType.Type, noteType)
-                .With(noteType => noteType.Description, description)
-                .Create();
+            return new Faker<NoteType>()
+                .RuleFor(noteType => noteType.Type, f => noteType ?? f.Random.String2(1, 16))
+                .RuleFor(noteType => noteType.Description, description);
         }
 
-        public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string systemUserId = "CGYORFI")
+        public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string? systemUserId = null)
         {
             return new Faker<Worker>()
                 .RuleFor(worker => worker.Id, f => f.UniqueIndex)
                 .RuleFor(worker => worker.FirstNames, firstNames)
                 .RuleFor(worker => worker.LastNames, lastNames)
                 .RuleFor(worker => worker.EmailAddress, emailAddress)
-                .RuleFor(worker => worker.SystemUserId, systemUserId);
+                .RuleFor(worker => worker.SystemUserId, f => systemUserId ?? f.Random.String2(1, 30));
         }
 
         public static Visit CreateDatabaseVisit(

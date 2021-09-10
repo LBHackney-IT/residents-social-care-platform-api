@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 {
@@ -22,6 +23,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("system_user_id")]
         [MaxLength(64)]
         public string SystemUserId { get; set; }
+
+        public List<CaseNote> CaseNotes { get; set; }
 
         [Column("email_address")]
         [MaxLength(240)]

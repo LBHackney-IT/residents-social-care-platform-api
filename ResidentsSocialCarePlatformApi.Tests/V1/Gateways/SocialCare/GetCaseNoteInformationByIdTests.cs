@@ -149,11 +149,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
         {
             var noteType = TestHelper.CreateDatabaseNoteType();
             var worker = TestHelper.CreateDatabaseWorker(systemUserId: "existingUser");
-            var createdByWorker = TestHelper.CreateDatabaseWorker();
+            var CreatedByWorker = TestHelper.CreateDatabaseWorker();
             var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, updatedBy: "nonExistingUser");
             SocialCareContext.NoteTypes.Add(noteType);
             SocialCareContext.Workers.Add(worker);
-            SocialCareContext.Workers.Add(createdByWorker);
+            SocialCareContext.Workers.Add(CreatedByWorker);
             SocialCareContext.CaseNotes.Add(caseNote);
             SocialCareContext.SaveChanges();
 

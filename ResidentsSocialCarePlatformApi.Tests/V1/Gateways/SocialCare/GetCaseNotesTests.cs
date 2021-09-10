@@ -6,6 +6,7 @@ using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 {
@@ -17,6 +18,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         public void Setup()
         {
             _classUnderTest = new SocialCareGateway(SocialCareContext);
+            SocialCareContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         [Test]
@@ -105,24 +107,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         }
 
         private (CaseNote, NoteType, Worker) AddCaseNoteWithNoteTypeAndWorkerToDatabase(long personId, long caseNoteId = 123)
-        {
-            var faker = new Fixture();
+        {;
+            var noteType = TestHelper.CreateDatabaseNoteType();
+            var worker = TestHelper.CreateDatabaseWorker();
+            var caseNote = TestHelper.CreateDatabaseCaseNote(id: caseNoteId, personId: personId, noteType: noteType.Type, createdWorker: worker, updatedWorker: worker, copiedWorker: worker);
 
-            var caseNoteType = faker.Create<NoteType>().Type;
-            var caseNoteTypeDescription = faker.Create<NoteType>().Description;
-            var noteType = TestHelper.CreateDatabaseNoteType(caseNoteType, caseNoteTypeDescription);
             SocialCareContext.NoteTypes.Add(noteType);
-
-            var workerFirstNames = faker.Create<Worker>().FirstNames;
-            var workerLastNames = faker.Create<Worker>().LastNames;
-            var workerEmailAddress = faker.Create<Worker>().EmailAddress;
-            var workerSystemUserId = faker.Create<string>().Substring(0, 10);
-            var worker = TestHelper.CreateDatabaseWorker(workerFirstNames, workerLastNames, workerEmailAddress, workerSystemUserId);
             SocialCareContext.Workers.Add(worker);
-
-            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type, workerSystemUserId, workerSystemUserId, workerSystemUserId);
             SocialCareContext.CaseNotes.Add(caseNote);
-
             SocialCareContext.SaveChanges();
 
             return (caseNote, noteType, worker);

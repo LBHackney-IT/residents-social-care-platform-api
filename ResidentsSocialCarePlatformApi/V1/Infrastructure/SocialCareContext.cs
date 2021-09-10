@@ -39,6 +39,12 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
             modelBuilder.Entity<PersonalRelationshipView>()
                 .ToView(name: "vw_personal_relationships", schema: "dbo")
                 .HasKey(p => p.PersonalRelationshipId);
-        }
+
+            modelBuilder.Entity<CaseNote>()
+                .HasOne(caseNote => caseNote.CreatedByWorker)
+                .WithMany(worker => worker.CaseNotes)
+                .HasForeignKey(caseNote => caseNote.CreatedBy)
+                .HasPrincipalKey(worker => worker.SystemUserId);
+            }
     }
 }
