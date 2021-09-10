@@ -129,7 +129,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
 
             var visitInformation = new List<VisitInformation>
             {
-                TestHelper.CreateDatabaseVisit(visitId).Item1.ToDomain().ToResponse()
+                TestHelper.CreateDatabaseVisit(visitId).ToDomain().ToResponse()
             };
 
             _mockGetVisitInformationByPersonIdUseCase.Setup(x => x.Execute(visitId)).Returns(visitInformation);
