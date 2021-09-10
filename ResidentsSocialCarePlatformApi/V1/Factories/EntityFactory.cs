@@ -86,7 +86,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CpRegistrationId = visit.CpRegistrationId,
                 CpVisitScheduleStepId = visit.CpVisitScheduleStepId,
                 CpVisitScheduleDays = visit.CpVisitScheduleDays,
-                CpVisitOnTime = visit.CpVisitOnTime
+                CpVisitOnTime = visit.CpVisitOnTime,
+                CreatedByEmail = visit.Worker.EmailAddress,
+                CreatedByName = $"{visit.Worker.FirstNames} {visit.Worker.LastNames}"
             };
         }
     }
