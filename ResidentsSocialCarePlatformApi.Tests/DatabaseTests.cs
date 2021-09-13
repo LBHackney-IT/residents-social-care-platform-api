@@ -21,6 +21,7 @@ namespace ResidentsSocialCarePlatformApi.Tests
         {
             _builder = new DbContextOptionsBuilder();
             _builder.UseNpgsql(ConnectionString.TestDatabase());
+            _builder.EnableDetailedErrors();
         }
 
         [SetUp]
