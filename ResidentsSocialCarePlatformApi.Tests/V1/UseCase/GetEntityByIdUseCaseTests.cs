@@ -46,7 +46,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         public void IfGatewayReturnsNullThrowNotFoundError()
         {
             _mockMosaicGateway.Setup(x => x.GetEntityById(It.IsAny<int>(), null));
-            
+
             Func<ResidentInformationResponse> testDelegate = () => _classUnderTest.Execute(1);
 
             testDelegate.Should().Throw<ResidentNotFoundException>();
