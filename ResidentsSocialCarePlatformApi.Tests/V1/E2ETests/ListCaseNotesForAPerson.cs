@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -11,18 +10,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
     [TestFixture]
     public class ListCaseNotesForAPerson : EndToEndTests<Startup>
     {
-        private IFixture _fixture;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _fixture = new Fixture();
-        }
-
         [Test]
         public async Task ReturnsAllCaseNotesForASpecificPerson()
         {
-
             var person = E2ETestHelpers.AddPersonToDatabase(SocialCareContext);
 
             var expectedCaseNoteResponseOne = E2ETestHelpers.AddCaseNoteForASpecificPersonToDb(SocialCareContext, person.Id);

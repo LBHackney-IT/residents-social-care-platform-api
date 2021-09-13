@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using AutoFixture;
+using Bogus;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using Address = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.Address;
+using Person = ResidentsSocialCarePlatformApi.V1.Infrastructure.Person;
 
 namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 {
@@ -57,21 +59,18 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
 
         public static CaseNoteInformation AddCaseNoteForASpecificPersonToDb(SocialCareContext context, long personId)
         {
-            var faker = new Fixture();
+            var fixture = new Fixture();
+            var faker = new Faker();
 
-            var noteTypeCode = faker.Create<NoteType>().Type;
-            var noteTypeDescription = faker.Create<NoteType>().Description;
+            var noteTypeCode = fixture.Create<NoteType>().Type;
+            var noteTypeDescription = fixture.Create<NoteType>().Description;
             var savedNoteType = TestHelper.CreateDatabaseNoteType(noteTypeCode, noteTypeDescription);
             context.NoteTypes.Add(savedNoteType);
 
-            var workerFirstName = faker.Create<Worker>().FirstNames;
-            var workerLastName = faker.Create<Worker>().LastNames;
-            var workerEmailAddress = faker.Create<Worker>().EmailAddress;
-            var workerSystemUserId = faker.Create<string>().Substring(0, 10);
-            var savedWorker = TestHelper.CreateDatabaseWorker(workerFirstName, workerLastName, workerEmailAddress, workerSystemUserId);
+            var savedWorker = TestHelper.CreateDatabaseWorker();
             context.Workers.Add(savedWorker);
 
-            var caseNoteId = faker.Create<CaseNote>().Id;
+            var caseNoteId = faker.Random.Long(min: 1);
             var savedCaseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, savedNoteType.Type, savedWorker);
 
 
@@ -85,15 +84,15 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 NoteType = savedNoteType.Description,
                 CaseNoteTitle = savedCaseNote.Title,
                 CreatedOn = savedCaseNote.CreatedOn?.ToString("s"),
-                CreatedByName = $"{workerFirstName} {workerLastName}",
-                CreatedByEmail = workerEmailAddress
+                CreatedByName = $"{savedWorker.FirstNames} {savedWorker.LastNames}",
+                CreatedByEmail = savedWorker.EmailAddress
             };
         }
 
         public static CaseNoteInformation AddCaseNoteWithNoteTypeAndWorkerToDatabase(SocialCareContext socialCareContext)
         {
             var noteType = TestHelper.CreateDatabaseNoteType();
-            var worker = TestHelper.CreateDatabaseWorker(firstNames: "Bow", lastNames: "Archer");
+            var worker = TestHelper.CreateDatabaseWorker();
             var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdWorker: worker);
 
             socialCareContext.NoteTypes.Add(noteType);
@@ -108,15 +107,15 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 CaseNoteTitle = caseNote.Title,
                 CreatedOn = caseNote.CreatedOn?.ToString("s"),
                 NoteType = noteType.Description,
-                CreatedByName = "Bow Archer",
+                CreatedByName = $"{worker.FirstNames} {worker.LastNames}",
                 CreatedByEmail = worker.EmailAddress,
                 CaseNoteContent = caseNote.Note
             };
         }
 
-        public static Visit AddVisitToDatabase(SocialCareContext socialCareContext, long? workerId = null)
+        public static Visit AddVisitToDatabase(SocialCareContext socialCareContext, long? workerId = null, Worker worker = null)
         {
-            var visitInformation = TestHelper.CreateDatabaseVisit(workerId: workerId);
+            var visitInformation = TestHelper.CreateDatabaseVisit(workerId: workerId, pWorker: worker);
             socialCareContext.Visits.Add(visitInformation);
             socialCareContext.SaveChanges();
 

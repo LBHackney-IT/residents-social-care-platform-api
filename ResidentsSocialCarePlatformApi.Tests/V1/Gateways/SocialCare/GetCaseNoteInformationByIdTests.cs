@@ -33,8 +33,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereAreMultipleCaseNotes_ReturnsCaseNoteWithMatchingId()
         {
-            var caseNote = AddCaseNoteWithNoteTypeAndWorkerToDatabase(id: 123);
-            AddCaseNoteWithNoteTypeAndWorkerToDatabase(id: 456, caseNoteType: "DIFF", caseNoteTypeDescription: "Different");
+            var caseNote = AddCaseNoteWithNoteTypeAndWorkerToDatabase(id: 32352353);
+            AddCaseNoteWithNoteTypeAndWorkerToDatabase(id: 3253253325, caseNoteType: "DIFF", caseNoteTypeDescription: "Different");
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
@@ -70,13 +70,12 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereIsAMatchingRecord_ReturnsDetailsFromWorkers()
         {
-            const string workerEmailAddress = "adora@grayskull.com";
-            var caseNote = AddCaseNoteWithNoteTypeAndWorkerToDatabase(copiedBy: "AGRAYSKULL", workerFirstNames: "Adora", workerLastNames: "Grayskull", workerEmailAddress: workerEmailAddress, workerSystemUserId: "AGRAYSKULL");
+            var caseNote = AddCaseNoteWithNoteTypeAndWorkerToDatabase();
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response?.CreatedByName.Should().Be("Adora Grayskull");
-            response?.CreatedByEmail.Should().Be(workerEmailAddress);
+            response?.CreatedByName.Should().Be($"{caseNote.Worker.FirstNames} {caseNote.Worker.LastNames}");
+            response?.CreatedByEmail.Should().Be(caseNote.Worker.EmailAddress);
         }
 
         [Test]
@@ -96,29 +95,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             response?.NoteType.Should().BeNull();
         }
 
-        [Test]
-        public void WhenCreatedByWorkerIsNull_ReturnsNullForCreatedByNameAndEmail()
-        {
-            var noteType = TestHelper.CreateDatabaseNoteType();
-            var worker = TestHelper.CreateDatabaseWorker(systemUserId: "existingUser");
-            var updatedByWorker = TestHelper.CreateDatabaseWorker();
-            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type);
-            SocialCareContext.NoteTypes.Add(noteType);
-            SocialCareContext.Workers.Add(worker);
-            SocialCareContext.Workers.Add(updatedByWorker);
-            SocialCareContext.CaseNotes.Add(caseNote);
-            SocialCareContext.SaveChanges();
-
-            var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
-
-            response?.CreatedByEmail.Should().BeNull();
-            response?.CreatedByName.Should().BeNull();
-        }
-
         private CaseNote AddCaseNoteWithNoteTypeAndWorkerToDatabase(long id = 123, long personId = 123, string caseNoteType = "CASSUMASC", string caseNoteTypeDescription = "Case Summary (ASC)", string copiedBy = "CGYORFI", string workerFirstNames = "Csaba", string workerLastNames = "Gyorfi", string workerEmailAddress = "cgyorfi@email.com", string workerSystemUserId = "CGYORFI")
         {
             var noteType = TestHelper.CreateDatabaseNoteType(caseNoteType, caseNoteTypeDescription);
-            var worker = TestHelper.CreateDatabaseWorker(workerFirstNames, workerLastNames, workerEmailAddress, workerSystemUserId);
+            var worker = TestHelper.CreateDatabaseWorker();
             var caseNote = TestHelper.CreateDatabaseCaseNote(id, personId, noteType.Type, worker);
 
             SocialCareContext.NoteTypes.Add(noteType);

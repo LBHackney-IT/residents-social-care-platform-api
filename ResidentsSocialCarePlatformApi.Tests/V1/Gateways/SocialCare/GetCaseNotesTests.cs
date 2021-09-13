@@ -101,8 +101,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var noteType = TestHelper.CreateDatabaseNoteType(caseNoteType, caseNoteTypeDescription);
             SocialCareContext.NoteTypes.Add(noteType);
 
-            var workerSystemUserId = faker.Create<string>().Substring(0, 10);
-            var worker = TestHelper.CreateDatabaseWorker(systemUserId: workerSystemUserId);
+            var worker = TestHelper.CreateDatabaseWorker();
             SocialCareContext.Workers.Add(worker);
 
             var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type, worker);

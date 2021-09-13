@@ -88,14 +88,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Create();
         }
 
-        public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string systemUserId = "CGYORFI")
+        public static Worker CreateDatabaseWorker()
         {
             return new Faker<Worker>()
                 .RuleFor(worker => worker.Id, f => f.UniqueIndex)
-                .RuleFor(worker => worker.FirstNames, firstNames)
-                .RuleFor(worker => worker.LastNames, lastNames)
-                .RuleFor(worker => worker.EmailAddress, emailAddress)
-                .RuleFor(worker => worker.SystemUserId, systemUserId);
+                .RuleFor(worker => worker.FirstNames, f => f.Random.String2(30))
+                .RuleFor(worker => worker.LastNames, f => f.Random.String2(30))
+                .RuleFor(worker => worker.EmailAddress, f => f.Person.Email)
+                .RuleFor(worker => worker.SystemUserId, f => f.Random.String2(10));
         }
 
         public static Visit CreateDatabaseVisit(
@@ -104,9 +104,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
             long? orgId = null,
             long? workerId = null,
             long? cpVisitScheduleStepId = null,
-            long? cpRegistrationId = null)
+            long? cpRegistrationId = null,
+            Worker? pWorker = null)
         {
-            Worker worker = CreateDatabaseWorker();
+            Worker worker = pWorker ?? CreateDatabaseWorker();
 
             Visit visit = new Faker<Visit>()
                 .RuleFor(v => v.VisitId, f => visitId ?? f.UniqueIndex)
