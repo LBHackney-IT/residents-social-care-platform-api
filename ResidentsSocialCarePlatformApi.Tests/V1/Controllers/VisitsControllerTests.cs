@@ -28,7 +28,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Controllers
         [Test]
         public void GetVisitInformation_WhenThereIsAMatchingVisitId_ReturnsVisitInformation()
         {
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
+            var visit = TestHelper.CreateDatabaseVisit().ToDomain().ToResponse();
 
             _mockGetVisitInformationByVisitId.Setup(x => x.Execute(visit.VisitId)).Returns(visit);
 

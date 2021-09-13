@@ -281,7 +281,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
         public void CanMapVisitInformationToSharedToResidentHistoricRecordVisit()
         {
             var person = TestHelper.CreateDatabasePersonEntity();
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain().ToResponse();
+            var visit = TestHelper.CreateDatabaseVisit().ToDomain().ToResponse();
 
             var residentHistoricRecordVisit = new ResidentHistoricRecordVisit
             {
@@ -297,7 +297,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 DateOfEvent = visit.ActualDateTime ?? visit.PlannedDateTime,
                 CaseNoteTitle = "",
                 RecordType = RecordType.Visit,
-                Visit = visit
+                Visit = visit,
+                IsHistoric = true
             };
 
             visit.ToSharedResponse(person.Id).Should().BeEquivalentTo(residentHistoricRecordVisit);

@@ -36,7 +36,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereAreMultipleVisits_ReturnsVisitsWithMatchingId()
         {
-            var visit = AddVisitToDatabase().Item1;
+            var visit = AddVisitToDatabase();
             AddVisitToDatabase();
 
             var response = _classUnderTest.GetVisitInformationByVisitId(visit.VisitId);
@@ -52,7 +52,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
         [Test]
         public void WhenThereIsAMatchingVisit_ReturnsVisitDetails()
         {
-            var (visit, worker) = AddVisitToDatabase();
+            var visit = AddVisitToDatabase();
 
             var response = _classUnderTest.GetVisitInformationByVisitId(visit.VisitId);
 
@@ -74,19 +74,19 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             response.CpVisitScheduleStepId.Should().Be(visit.CpVisitScheduleStepId);
             response.CpVisitScheduleDays.Should().Be(visit.CpVisitScheduleDays);
             response.CpVisitOnTime.Should().Be(visit.CpVisitOnTime);
-            response.CreatedByEmail.Should().Be(worker.EmailAddress);
-            response.CreatedByName.Should().Be($"{worker.FirstNames} {worker.LastNames}");
+            response.CreatedByEmail.Should().Be(visit.Worker.EmailAddress);
+            response.CreatedByName.Should().Be($"{visit.Worker.FirstNames} {visit.Worker.LastNames}");
         }
 
-        private (Visit, Worker) AddVisitToDatabase(long? visitId = null, long? workerId = null)
+        private Visit AddVisitToDatabase(long? visitId = null, long? workerId = null)
         {
-            var (visit, worker) = TestHelper.CreateDatabaseVisit(visitId, workerId: workerId);
+            var visit = TestHelper.CreateDatabaseVisit(visitId, workerId: workerId);
 
             SocialCareContext.Visits.Add(visit);
-            SocialCareContext.Workers.Add(worker);
+            SocialCareContext.Workers.Add(visit.Worker);
             SocialCareContext.SaveChanges();
 
-            return (visit, worker);
+            return visit;
         }
     }
 }

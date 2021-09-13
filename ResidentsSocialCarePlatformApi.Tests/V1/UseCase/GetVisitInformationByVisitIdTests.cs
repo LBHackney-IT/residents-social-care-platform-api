@@ -25,9 +25,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void WhenThereIsNoMatchingVisit_ReturnsNull()
         {
-            VisitInformation? noVisit = null;
             const long fakeVisitId = 123L;
-            _mockSocialCareGateway.Setup(x => x.GetVisitInformationByVisitId(fakeVisitId)).Returns(noVisit);
+            _mockSocialCareGateway.Setup(x => x.GetVisitInformationByVisitId(fakeVisitId));
 
             var response = _classUnderTest.Execute(fakeVisitId);
 
@@ -37,7 +36,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void WhenThereIsAMatchingVisit_ReturnsVisit()
         {
-            var visit = TestHelper.CreateDatabaseVisit().Item1.ToDomain();
+            var visit = TestHelper.CreateDatabaseVisit().ToDomain();
             _mockSocialCareGateway.Setup(x => x.GetVisitInformationByVisitId(visit.VisitId)).Returns(visit);
 
             var response = _classUnderTest.Execute(visit.VisitId);
