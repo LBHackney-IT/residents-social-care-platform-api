@@ -38,9 +38,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
             const long nonExistentPersonId = 1234L;
             var uri = new Uri($"api/v1/residents/{nonExistentPersonId}/visits", UriKind.Relative);
 
-            var response = Client.GetAsync(uri);
+            var response = await Client.GetAsync(uri);
 
-            response.Result.StatusCode.Should().Be(404);
+            response.StatusCode.Should().Be(404);
         }
     }
 }
