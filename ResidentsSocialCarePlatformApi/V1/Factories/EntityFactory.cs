@@ -51,15 +51,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CaseNoteId = caseNote.Id,
                 CaseNoteTitle = caseNote.Title,
                 CreatedOn = caseNote.CreatedOn,
-                PersonVisitId = caseNote.PersonVisitId,
-                CaseNoteContent = caseNote.Note,
-                RootCaseNoteId = caseNote.RootCaseNoteId,
-                EffectiveDate = caseNote.EffectiveDate,
-                LastUpdatedOn = caseNote.LastUpdatedOn,
-                CompletedDate = caseNote.CompletedDate,
-                TimeoutDate = caseNote.TimeoutDate,
-                CopyOfCaseNoteId = caseNote.CopyOfCaseNoteId,
-                CopiedDate = caseNote.CopiedDate
+                CaseNoteContent = caseNote.Note
             };
         }
 
