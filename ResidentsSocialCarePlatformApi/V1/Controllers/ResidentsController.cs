@@ -90,7 +90,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         /// <response code="404">No visit information found for the specified Person ID</response>
         [ProducesResponseType(typeof(List<Boundary.Responses.VisitInformation>), StatusCodes.Status200OK)]
         [HttpGet]
-        [Route("{personId}/visits")]
+        [Route("{personId:long}/visits")]
         public IActionResult GetVisitInformation(long personId)
         {
             var visitInformation = _getVisitInformationByPersonId.Execute(personId);

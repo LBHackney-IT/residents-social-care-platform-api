@@ -10,7 +10,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
     [ApiVersion("1.0")]
     public class CaseNotesController : BaseController
     {
-        private IGetCaseNoteInformationByIdUseCase _getCaseNoteInformationByIdUseCase;
+        private readonly IGetCaseNoteInformationByIdUseCase _getCaseNoteInformationByIdUseCase;
 
         public CaseNotesController(IGetCaseNoteInformationByIdUseCase getCaseNoteInformationByIdUseCase)
         {
@@ -24,7 +24,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         /// <response code="404">No case note found for the specified ID</response>
         [ProducesResponseType(typeof(Boundary.Responses.CaseNoteInformation), StatusCodes.Status200OK)]
         [HttpGet]
-        [Route("{caseNoteId}")]
+        [Route("{caseNoteId:long}")]
         public IActionResult GetCaseNote(long caseNoteId)
         {
             var caseNote = _getCaseNoteInformationByIdUseCase.Execute(caseNoteId);
