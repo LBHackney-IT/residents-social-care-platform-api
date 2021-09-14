@@ -17,17 +17,14 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             _socialCareContext = socialCareContext;
         }
 
-        public List<Domain.ResidentInformation> GetAllResidents(int cursor, int limit, long? id = null, string firstname = null,
-            string lastname = null, string dateOfBirth = null, string postcode = null, string address = null, string contextflag = null)
+        public List<ResidentInformation> GetAllResidents(int cursor, int limit, long? id = null, string? firstname = null,
+            string? lastname = null, string? dateOfBirth = null, string? postcode = null, string? address = null, string? contextFlag = null)
         {
-            var addressSearchPattern = GetSearchPattern(address);
-            var postcodeSearchPattern = GetSearchPattern(postcode);
-
             var queryByAddress = postcode != null || address != null;
 
             var peopleIds = queryByAddress
-                ? PeopleIdsForAddressQuery(cursor, limit, id, firstname, lastname, postcode, address, contextflag)
-                : PeopleIds(cursor, limit, id, firstname, lastname, dateOfBirth, contextflag);
+                ? PeopleIdsForAddressQuery(cursor, limit, id, firstname, lastname, postcode, address, contextFlag)
+                : PeopleIds(cursor, limit, id, firstname, lastname, dateOfBirth, contextFlag);
 
             var dbRecords = _socialCareContext.Persons
                 .Where(p => peopleIds.Contains(p.Id))
@@ -46,24 +43,29 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             ).ToList();
         }
 
-        public Domain.ResidentInformation GetEntityById(long id, string contextflag = null)
+        public ResidentInformation? GetEntityById(long id, string? contextFlag = null)
         {
-            var contextFlagSearchPattern = GetSearchPattern(contextflag);
+            var contextFlagSearchPattern = GetSearchPattern(contextFlag);
             var databaseRecord = _socialCareContext.Persons
                 .Where(p => p.Id == id)
                 .Where(p =>
-                    string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(p.AgeContext, contextFlagSearchPattern))
+                    string.IsNullOrEmpty(contextFlag) || EF.Functions.ILike(p.AgeContext, contextFlagSearchPattern))
                 .ToList();
-            if (databaseRecord.FirstOrDefault() == null) return null;
+
+            var personRecord = databaseRecord.FirstOrDefault();
+            if (personRecord == null)
+            {
+                return null;
+            }
 
             var addressesForPerson = _socialCareContext.Addresses
-                .Where(a => a.PersonId == databaseRecord.FirstOrDefault().Id);
-            var person = MapPersonAndAddressesToResidentInformation(databaseRecord.FirstOrDefault(), addressesForPerson);
+                .Where(a => a.PersonId == personRecord.Id);
+            var person = MapPersonAndAddressesToResidentInformation(personRecord, addressesForPerson);
             AttachPhoneNumberToPerson(person);
 
             return person;
         }
-        public Domain.ResidentInformation InsertResident(string firstName, string lastName)
+        public ResidentInformation InsertResident(string firstName, string lastName)
         {
             Person person = new Person()
             {
@@ -77,7 +79,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             _socialCareContext.Persons.Add(person);
             _socialCareContext.SaveChanges();
 
-            return new Domain.ResidentInformation()
+            return new ResidentInformation()
             {
                 MosaicId = person.Id.ToString(),
                 FirstName = person.FirstName,
@@ -92,7 +94,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return caseNotes.Select(AddRelatedInformationToCaseNote).ToList();
         }
 
-        public Domain.CaseNoteInformation GetCaseNoteInformationById(long caseNoteId)
+        public CaseNoteInformation? GetCaseNoteInformationById(long caseNoteId)
         {
             var caseNote = _socialCareContext.CaseNotes.FirstOrDefault(caseNote => caseNote.Id == caseNoteId);
 
@@ -108,21 +110,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             {
                 caseNoteInformation.CreatedByName = $"{createdByWorker.FirstNames} {createdByWorker.LastNames}";
                 caseNoteInformation.CreatedByEmail = createdByWorker.EmailAddress;
-            }
-
-            var lastUpdatedByWorker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId == caseNote.LastUpdatedBy);
-            if (lastUpdatedByWorker != null)
-            {
-                caseNoteInformation.LastUpdatedName =
-                    $"{lastUpdatedByWorker.FirstNames} {lastUpdatedByWorker.LastNames}";
-                caseNoteInformation.LastUpdatedEmail = lastUpdatedByWorker.EmailAddress;
-            }
-
-            if (caseNote.CopiedBy != null)
-            {
-                var copiedByWorker = _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId == caseNote.CopiedBy);
-                caseNoteInformation.CopiedByName = $"{copiedByWorker.FirstNames} {copiedByWorker.LastNames}";
-                caseNoteInformation.CopiedByEmail = copiedByWorker.EmailAddress;
             }
 
             return caseNoteInformation;
@@ -147,12 +134,12 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return visitInformation?.ToDomain();
         }
 
-        private List<long> PeopleIds(int cursor, int limit, long? id, string firstname, string lastname, string dateOfBirth, string contextflag)
+        private List<long> PeopleIds(int cursor, int limit, long? id, string? firstname, string? lastname, string? dateOfBirth, string? contextFlag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);
             var lastNameSearchPattern = GetSearchPattern(lastname);
             var dateOfBirthSearchPattern = GetSearchPattern(dateOfBirth);
-            var contextFlagSearchPattern = GetSearchPattern(contextflag);
+            var contextFlagSearchPattern = GetSearchPattern(contextFlag);
 
             return _socialCareContext.Persons
                 .Where(person => person.Id > cursor)
@@ -165,21 +152,21 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 .Where(person =>
                     string.IsNullOrEmpty(dateOfBirth) || EF.Functions.ILike(person.DateOfBirth.ToString(), dateOfBirthSearchPattern))
                 .Where(person =>
-                    string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(person.AgeContext, contextFlagSearchPattern))
+                    string.IsNullOrEmpty(contextFlag) || EF.Functions.ILike(person.AgeContext, contextFlagSearchPattern))
                 .OrderBy(p => p.Id)
                 .Take(limit)
                 .Select(p => p.Id)
                 .ToList();
         }
 
-        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, long? id, string firstname, string lastname,
-            string postcode, string address, string contextflag)
+        private List<long> PeopleIdsForAddressQuery(int cursor, int limit, long? id, string? firstname, string? lastname,
+            string? postcode, string? address, string? contextFlag)
         {
             var firstNameSearchPattern = GetSearchPattern(firstname);
             var lastNameSearchPattern = GetSearchPattern(lastname);
             var addressSearchPattern = GetSearchPattern(address);
             var postcodeSearchPattern = GetSearchPattern(postcode);
-            var contextFlagSearchPattern = GetSearchPattern(contextflag);
+            var contextFlagSearchPattern = GetSearchPattern(contextFlag);
 
             return _socialCareContext.Addresses
                 .Where(add =>
@@ -193,59 +180,62 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
                 .Where(add =>
                     string.IsNullOrEmpty(lastname) || EF.Functions.ILike(add.Person.LastName, lastNameSearchPattern))
                 .Where(add =>
-                    string.IsNullOrEmpty(contextflag) || EF.Functions.ILike(add.Person.AgeContext, contextFlagSearchPattern))
+                    string.IsNullOrEmpty(contextFlag) || EF.Functions.ILike(add.Person.AgeContext, contextFlagSearchPattern))
                 .Include(add => add.Person)
                 .Where(add => add.PersonId > cursor)
                 .OrderBy(add => add.PersonId)
                 .GroupBy(add => add.PersonId)
                 .Where(p => p.Key != null)
                 .Take(limit)
-                .Select(p => (long) p.Key)
+                .Select(p => (long) p.Key!)
                 .ToList();
         }
 
-        private Domain.ResidentInformation AttachPhoneNumberToPerson(Domain.ResidentInformation person)
+        private void AttachPhoneNumberToPerson(ResidentInformation person)
         {
             var phoneNumbersForPerson = _socialCareContext.TelephoneNumbers
                 .Where(n => n.PersonId == int.Parse(person.MosaicId));
             person.PhoneNumberList = phoneNumbersForPerson.Any() ? phoneNumbersForPerson.Select(n => n.ToDomain()).ToList() : null;
-            return person;
         }
 
-        private static Domain.ResidentInformation MapPersonAndAddressesToResidentInformation(Person person,
-            IEnumerable<Infrastructure.Address> addresses, IEnumerable<TelephoneNumber> numbers = null)
+        private static ResidentInformation MapPersonAndAddressesToResidentInformation(Person person,
+            IEnumerable<Infrastructure.Address> addresses, IEnumerable<TelephoneNumber>? numbers = null)
         {
+            var listAddresses = addresses.ToList();
+            var listNumbers = numbers?.ToList();
+
             var resident = person.ToDomain();
-            var addressesDomain = addresses.Select(address => address.ToDomain()).ToList();
-            resident.Uprn = GetMostRecentUprn(addresses);
+            var addressesDomain = listAddresses.Select(address => address.ToDomain()).ToList();
+            resident.Uprn = GetMostRecentUprn(listAddresses);
             resident.AddressList = addressesDomain;
             resident.AddressList = addressesDomain.Any()
                 ? addressesDomain
                 : null;
-            resident.PhoneNumberList = numbers == null || !numbers.Any()
+            resident.PhoneNumberList = numbers == null || !listNumbers.Any()
                 ? null
-                : numbers.Select(n => n.ToDomain()).ToList();
+                : listNumbers.Select(n => n.ToDomain()).ToList();
             return resident;
         }
 
-        private static string GetMostRecentUprn(IEnumerable<Infrastructure.Address> addressesForPerson)
+        private static string? GetMostRecentUprn(IEnumerable<Infrastructure.Address> addressesForPerson)
         {
-            if (!addressesForPerson.Any()) return null;
-            var currentAddress = addressesForPerson.FirstOrDefault(a => a.EndDate == null);
+            var listAddresses = addressesForPerson.ToList();
+            if (!listAddresses.Any()) return null;
+            var currentAddress = listAddresses.FirstOrDefault(a => a.EndDate == null);
             if (currentAddress != null)
             {
                 return currentAddress.Uprn.ToString();
             }
 
-            return addressesForPerson.OrderByDescending(a => a.EndDate).First().Uprn.ToString();
+            return listAddresses.OrderByDescending(a => a.EndDate).First().Uprn.ToString();
         }
 
-        private static string GetSearchPattern(string str)
+        private static string GetSearchPattern(string? str)
         {
             return $"%{str?.Replace(" ", "")}%";
         }
 
-        private string LookUpNoteTypeDescription(string noteTypeCode)
+        private string? LookUpNoteTypeDescription(string noteTypeCode)
         {
             return _socialCareContext.NoteTypes.FirstOrDefault(type => type.Type.Equals(noteTypeCode))?.Description;
         }
@@ -278,17 +268,9 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         {
             var caseNoteInformation = caseNote.ToDomain();
             caseNoteInformation.CaseNoteContent = null;
-
             caseNoteInformation.NoteType = LookUpNoteTypeDescription(caseNote.NoteType);
-
             caseNoteInformation.CreatedByName = GetWorkerName(caseNote.CreatedBy);
             caseNoteInformation.CreatedByEmail = GetWorkerEmailAddress(caseNote.CreatedBy);
-
-            caseNoteInformation.LastUpdatedName = GetWorkerName(caseNote.LastUpdatedBy);
-            caseNoteInformation.LastUpdatedEmail = GetWorkerEmailAddress(caseNote.LastUpdatedBy);
-
-            caseNoteInformation.CopiedByName = GetWorkerName(caseNote.CopiedBy);
-            caseNoteInformation.CopiedByEmail = GetWorkerEmailAddress(caseNote.CopiedBy);
 
             return caseNoteInformation;
         }

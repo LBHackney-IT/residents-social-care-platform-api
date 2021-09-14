@@ -9,7 +9,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
         List<Domain.ResidentInformation> GetAllResidents(int cursor, int limit, long? id, string firstname = null, string lastname = null,
             string dateOfBirth = null, string postcode = null, string address = null, string contextFlag = null);
 
-        Domain.ResidentInformation GetEntityById(long id, string contextflag = null);
+        Domain.ResidentInformation GetEntityById(long id, string contextFlag = null);
 
         Domain.ResidentInformation InsertResident(string firstName, string lastName);
 
