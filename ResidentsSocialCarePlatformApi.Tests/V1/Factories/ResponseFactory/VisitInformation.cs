@@ -83,11 +83,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonNotPlanned = "ReasonNotPlanned",
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = true,
-                    CompletedFlag = true,
-                    CpRegistrationId = 000L,
-                    CpVisitScheduleStepId = 000L,
-                    CpVisitScheduleDays = 000L,
-                    CpVisitOnTime = true
+                    CompletedFlag = true
                 },
                 new VisitInformationResponse
                 {
@@ -99,11 +95,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonNotPlanned = null,
                     ReasonVisitNotMade = null,
                     SeenAloneFlag = false,
-                    CompletedFlag = false,
-                    CpRegistrationId = null,
-                    CpVisitScheduleStepId = null,
-                    CpVisitScheduleDays = null,
-                    CpVisitOnTime = false
+                    CompletedFlag = false
                 },
                 new VisitInformationResponse
                 {
@@ -115,11 +107,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories.ResponseFactory
                     ReasonNotPlanned = "ReasonNotPlanned",
                     ReasonVisitNotMade = "ReasonVisitNotMade",
                     SeenAloneFlag = false,
-                    CompletedFlag = false,
-                    CpRegistrationId = 000L,
-                    CpVisitScheduleStepId = 000L,
-                    CpVisitScheduleDays = 000L,
-                    CpVisitOnTime = false
+                    CompletedFlag = false
                 }
             };
 
