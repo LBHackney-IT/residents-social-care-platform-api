@@ -87,7 +87,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 CaseNoteTitle = savedCaseNote.Title,
                 CreatedOn = savedCaseNote.CreatedOn?.ToString("s"),
                 CreatedByName = $"{workerFirstName} {workerLastName}",
-                CreatedByEmail = workerEmailAddress
+                CreatedByEmail = workerEmailAddress,
+                CaseNoteId = savedCaseNote.Id.ToString()
             };
         }
 
