@@ -110,7 +110,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 NoteType = noteType.Description,
                 CreatedByName = "Bow Archer",
                 CreatedByEmail = worker.EmailAddress,
-                CaseNoteContent = caseNote.Note
+                CaseNoteContent = caseNote.Note,
+                CaseNoteId = caseNote.Id.ToString()
             };
         }
 
