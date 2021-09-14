@@ -124,46 +124,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     MosaicId = "12345",
                     CaseNoteId = 67890,
                     CaseNoteTitle = "I AM A CASE NOTE",
-                    EffectiveDate = recordOneTime,
                     CreatedOn = recordOneTime,
-                    LastUpdatedOn = recordOneTime,
-                    PersonVisitId = 456,
                     NoteType = "Case Summary (ASC)",
                     CaseNoteContent = "",
                     CreatedByName = "Catra Grayskull",
-                    CreatedByEmail = "catra@grayskull.com",
-                    LastUpdatedName = "Catra Grayskull",
-                    LastUpdatedEmail = "catra@grayskull.com",
-                    RootCaseNoteId = 789,
-                    CompletedDate = recordOneTime,
-                    TimeoutDate = recordOneTime,
-                    CopyOfCaseNoteId = 567,
-                    CopiedDate = recordOneTime,
-                    CopiedByName = "Catra Grayskull",
-                    CopiedByEmail = "catra@grayskull.com"
+                    CreatedByEmail = "catra@grayskull.com"
                 },
                 new CaseNoteInformation
                 {
                     MosaicId = "12345",
                     CaseNoteId = 100000,
                     CaseNoteTitle = "I AM ANOTHER CASE NOTE",
-                    EffectiveDate = recordTwoTime,
                     CreatedOn = recordTwoTime,
-                    LastUpdatedOn = recordTwoTime,
-                    PersonVisitId = 123,
                     NoteType = "Case Summary (ASC)",
                     CaseNoteContent = "",
                     CreatedByName = "A Name goes here",
-                    CreatedByEmail = "some@email.com",
-                    LastUpdatedName = "A Name goes here",
-                    LastUpdatedEmail = "some@email.com",
-                    RootCaseNoteId = 456,
-                    CompletedDate = recordTwoTime,
-                    TimeoutDate = recordTwoTime,
-                    CopyOfCaseNoteId = 789,
-                    CopiedDate = recordTwoTime,
-                    CopiedByName = "This was copied",
-                    CopiedByEmail = "copied@copy.com"
+                    CreatedByEmail = "some@email.com"
                 }
             };
 
@@ -174,46 +150,22 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                     MosaicId = "12345",
                     CaseNoteId = 67890,
                     CaseNoteTitle = "I AM A CASE NOTE",
-                    EffectiveDate = formattedRecordOneTime,
                     CreatedOn = formattedRecordOneTime,
-                    LastUpdatedOn = formattedRecordOneTime,
-                    PersonVisitId = 456,
                     NoteType = "Case Summary (ASC)",
                     CaseNoteContent = "",
                     CreatedByName = "Catra Grayskull",
                     CreatedByEmail = "catra@grayskull.com",
-                    LastUpdatedName = "Catra Grayskull",
-                    LastUpdatedEmail = "catra@grayskull.com",
-                    RootCaseNoteId = 789,
-                    CompletedDate = formattedRecordOneTime,
-                    TimeoutDate = formattedRecordOneTime,
-                    CopyOfCaseNoteId = 567,
-                    CopiedDate = formattedRecordOneTime,
-                    CopiedByName = "Catra Grayskull",
-                    CopiedByEmail = "catra@grayskull.com"
                 },
                 new CaseNoteInformationResponse
                 {
                     MosaicId = "12345",
                     CaseNoteId = 100000,
                     CaseNoteTitle = "I AM ANOTHER CASE NOTE",
-                    EffectiveDate = formattedRecordTwoTime,
                     CreatedOn = formattedRecordTwoTime,
-                    LastUpdatedOn = formattedRecordTwoTime,
-                    PersonVisitId = 123,
                     NoteType = "Case Summary (ASC)",
                     CaseNoteContent = "",
                     CreatedByName = "A Name goes here",
                     CreatedByEmail = "some@email.com",
-                    LastUpdatedName = "A Name goes here",
-                    LastUpdatedEmail = "some@email.com",
-                    RootCaseNoteId = 456,
-                    CompletedDate = formattedRecordTwoTime,
-                    TimeoutDate = formattedRecordTwoTime,
-                    CopyOfCaseNoteId = 789,
-                    CopiedDate = formattedRecordTwoTime,
-                    CopiedByName = "This was copied",
-                    CopiedByEmail = "copied@copy.com"
                 }
             };
 
@@ -231,23 +183,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 MosaicId = "12345",
                 CaseNoteId = 67890,
                 CaseNoteTitle = "I AM A CASE NOTE",
-                EffectiveDate = dateTime,
                 CreatedOn = dateTime,
-                LastUpdatedOn = dateTime,
-                PersonVisitId = 456,
                 NoteType = "Case Summary (ASC)",
                 CreatedByName = "Catra Grayskull",
                 CreatedByEmail = "catra@grayskull.com",
-                LastUpdatedName = "Catra Grayskull",
-                LastUpdatedEmail = "catra@grayskull.com",
-                CaseNoteContent = "I am case note content.",
-                RootCaseNoteId = 789,
-                CompletedDate = dateTime,
-                TimeoutDate = dateTime,
-                CopyOfCaseNoteId = 567,
-                CopiedDate = dateTime,
-                CopiedByName = "Catra Grayskull",
-                CopiedByEmail = "catra@grayskull.com"
+                CaseNoteContent = "I am case note content."
             };
 
             var expectedResponse = new CaseNoteInformationResponse
@@ -255,23 +195,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 MosaicId = "12345",
                 CaseNoteId = 67890,
                 CaseNoteTitle = "I AM A CASE NOTE",
-                EffectiveDate = formattedDateTime,
                 CreatedOn = formattedDateTime,
-                LastUpdatedOn = formattedDateTime,
-                PersonVisitId = 456,
                 NoteType = "Case Summary (ASC)",
                 CreatedByName = "Catra Grayskull",
                 CreatedByEmail = "catra@grayskull.com",
-                LastUpdatedName = "Catra Grayskull",
-                LastUpdatedEmail = "catra@grayskull.com",
                 CaseNoteContent = "I am case note content.",
-                RootCaseNoteId = 789,
-                CompletedDate = formattedDateTime,
-                TimeoutDate = formattedDateTime,
-                CopyOfCaseNoteId = 567,
-                CopiedDate = formattedDateTime,
-                CopiedByName = "Catra Grayskull",
-                CopiedByEmail = "catra@grayskull.com"
             };
 
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);

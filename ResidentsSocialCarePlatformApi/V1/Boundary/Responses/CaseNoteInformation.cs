@@ -3,7 +3,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Boundary.Responses
     public class CaseNoteInformation
     {
         public string MosaicId { get; set; }
-        public string CaseNoteId { get; set; }
+        public long CaseNoteId { get; set; }
         public string CaseNoteTitle { get; set; }
         public string CaseNoteContent { get; set; }
         public string CreatedOn { get; set; }

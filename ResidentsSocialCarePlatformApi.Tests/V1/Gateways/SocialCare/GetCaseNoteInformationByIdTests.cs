@@ -4,7 +4,7 @@ using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 
-namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
+namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
 {
     [NonParallelizable]
     [TestFixture]
@@ -38,7 +38,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response.CaseNoteId.Should().Be(caseNote.Id);
+            response?.CaseNoteId.Should().Be(caseNote.Id);
         }
 
         [Test]
@@ -48,19 +48,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response.MosaicId.Should().Be(caseNote.PersonId.ToString());
-            response.CaseNoteId.Should().Be(caseNote.Id);
-            response.PersonVisitId.Should().Be(caseNote.PersonVisitId);
-            response.CaseNoteTitle.Should().Be(caseNote.Title);
-            response.EffectiveDate.Should().Be(caseNote.EffectiveDate);
-            response.CreatedOn.Should().Be(caseNote.CreatedOn);
-            response.LastUpdatedOn.Should().Be(caseNote.LastUpdatedOn);
-            response.CaseNoteContent.Should().Be(caseNote.Note);
-            response.RootCaseNoteId.Should().Be(caseNote.RootCaseNoteId);
-            response.CompletedDate.Should().Be(caseNote.CompletedDate);
-            response.TimeoutDate.Should().Be(caseNote.TimeoutDate);
-            response.CopyOfCaseNoteId.Should().Be(caseNote.CopyOfCaseNoteId);
-            response.CopiedDate.Should().Be(caseNote.CopiedDate);
+            response?.MosaicId.Should().Be(caseNote.PersonId.ToString());
+            response?.CaseNoteId.Should().Be(caseNote.Id);
+            response?.CaseNoteTitle.Should().Be(caseNote.Title);
+            response?.CreatedOn.Should().Be(caseNote.CreatedOn);
+            response?.CaseNoteContent.Should().Be(caseNote.Note);
         }
 
         [Test]
@@ -72,7 +64,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response.NoteType.Should().Be(noteTypeDescription);
+            response?.NoteType.Should().Be(noteTypeDescription);
         }
 
         [Test]
@@ -83,12 +75,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response.CreatedByName.Should().Be("Adora Grayskull");
-            response.CreatedByEmail.Should().Be(workerEmailAddress);
-            response.LastUpdatedName.Should().Be("Adora Grayskull");
-            response.LastUpdatedEmail.Should().Be(workerEmailAddress);
-            response.CopiedByName.Should().Be("Adora Grayskull");
-            response.CopiedByEmail.Should().Be(workerEmailAddress);
+            response?.CreatedByName.Should().Be("Adora Grayskull");
+            response?.CreatedByEmail.Should().Be(workerEmailAddress);
         }
 
         [Test]
@@ -105,24 +93,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response.NoteType.Should().BeNull();
-        }
-
-        [Test]
-        public void WhenCopiedByIsNull_ReturnsNullForCopiedByNameAndCopiedByEmail()
-        {
-            var noteType = TestHelper.CreateDatabaseNoteType();
-            var worker = TestHelper.CreateDatabaseWorker();
-            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, copiedBy: null);
-            SocialCareContext.NoteTypes.Add(noteType);
-            SocialCareContext.Workers.Add(worker);
-            SocialCareContext.CaseNotes.Add(caseNote);
-            SocialCareContext.SaveChanges();
-
-            var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
-
-            response.CopiedByName.Should().BeNull();
-            response.CopiedByEmail.Should().BeNull();
+            response?.NoteType.Should().BeNull();
         }
 
         [Test]
@@ -140,27 +111,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways
 
             var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
 
-            response.CreatedByEmail.Should().BeNull();
-            response.CreatedByName.Should().BeNull();
-        }
-
-        [Test]
-        public void WhenUpdatedByWorkerIsNull_ReturnsNullForUpdatedByNameAndEmail()
-        {
-            var noteType = TestHelper.CreateDatabaseNoteType();
-            var worker = TestHelper.CreateDatabaseWorker(systemUserId: "existingUser");
-            var createdByWorker = TestHelper.CreateDatabaseWorker();
-            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, updatedBy: "nonExistingUser");
-            SocialCareContext.NoteTypes.Add(noteType);
-            SocialCareContext.Workers.Add(worker);
-            SocialCareContext.Workers.Add(createdByWorker);
-            SocialCareContext.CaseNotes.Add(caseNote);
-            SocialCareContext.SaveChanges();
-
-            var response = _classUnderTest.GetCaseNoteInformationById(caseNote.Id);
-
-            response.LastUpdatedEmail.Should().BeNull();
-            response.LastUpdatedName.Should().BeNull();
+            response?.CreatedByEmail.Should().BeNull();
+            response?.CreatedByName.Should().BeNull();
         }
 
         private CaseNote AddCaseNoteWithNoteTypeAndWorkerToDatabase(long id = 123, long personId = 123, string caseNoteType = "CASSUMASC", string caseNoteTypeDescription = "Case Summary (ASC)", string copiedBy = "CGYORFI", string workerFirstNames = "Csaba", string workerLastNames = "Gyorfi", string workerEmailAddress = "cgyorfi@email.com", string workerSystemUserId = "CGYORFI")
