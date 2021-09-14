@@ -36,7 +36,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             return new Boundary.Responses.CaseNoteInformation
             {
                 MosaicId = caseNote.MosaicId,
-                CaseNoteId = caseNote.CaseNoteId,
+                CaseNoteId = caseNote.CaseNoteId.ToString(),
                 CaseNoteTitle = caseNote.CaseNoteTitle,
                 CreatedOn = caseNote.CreatedOn?.ToString("s"),
                 NoteType = caseNote.NoteType,

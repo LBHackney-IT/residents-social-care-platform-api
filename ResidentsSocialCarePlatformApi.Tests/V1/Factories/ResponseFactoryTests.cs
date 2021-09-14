@@ -147,7 +147,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 new CaseNoteInformationResponse
                 {
                     MosaicId = "12345",
-                    CaseNoteId = 67890,
+                    CaseNoteId = "67890",
                     CaseNoteTitle = "I AM A CASE NOTE",
                     CreatedOn = formattedRecordOneTime,
                     NoteType = "Case Summary (ASC)",
@@ -158,7 +158,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
                 new CaseNoteInformationResponse
                 {
                     MosaicId = "12345",
-                    CaseNoteId = 100000,
+                    CaseNoteId = "100000",
                     CaseNoteTitle = "I AM ANOTHER CASE NOTE",
                     CreatedOn = formattedRecordTwoTime,
                     NoteType = "Case Summary (ASC)",
@@ -192,7 +192,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
             var expectedResponse = new CaseNoteInformationResponse
             {
                 MosaicId = "12345",
-                CaseNoteId = 67890,
+                CaseNoteId = "67890",
                 CaseNoteTitle = "I AM A CASE NOTE",
                 CreatedOn = formattedDateTime,
                 NoteType = "Case Summary (ASC)",
