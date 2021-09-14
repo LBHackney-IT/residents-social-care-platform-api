@@ -5,7 +5,6 @@ using ResidentsSocialCarePlatformApi.V1.Boundary.Responses;
 using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using NUnit.Framework;
-using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
 using Address = ResidentsSocialCarePlatformApi.V1.Domain.Address;
 using CaseNoteInformation = ResidentsSocialCarePlatformApi.V1.Domain.CaseNoteInformation;
 using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Domain.ResidentInformation;
@@ -203,59 +202,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Factories
             };
 
             domain.ToResponse().Should().BeEquivalentTo(expectedResponse);
-        }
-
-        [Test]
-        public void CanMapVisitInformationToSharedToResidentHistoricRecordVisit()
-        {
-            var person = TestHelper.CreateDatabasePersonEntity();
-            var visit = TestHelper.CreateDatabaseVisit().ToDomain().ToResponse();
-
-            var residentHistoricRecordVisit = new ResidentHistoricRecordVisit
-            {
-                RecordId = visit.VisitId,
-                FormName = "",
-                PersonId = person.Id,
-                FirstName = "",
-                LastName = "",
-                DateOfBirth = "",
-                OfficerEmail = visit.CreatedByEmail,
-                CaseFormUrl = "",
-                CaseFormTimeStamp = "",
-                DateOfEvent = visit.ActualDateTime ?? visit.PlannedDateTime,
-                CaseNoteTitle = "",
-                RecordType = RecordType.Visit,
-                Visit = visit,
-                IsHistoric = true
-            };
-
-            visit.ToSharedResponse(person.Id).Should().BeEquivalentTo(residentHistoricRecordVisit);
-        }
-
-        [Test]
-        public void CanMapCaseNoteInformationToSharedToResidentHistoricRecordCaseNote()
-        {
-            var person = TestHelper.CreateDatabasePersonEntity();
-            var caseNote = TestHelper.CreateDatabaseCaseNote().ToDomain().ToResponse();
-
-            var residentHistoricRecordCaseNote = new ResidentHistoricRecordCaseNote
-            {
-                RecordId = caseNote.CaseNoteId,
-                FormName = "",
-                PersonId = person.Id,
-                FirstName = "",
-                LastName = "",
-                DateOfBirth = "",
-                OfficerEmail = caseNote.CopiedByEmail,
-                CaseFormUrl = "",
-                CaseFormTimeStamp = "",
-                DateOfEvent = caseNote.CompletedDate,
-                CaseNoteTitle = caseNote.CaseNoteTitle,
-                RecordType = RecordType.Visit,
-                CaseNote = caseNote
-            };
-
-            caseNote.ToSharedResponse(person.Id).Should().BeEquivalentTo(caseNote.ToSharedResponse(person.Id));
         }
     }
 }

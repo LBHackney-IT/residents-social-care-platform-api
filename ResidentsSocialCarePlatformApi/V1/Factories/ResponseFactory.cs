@@ -36,7 +36,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
             return new Boundary.Responses.CaseNoteInformation
             {
                 MosaicId = caseNote.MosaicId,
-                CaseNoteId = caseNote.CaseNoteId.ToString(),
+                CaseNoteId = caseNote.CaseNoteId,
                 CaseNoteTitle = caseNote.CaseNoteTitle,
                 CreatedOn = caseNote.CreatedOn?.ToString("s"),
                 NoteType = caseNote.NoteType,
@@ -98,44 +98,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 CpVisitOnTime = !string.IsNullOrEmpty(visit.CpVisitOnTime) && visit.CpVisitOnTime.Equals("Y"),
                 CreatedByName = visit.CreatedByName,
                 CreatedByEmail = visit.CreatedByEmail
-            };
-        }
-
-        public static ResidentHistoricRecordVisit ToSharedResponse(this Boundary.Responses.VisitInformation visit, long personId)
-        {
-            return new ResidentHistoricRecordVisit
-            {
-                RecordId = visit.VisitId,
-                FormName = "",
-                PersonId = personId,
-                FirstName = "",
-                LastName = "",
-                DateOfBirth = "",
-                OfficerEmail = visit.CreatedByEmail,
-                CaseFormUrl = "",
-                CaseFormTimeStamp = "",
-                DateOfEvent = visit.ActualDateTime ?? visit.PlannedDateTime,
-                CaseNoteTitle = "",
-                RecordType = RecordType.Visit,
-                Visit = visit
-            };
-        }
-
-        public static ResidentHistoricRecordCaseNote ToSharedResponse(this Boundary.Responses.CaseNoteInformation caseNote, long personId)
-        {
-            return new ResidentHistoricRecordCaseNote
-            {
-                FormName = "",
-                PersonId = personId,
-                FirstName = "",
-                LastName = "",
-                DateOfBirth = "",
-                OfficerEmail = caseNote.CreatedByEmail,
-                CaseFormUrl = "",
-                CaseFormTimeStamp = "",
-                CaseNoteTitle = "",
-                RecordType = RecordType.CaseNote,
-                CaseNote = caseNote
             };
         }
     }
