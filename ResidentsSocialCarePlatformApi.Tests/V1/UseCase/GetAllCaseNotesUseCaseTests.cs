@@ -16,7 +16,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     {
         private Mock<ISocialCareGateway> _mockSocialCareGateway;
         private GetAllCaseNotesUseCase _classUnderTest;
-        private Fixture _fixture = new Fixture();
+        private readonly Fixture _fixture = new Fixture();
 
         [SetUp]
         public void SetUp()
@@ -28,11 +28,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void IfNoMatchingRecords_ReturnsAnEmptyResponse()
         {
-            var noRecords = new List<CaseNoteInformation>();
-
-            _mockSocialCareGateway.Setup(x =>
-                    x.GetAllCaseNotes(34567))
-                .Returns(noRecords);
+            _mockSocialCareGateway
+                .Setup(x => x.GetAllCaseNotes(34567))
+                .Returns(new List<CaseNoteInformation>());
 
             var response = _classUnderTest.Execute(34567);
 
@@ -42,11 +40,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void ReturnsListOfSummarisedCaseNoteInformation()
         {
-            var stubbedCaseNotes = _fixture.CreateMany<CaseNoteInformation>();
+            var stubbedCaseNotes = _fixture.CreateMany<CaseNoteInformation>().ToList();
 
             _mockSocialCareGateway.Setup(x =>
                     x.GetAllCaseNotes(34567))
-                .Returns(stubbedCaseNotes.ToList());
+                .Returns(stubbedCaseNotes);
 
             var response = _classUnderTest.Execute(34567);
 
