@@ -2,7 +2,6 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using ResidentsSocialCarePlatformApi.Tests.V1.Helper;
-using ResidentsSocialCarePlatformApi.V1.Domain;
 using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
