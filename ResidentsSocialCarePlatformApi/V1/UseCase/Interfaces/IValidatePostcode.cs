@@ -1,4 +1,4 @@
-namespace ResidentsSocialCarePlatformApi.V1.UseCase
+namespace ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces
 {
     public interface IValidatePostcode
     {

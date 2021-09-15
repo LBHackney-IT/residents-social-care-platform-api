@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
 
 namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {

@@ -1,7 +1,7 @@
 
 namespace ResidentsSocialCarePlatformApi.V1.UseCase
 {
-    public static class ThrowOpsErrorUsecase
+    public static class ThrowOpsErrorUseCase
     {
         public static void Execute()
         {

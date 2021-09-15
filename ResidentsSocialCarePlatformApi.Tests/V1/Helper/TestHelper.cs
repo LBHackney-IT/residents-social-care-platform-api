@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using AutoFixture;
 using Bogus;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 using static System.Int32;
 using Address = ResidentsSocialCarePlatformApi.V1.Infrastructure.Address;
 using Person = ResidentsSocialCarePlatformApi.V1.Infrastructure.Person;
-using ResidentsSocialCarePlatformApi.V1.Domain;
 
 #nullable enable
 namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
@@ -32,7 +29,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .RuleFor(person => person.Nationality, f => f.Random.String2(1, 20));
         }
 
-        public static Address CreateDatabaseAddressForPersonId(long personId, string postcode = null, string address = null)
+        public static Address CreateDatabaseAddressForPersonId(long personId, string? postcode = null, string? address = null)
         {
             var faker = new Fixture();
 
@@ -86,8 +83,8 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
             var faker = new Fixture();
 
             return faker.Build<NoteType>()
-                .With(noteType => noteType.Type, noteType)
-                .With(noteType => noteType.Description, description)
+                .With(noteTypeI => noteTypeI.Type, noteType)
+                .With(noteTypeI => noteTypeI.Description, description)
                 .Create();
         }
 

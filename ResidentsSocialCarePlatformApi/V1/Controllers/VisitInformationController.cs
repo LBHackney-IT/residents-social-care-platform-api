@@ -11,7 +11,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
     public class VisitInformationController : BaseController
     {
 
-        private IGetVisitInformationByVisitId _getVisitInformationByVisitId;
+        private readonly IGetVisitInformationByVisitId _getVisitInformationByVisitId;
 
         public VisitInformationController(IGetVisitInformationByVisitId getVisitInformationByVisitId)
         {
@@ -25,7 +25,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Controllers
         /// <response code="404">No visit found the the specified visit ID.</response>
         [ProducesResponseType(typeof(Boundary.Responses.VisitInformation), StatusCodes.Status200OK)]
         [HttpGet]
-        [Route("{visitId}")]
+        [Route("{visitId:long}")]
         public IActionResult GetVisit(long visitId)
         {
             var visitInformation = _getVisitInformationByVisitId.Execute(visitId);

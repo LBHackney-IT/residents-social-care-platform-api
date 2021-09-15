@@ -70,6 +70,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         public string? CpVisitOnTime { get; set; }
 
         // nav props
-        public Worker Worker { get; set; }
+        public Worker Worker { get; set; } = null!;
     }
 }

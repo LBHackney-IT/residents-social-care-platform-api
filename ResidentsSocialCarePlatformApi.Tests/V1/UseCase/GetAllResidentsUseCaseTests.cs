@@ -11,6 +11,7 @@ using ResidentsSocialCarePlatformApi.V1.Factories;
 using ResidentsSocialCarePlatformApi.V1.Gateways;
 using ResidentsSocialCarePlatformApi.V1.UseCase;
 using NUnit.Framework;
+using ResidentsSocialCarePlatformApi.V1.UseCase.Interfaces;
 using ResidentInformation = ResidentsSocialCarePlatformApi.V1.Domain.ResidentInformation;
 using ResidentInformationResponse = ResidentsSocialCarePlatformApi.V1.Boundary.Responses.ResidentInformation;
 
@@ -21,7 +22,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
     {
         private Mock<ISocialCareGateway> _mockMosaicGateway;
         private GetAllResidentsUseCase _classUnderTest;
-        private Fixture _fixture = new Fixture();
+        private readonly Fixture _fixture = new Fixture();
         private Mock<IValidatePostcode> _mockPostcodeValidator;
 
         [SetUp]
@@ -35,11 +36,11 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void ReturnsResidentInformationList()
         {
-            var stubbedResidents = _fixture.CreateMany<ResidentInformation>();
+            var stubbedResidents = _fixture.CreateMany<ResidentInformation>().ToList();
 
             _mockMosaicGateway.Setup(x =>
                     x.GetAllResidents(3, 15, null, "ciasom", "tessellate", null, "E8 1DY", "1 Montage street", "a"))
-                .Returns(stubbedResidents.ToList());
+                .Returns(stubbedResidents);
             var rqp = new ResidentQueryParam
             {
                 FirstName = "ciasom",
@@ -95,9 +96,9 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
         [Test]
         public void ReturnsTheNextCursor()
         {
-            var stubbedResidents = _fixture.CreateMany<ResidentInformation>(10);
-            int idCount = 10;
-            foreach (ResidentInformation resident in stubbedResidents)
+            var stubbedResidents = _fixture.CreateMany<ResidentInformation>(10).ToList();
+            var idCount = 10;
+            foreach (var resident in stubbedResidents)
             {
                 idCount++;
                 resident.MosaicId = idCount.ToString();

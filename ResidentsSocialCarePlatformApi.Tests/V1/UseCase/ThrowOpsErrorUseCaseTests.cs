@@ -4,13 +4,12 @@ using NUnit.Framework;
 namespace ResidentsSocialCarePlatformApi.Tests.V1.UseCase
 {
     [TestFixture]
-    public class ThrowOpsErrorUsecaseTests
+    public class ThrowOpsErrorUseCaseTests
     {
         [Test]
         public void ThrowsTestOpsErrorException()
         {
-            TestOpsErrorException ex = Assert.Throws<TestOpsErrorException>(
-                delegate { ThrowOpsErrorUsecase.Execute(); });
+            var ex = Assert.Throws<TestOpsErrorException>(ThrowOpsErrorUseCase.Execute);
 
             Assert.That(ex.Message, Is.EqualTo("This is a test exception to test our integrations"));
         }
