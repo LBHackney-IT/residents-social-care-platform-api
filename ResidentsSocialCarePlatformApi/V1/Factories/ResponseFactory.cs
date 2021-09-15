@@ -92,10 +92,6 @@ namespace ResidentsSocialCarePlatformApi.V1.Factories
                 ReasonVisitNotMade = visit.ReasonVisitNotMade,
                 SeenAloneFlag = !string.IsNullOrEmpty(visit.SeenAloneFlag) && visit.SeenAloneFlag.Equals("Y"),
                 CompletedFlag = !string.IsNullOrEmpty(visit.CompletedFlag) && visit.CompletedFlag.Equals("Y"),
-                CpRegistrationId = visit.CpRegistrationId,
-                CpVisitScheduleStepId = visit.CpVisitScheduleStepId,
-                CpVisitScheduleDays = visit.CpVisitScheduleDays,
-                CpVisitOnTime = !string.IsNullOrEmpty(visit.CpVisitOnTime) && visit.CpVisitOnTime.Equals("Y"),
                 CreatedByName = visit.CreatedByName,
                 CreatedByEmail = visit.CreatedByEmail
             };
