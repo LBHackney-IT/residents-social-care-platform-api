@@ -37,9 +37,5 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
 
         [Column("note")]
         public string Note { get; set; }
-
-        [Column("copied_by")]
-        [MaxLength(30)]
-        public string CopiedBy { get; set; }
     }
 }

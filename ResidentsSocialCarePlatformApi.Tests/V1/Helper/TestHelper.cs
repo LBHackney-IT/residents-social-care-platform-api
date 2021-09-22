@@ -74,7 +74,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .With(caseNote => caseNote.NoteType, noteType)
                 .With(caseNote => caseNote.CreatedBy, createdBy)
                 .With(caseNote => caseNote.LastUpdatedBy, updatedBy)
-                .With(caseNote => caseNote.CopiedBy, copiedBy)
                 .Create();
         }
 
