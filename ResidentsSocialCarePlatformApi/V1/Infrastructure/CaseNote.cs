@@ -30,6 +30,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("created_by")]
         [MaxLength(30)]
         public string CreatedBy { get; set; }
+        public Worker CreatedByWorker { get; set; }
 
         [Column("last_updated_by")]
         [MaxLength(30)]

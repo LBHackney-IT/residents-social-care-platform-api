@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,6 +23,8 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
         [Column("system_user_id")]
         [MaxLength(64)]
         public string SystemUserId { get; set; }
+
+        public List<CaseNote> CaseNotes { get; set; }
 
         [Column("email_address")]
         [MaxLength(240)]
