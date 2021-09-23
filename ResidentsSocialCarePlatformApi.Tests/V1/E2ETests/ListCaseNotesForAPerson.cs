@@ -13,7 +13,6 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         [Test]
         public async Task ReturnsAllCaseNotesForASpecificPerson()
         {
-
             var person = E2ETestHelpers.AddPersonToDatabase(SocialCareContext);
 
             var expectedCaseNoteResponseOne = E2ETestHelpers.AddCaseNoteForASpecificPersonToDb(SocialCareContext, person.Id);

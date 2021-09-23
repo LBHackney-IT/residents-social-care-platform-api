@@ -64,17 +64,16 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
         }
 
         public static CaseNote CreateDatabaseCaseNote(long id = 123, long personId = 123, string noteType = "CASSUMASC",
-            string copiedBy = "CGYORFI", string createdBy = "CGYORFI", string updatedBy = "CGYORFI")
+            Worker? createdWorker = null)
         {
-            var faker = new Fixture();
+            createdWorker ??= CreateDatabaseWorker();
 
-            return faker.Build<CaseNote>()
-                .With(caseNote => caseNote.Id, id)
-                .With(caseNote => caseNote.PersonId, personId)
-                .With(caseNote => caseNote.NoteType, noteType)
-                .With(caseNote => caseNote.CreatedBy, createdBy)
-                .With(caseNote => caseNote.LastUpdatedBy, updatedBy)
-                .Create();
+            return new Faker<CaseNote>()
+                .RuleFor(caseNote => caseNote.Id, id)
+                .RuleFor(caseNote => caseNote.PersonId, personId)
+                .RuleFor(caseNote => caseNote.NoteType, noteType)
+                .RuleFor(caseNote => caseNote.CreatedBy, createdWorker.SystemUserId)
+                .RuleFor(caseNote => caseNote.CreatedByWorker, createdWorker);
         }
 
         public static NoteType CreateDatabaseNoteType(string noteType = "CASSUMASC", string description = "Case Summary (ASC)")
@@ -87,14 +86,14 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Create();
         }
 
-        public static Worker CreateDatabaseWorker(string firstNames = "Csaba", string lastNames = "Gyorfi", string emailAddress = "cgyorfi@email.com", string systemUserId = "CGYORFI")
+        public static Worker CreateDatabaseWorker()
         {
             return new Faker<Worker>()
                 .RuleFor(worker => worker.Id, f => f.UniqueIndex)
-                .RuleFor(worker => worker.FirstNames, firstNames)
-                .RuleFor(worker => worker.LastNames, lastNames)
-                .RuleFor(worker => worker.EmailAddress, emailAddress)
-                .RuleFor(worker => worker.SystemUserId, systemUserId);
+                .RuleFor(worker => worker.FirstNames, f => f.Random.String2(30))
+                .RuleFor(worker => worker.LastNames, f => f.Random.String2(30))
+                .RuleFor(worker => worker.EmailAddress, f => f.Person.Email)
+                .RuleFor(worker => worker.SystemUserId, f => f.Random.String2(10));
         }
 
         public static Visit CreateDatabaseVisit(
