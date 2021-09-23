@@ -89,7 +89,10 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         public List<CaseNoteInformation> GetAllCaseNotes(long personId)
         {
-            var caseNotes = _socialCareContext.CaseNotes.Where(note => note.PersonId == personId).ToList();
+            var caseNotes = _socialCareContext.CaseNotes
+                .Where(note => note.PersonId == personId)
+                .Include(x => x.CreatedByWorker)
+                .ToList();
 
             return caseNotes.Select(AddRelatedInformationToCaseNote).ToList();
         }
@@ -246,7 +249,7 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             caseNoteInformation.CaseNoteContent = null;
             caseNoteInformation.NoteType = LookUpNoteTypeDescription(caseNote.NoteType);
 
-            var worker = _socialCareContext.Workers.FirstOrDefault(w => w.SystemUserId.Equals(caseNote.CreatedBy));
+            var worker = caseNote.CreatedByWorker;
 
             caseNoteInformation.CreatedByName = worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
             caseNoteInformation.CreatedByEmail = worker?.EmailAddress;
