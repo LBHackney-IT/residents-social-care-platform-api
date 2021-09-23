@@ -95,7 +95,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         {
             var noteType = TestHelper.CreateDatabaseNoteType();
             var worker = TestHelper.CreateDatabaseWorker();
-            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(noteType: noteType.Type, createdWorker: worker);
 
             socialCareContext.NoteTypes.Add(noteType);
             socialCareContext.Workers.Add(worker);
@@ -108,16 +108,16 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
                 CaseNoteTitle = caseNote.Title,
                 CreatedOn = caseNote.CreatedOn?.ToString("s"),
                 NoteType = noteType.Description,
-                CreatedByName = "Bow Archer",
+                CreatedByName = $"{worker.FirstNames} {worker.LastNames}",
                 CreatedByEmail = worker.EmailAddress,
                 CaseNoteContent = caseNote.Note,
                 CaseNoteId = caseNote.Id.ToString()
             };
         }
 
-        public static Visit AddVisitToDatabase(SocialCareContext socialCareContext, long? workerId = null)
+        public static Visit AddVisitToDatabase(SocialCareContext socialCareContext, Worker? worker = null)
         {
-            var visitInformation = TestHelper.CreateDatabaseVisit(workerId: workerId);
+            var visitInformation = TestHelper.CreateDatabaseVisit(worker: worker);
             socialCareContext.Visits.Add(visitInformation);
             socialCareContext.SaveChanges();
 

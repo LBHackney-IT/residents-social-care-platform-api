@@ -86,13 +86,16 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
                 .Create();
         }
 
-        public static Worker CreateDatabaseWorker()
+        public static Worker CreateDatabaseWorker(
+            string? firstName = null,
+            string? lastName = null,
+            string? email = null)
         {
             return new Faker<Worker>()
                 .RuleFor(worker => worker.Id, f => f.UniqueIndex)
-                .RuleFor(worker => worker.FirstNames, f => f.Random.String2(30))
-                .RuleFor(worker => worker.LastNames, f => f.Random.String2(30))
-                .RuleFor(worker => worker.EmailAddress, f => f.Person.Email)
+                .RuleFor(worker => worker.FirstNames, f => firstName ?? f.Random.String2(30))
+                .RuleFor(worker => worker.LastNames, f => lastName ?? f.Random.String2(30))
+                .RuleFor(worker => worker.EmailAddress, f => email ?? f.Person.Email)
                 .RuleFor(worker => worker.SystemUserId, f => f.Random.String2(10));
         }
 
@@ -102,9 +105,10 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Helper
             long? orgId = null,
             long? workerId = null,
             long? cpVisitScheduleStepId = null,
-            long? cpRegistrationId = null)
+            long? cpRegistrationId = null,
+            Worker? worker = null)
         {
-            Worker worker = CreateDatabaseWorker();
+            worker ??= CreateDatabaseWorker();
 
             Visit visit = new Faker<Visit>()
                 .RuleFor(v => v.VisitId, f => visitId ?? f.UniqueIndex)

@@ -104,7 +104,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.Gateways.SocialCare
             var worker = TestHelper.CreateDatabaseWorker();
             SocialCareContext.Workers.Add(worker);
 
-            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type);
+            var caseNote = TestHelper.CreateDatabaseCaseNote(caseNoteId, personId, noteType.Type, worker);
             SocialCareContext.CaseNotes.Add(caseNote);
 
             SocialCareContext.SaveChanges();
