@@ -29,6 +29,12 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure
                     telephoneNumber.Id,
                     telephoneNumber.PersonId
                 });
+
+            modelBuilder.Entity<CaseNote>()
+                .HasOne(caseNote => caseNote.CreatedByWorker)
+                .WithMany(worker => worker.CaseNotes)
+                .HasForeignKey(caseNote => caseNote.CreatedBy)
+                .HasPrincipalKey(worker => worker.SystemUserId);
         }
     }
 }

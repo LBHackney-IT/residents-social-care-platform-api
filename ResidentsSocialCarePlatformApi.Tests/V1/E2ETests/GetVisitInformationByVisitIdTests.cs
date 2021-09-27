@@ -15,7 +15,7 @@ namespace ResidentsSocialCarePlatformApi.Tests.V1.E2ETests
         public async Task WhenThereIsAVisitId_Returns200AndVisitInformation()
         {
             var worker = E2ETestHelpers.AddWorkerToDatabase(SocialCareContext);
-            var visit = E2ETestHelpers.AddVisitToDatabase(SocialCareContext, worker.Id).ToDomain().ToResponse();
+            var visit = E2ETestHelpers.AddVisitToDatabase(SocialCareContext, worker).ToDomain().ToResponse();
             visit.CreatedByEmail = worker.EmailAddress;
             visit.CreatedByName = $"{worker.FirstNames} {worker.LastNames}";
             var uri = new Uri($"api/v1/visits/{visit.VisitId}", UriKind.Relative);

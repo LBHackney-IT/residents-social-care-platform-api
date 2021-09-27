@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ResidentsSocialCarePlatformApi.V1.Infrastructure;
@@ -9,9 +10,10 @@ using ResidentsSocialCarePlatformApi.V1.Infrastructure;
 namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
 {
     [DbContext(typeof(SocialCareContext))]
-    partial class SocialCareContextModelSnapshot : ModelSnapshot
+    [Migration("20210922110308_20210922120305_MapWorkerToCaseNote")]
+    partial class MapWorkerToCaseNote
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,6 +84,11 @@ namespace ResidentsSocialCarePlatformApi.V1.Infrastructure.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("id")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("CopiedBy")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("copied_by");
 
                     b.Property<string>("CreatedBy")
                         .HasMaxLength(30)

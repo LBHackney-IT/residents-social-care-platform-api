@@ -89,7 +89,10 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
 
         public List<CaseNoteInformation> GetAllCaseNotes(long personId)
         {
-            var caseNotes = _socialCareContext.CaseNotes.Where(note => note.PersonId == personId).ToList();
+            var caseNotes = _socialCareContext.CaseNotes
+                .Where(note => note.PersonId == personId)
+                .Include(x => x.CreatedByWorker)
+                .ToList();
 
             return caseNotes.Select(AddRelatedInformationToCaseNote).ToList();
         }
@@ -240,37 +243,16 @@ namespace ResidentsSocialCarePlatformApi.V1.Gateways
             return _socialCareContext.NoteTypes.FirstOrDefault(type => type.Type.Equals(noteTypeCode))?.Description;
         }
 
-
-        private string? GetWorkerName(string? actionDoneById = null, long? workerId = null)
-        {
-            if (workerId != null)
-            {
-                var workerById = _socialCareContext.Workers.FirstOrDefault(w => w.Id.Equals(workerId));
-                return workerById != null ? $"{workerById.FirstNames} {workerById.LastNames}" : null;
-            }
-
-            var worker = _socialCareContext.Workers.FirstOrDefault(w => w.SystemUserId.Equals(actionDoneById));
-            return worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
-        }
-
-        private string? GetWorkerEmailAddress(string? actionDoneById = null, long? workerId = null)
-        {
-            if (workerId != null)
-            {
-                return _socialCareContext.Workers.FirstOrDefault(worker => worker.Id.Equals(workerId))?.EmailAddress;
-            }
-
-            return _socialCareContext.Workers.FirstOrDefault(worker => worker.SystemUserId.Equals(actionDoneById))
-                ?.EmailAddress;
-        }
-
         private CaseNoteInformation AddRelatedInformationToCaseNote(CaseNote caseNote)
         {
             var caseNoteInformation = caseNote.ToDomain();
             caseNoteInformation.CaseNoteContent = null;
             caseNoteInformation.NoteType = LookUpNoteTypeDescription(caseNote.NoteType);
-            caseNoteInformation.CreatedByName = GetWorkerName(caseNote.CreatedBy);
-            caseNoteInformation.CreatedByEmail = GetWorkerEmailAddress(caseNote.CreatedBy);
+
+            var worker = caseNote.CreatedByWorker;
+
+            caseNoteInformation.CreatedByName = worker != null ? $"{worker.FirstNames} {worker.LastNames}" : null;
+            caseNoteInformation.CreatedByEmail = worker?.EmailAddress;
 
             return caseNoteInformation;
         }
