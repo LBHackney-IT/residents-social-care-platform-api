@@ -12,6 +12,7 @@ provider:
   apiKeys:
     - secureAccess:
       - api-key-${self:service}-${self:provider.stage}
+      - api-key-secondclient-${self:provider.stage}
   usagePlan:
     - secureAccess:
         throttle:
@@ -34,7 +35,6 @@ functions:
           path: /{proxy+}
           method: ANY
           private: true
-    provisionedConcurrency: 10
 resources:
   Resources:
     lambdaExecutionRole:
