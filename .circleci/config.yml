@@ -38,8 +38,8 @@ commands:
           root: *workspace_root
           paths:
             - .aws
-  deploy-lambda:
-    description: "Deploys API via Serverless"
+  remove-resources:
+    description: "Remove all serverless resources"
     parameters:
       stage:
         type: string
@@ -56,69 +56,40 @@ commands:
           name: Install serverless CLI
           command: npm i -g serverless
       - run:
-          name: Build lambda
+          name: Remove resources
+          no_output_timeout: 40m
           command: |
             cd ./ResidentsSocialCarePlatformApi/
-            chmod +x ./build.sh
-            ./build.sh
-      - run:
-          name: Deploy lambda
-          command: |
-            cd ./ResidentsSocialCarePlatformApi/
-            sls deploy --stage <<parameters.stage>> --conceal --force
+            sls remove --stage <<parameters.stage>>
+
 jobs:
-  check-code-formatting:
-    executor: docker-dotnet
-    steps:
-      - checkout
-      - run:
-          name: Install dotnet format
-          command: dotnet tool install dotnet-format --tool-path ./dotnet-format-local/
-      - run:
-          name: Run formatter check
-          command: ./dotnet-format-local/dotnet-format --check
-  build-and-test:
-    executor: docker-python
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: build
-          command: docker-compose build residents-social-care-platform-api-test
-      - run:
-          name: Run tests
-          command: docker-compose run residents-social-care-platform-api-test
   assume-role-production:
     executor: docker-python
     steps:
       - assume-role-and-persist-workspace:
           aws-account: $AWS_ACCOUNT_PRODUCTION
-  deploy-to-production:
+  remove-production-resources:
     executor: docker-dotnet
     steps:
-      - deploy-lambda:
+      - remove-resources:
           stage: "production"
 
 workflows:
-  check-and-deploy-production:
+  remove-all-production-resources:
     jobs:
-      - check-code-formatting
-      - build-and-test
-      - permit-production-release:
+      - permit-production-resources-removal:
           type: approval
-          requires:
-            - build-and-test
           filters:
             branches:
               only: main
       - assume-role-production:
           context: api-assume-role-social-care-production-context
           requires:
-            - permit-production-release
+            - permit-production-resources-removal
           filters:
             branches:
               only: main
-      - deploy-to-production:
+      - remove-production-resources:
           requires:
             - assume-role-production
           filters:
