@@ -1,3 +1,6 @@
+# This API has been decommissioned
+
+<!--
 [![LBHackney-IT](https://circleci.com/gh/LBHackney-IT/residents-social-care-platform-api.svg?style=svg)](https://circleci.com/gh/LBHackney-IT/residents-social-care-platform-api)
 
 # Residents Social Care Platform API
@@ -170,3 +173,4 @@ Resources such as the database are managed using [Terraform]([terr](https://www.
 ## License
 
 [MIT License](LICENSE)
+-->
